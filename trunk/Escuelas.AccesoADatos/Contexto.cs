@@ -33,11 +33,11 @@ namespace Escuelas.AccesoADatos
             Database.SetInitializer<Contexto>(null);
 
             modelBuilder.Entity<Escuela>().HasRequired(e => e.Distrito).WithMany(d => d.Escuelas).Map(x => x.MapKey("DistritoId"));
-            modelBuilder.Entity<Escuela>().HasRequired(e => e.TipoEstablecimiento).WithMany(te => te.Escuelas).Map(x => x.MapKey("CategoriaValorId"));
+            modelBuilder.Entity<Escuela>().HasRequired(e => e.TipoEstablecimiento).WithMany(te => te.Escuelas).Map(x => x.MapKey("TipoEstablecimientoId"));
 
             modelBuilder.Entity<CategoriaValor>().HasRequired(cv=> cv.Categoria).WithMany(cv => cv.CategoriaValores).Map(x => x.MapKey("CategoriaId"));
 
-            modelBuilder.Entity<Dispositivo>().HasRequired(d => d.TipoDispositivo).WithMany(td => td.Dispositivos).Map(x => x.MapKey("CategoriaValorId"));
+            modelBuilder.Entity<Dispositivo>().HasRequired(d => d.TipoDispositivo).WithMany(td => td.Dispositivos).Map(x => x.MapKey("TipoDispositivoId"));
             modelBuilder.Entity<Dispositivo>().HasRequired(d => d.Relevamiento).WithMany(r => r.Dispositivos).Map(x => x.MapKey("RelevamientoId"));
 
             modelBuilder.Entity<Maquina>().HasRequired(m => m.Relevamiento).WithMany(r => r.Maquinas).Map(x => x.MapKey("RelevamientoId"));
@@ -46,7 +46,7 @@ namespace Escuelas.AccesoADatos
 
             modelBuilder.Entity<Relevamiento>().HasRequired(r => r.Escuela).WithMany(e => e.Relevamientos).Map(x => x.MapKey("EscuelaId"));
 
-            modelBuilder.Entity<Servicio>().HasRequired(s => s.TipoServicio).WithMany(ts => ts.Servicios).Map(x => x.MapKey("CategoriaValorId"));
+            modelBuilder.Entity<Servicio>().HasRequired(s => s.TipoServicio).WithMany(ts => ts.Servicios).Map(x => x.MapKey("TipoServicioId"));
             modelBuilder.Entity<Servicio>().HasRequired(s => s.Relevamiento).WithMany(r => r.Servicios).Map(x => x.MapKey("RelevamientoId"));
 
             modelBuilder.Entity<Usuario>().HasRequired(u => u.Distrito).WithMany(d => d.Usuarios).Map(x => x.MapKey("DistritoId"));

@@ -46,7 +46,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="EscuelaComponente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Escuelas.AccesoADatos\Escuelas.AccesoADatos.csproj">
+      <Project>{af424227-473d-4d85-8e20-172ab3cd514a}</Project>
+      <Name>Escuelas.AccesoADatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Escuelas.Comun\Escuelas.Comun.csproj">
+      <Project>{1aebf0e3-dfac-47ad-8fdd-569185d88f15}</Project>
+      <Name>Escuelas.Comun</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Escuelas.NegocioEntidades\Escuelas.NegocioEntidades.csproj">
+      <Project>{a9018140-2801-4440-a5ff-3310675c1840}</Project>
+      <Name>Escuelas.NegocioEntidades</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
