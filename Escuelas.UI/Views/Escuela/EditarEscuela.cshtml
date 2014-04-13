@@ -1,0 +1,64 @@
+﻿@model Escuelas.NegocioEntidades.Escuela
+
+@{
+    ViewBag.Title = "Editar Escuela";
+}
+
+<h2>Escuela</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Escuela</legend>
+
+        @Html.HiddenFor(model => model.ID)
+
+         <div class="editor-label">
+            @Html.LabelFor(model => model.Distrito.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Distrito.ID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.Distrito.ID))
+            @Html.ValidationMessageFor(model => model.Distrito.ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Numero)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Numero)
+            @Html.ValidationMessageFor(model => model.Numero)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Direccion)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Direccion)
+            @Html.ValidationMessageFor(model => model.Direccion)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Volver a Listado de Escuelas", "EscuelaIndex")
+</div>
+
+@section Scripts {
+    <script src="/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+                   
+    
+}
