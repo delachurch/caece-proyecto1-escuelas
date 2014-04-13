@@ -1,45 +1,37 @@
 ﻿@model IEnumerable<Escuelas.NegocioEntidades.Escuela>
 
 @{
-    ViewBag.Title = "EscuelaIndex";
+    ViewBag.Title = "Listado Escuelas";
 }
 
 <h2>EscuelaIndex</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Agregar Nueva Escuela", "EditarEscuela",new { escuelaId = 0 })
 </p>
 <table>
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Direccion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaAlta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaModificacion)
-        </th>
-        <th>
+         <th>
             @Html.DisplayNameFor(model => model.Numero)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Nombre)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Distrito.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+       <th>
+            @Html.DisplayNameFor(model => model.TipoEstablecimiento)
+        </th>
+        
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Direccion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaAlta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaModificacion)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Numero)
         </td>
@@ -47,9 +39,18 @@
             @Html.DisplayFor(modelItem => item.Nombre)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.DisplayFor(modelItem => item.Distrito.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoEstablecimiento.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditarEscuela", new { escuelaId=item.ID }) |
+            @Html.ActionLink("Ver Detalles", "DetalleEscuela", new { escuelaId=item.ID }) |
+            @Html.ActionLink("Borrar", "BorrarEscuela", new { escuelaId=item.ID })
         </td>
     </tr>
 }

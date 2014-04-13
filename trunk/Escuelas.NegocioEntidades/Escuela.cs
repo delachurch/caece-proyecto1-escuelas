@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,15 @@ namespace Escuelas.NegocioEntidades
         }
         public int ID { get; set; }
         public Distrito Distrito { get; set; }
+        [Display(Name = "Tipo Establecimiento")]
         public CategoriaValor TipoEstablecimiento { get; set; }
+        [Required(ErrorMessage = "Debe Ingresar una dirección")]
         public string Direccion { get; set; }
         public DateTime FechaAlta { get; set; }
         public DateTime? FechaModificacion { get; set; }
+        [Required(ErrorMessage = "Debe Ingresar un número")]
         public int Numero { get; set; }
+        [Required(ErrorMessage = "Debe Ingresar un nombre")]
         public string Nombre { get; set; }
         public List<Relevamiento> Relevamientos { get; set; }
         public List<Personal> ListaPersonal { get; set; }
