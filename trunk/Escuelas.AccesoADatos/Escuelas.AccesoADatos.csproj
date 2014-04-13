@@ -50,10 +50,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Escuelas.Comun\Escuelas.Comun.csproj">
-      <Project>{1aebf0e3-dfac-47ad-8fdd-569185d88f15}</Project>
-      <Name>Escuelas.Comun</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Escuelas.NegocioEntidades\Escuelas.NegocioEntidades.csproj">
       <Project>{a9018140-2801-4440-a5ff-3310675c1840}</Project>
       <Name>Escuelas.NegocioEntidades</Name>
