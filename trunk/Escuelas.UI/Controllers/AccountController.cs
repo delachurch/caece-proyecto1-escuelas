@@ -81,6 +81,7 @@ namespace Escuelas.UI.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
+                    Roles.AddUserToRole(model.UserName, "ReadOnly");
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -327,6 +328,125 @@ namespace Escuelas.UI.Controllers
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult RoleCreate()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RoleCreate(string RoleName)
+        {
+
+            Roles.CreateRole(Request.Form["RoleName"]);
+            // ViewBag.ResultMessage = "Role created successfully !";
+
+            return RedirectToAction("RoleIndex", "Account");
+        }
+
+        [Authorize(Roles = "Admin,ReadOnly")]
+        public ActionResult RoleIndex()
+        {
+            var roles = Roles.GetAllRoles();
+            return View(roles);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult RoleDelete(string RoleName)
+        {
+
+            Roles.DeleteRole(RoleName);
+            // ViewBag.ResultMessage = "Role deleted succesfully !";
+
+
+            return RedirectToAction("RoleIndex", "Account");
+        }
+
+        /// <summary>
+        /// Create a new role to the user
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
+        public ActionResult RoleAddToUser()
+        {
+            SelectList list = new SelectList(Roles.GetAllRoles());
+            ViewBag.Roles = list;
+
+            return View();
+        }
+
+        /// <summary>
+        /// Add role to the user
+        /// </summary>
+        /// <param name="RoleName"></param>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RoleAddToUser(string RoleName, string UserName)
+        {
+
+            if (Roles.IsUserInRole(UserName, RoleName))
+            {
+                ViewBag.ResultMessage = "Este Usuario ya posee el Rol especificado!";
+            }
+            else
+            {
+                Roles.AddUserToRole(UserName, RoleName);
+                ViewBag.ResultMessage = "El Rol ha sido Asignado al Usuario satisfactoriamente!";
+            }
+
+            SelectList list = new SelectList(Roles.GetAllRoles());
+            ViewBag.Roles = list;
+            return View();
+        }
+
+        /// <summary>
+        /// Get all the roles for a particular user
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GetRoles(string UserName)
+        {
+            if (!string.IsNullOrWhiteSpace(UserName))
+            {
+                ViewBag.RolesForThisUser = Roles.GetRolesForUser(UserName);
+            }
+            SelectList list = new SelectList(Roles.GetAllRoles());
+            ViewBag.Roles = list;
+            return View("RoleAddToUser");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteRoleForUser(string UserName, string RoleName)
+        {
+
+            if (Roles.IsUserInRole(UserName, RoleName))
+            {
+                Roles.RemoveUserFromRole(UserName, RoleName);
+                ViewBag.ResultMessage = "El Rol ha sido Removido al Usuario satisfactoriamente!";
+            }
+            else
+            {
+                ViewBag.ResultMessage = "Este Usuario no corresponde al Rol seleccionado.";
+            }
+            ViewBag.RolesForThisUser = Roles.GetRolesForUser(UserName);
+            SelectList list = new SelectList(Roles.GetAllRoles());
+            ViewBag.Roles = list;
+
+
+            return View("RoleAddToUser");
+        }
+
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

@@ -5,9 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using DotNetOpenAuth.AspNet;
+using Microsoft.Web.WebPages.OAuth;
+using WebMatrix.WebData;
+using Escuelas.UI.Filters;
+using Escuelas.UI.Models;
 
 namespace Escuelas.UI.Controllers
 {
+    [Authorize]
+    [InitializeSimpleMembership]
     public class EscuelaController : Controller
     {
         //
@@ -15,10 +23,17 @@ namespace Escuelas.UI.Controllers
         EscuelaComponente escuelaComponente = new EscuelaComponente(); 
         DistritoComponente distritoComponente = new DistritoComponente();
 
+        [Authorize(Roles = "Admin,ReadOnly")]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult EscuelaIndex()
         {
             return View(escuelaComponente.ObtenerEscuelas());
         }
+
+        [Authorize(Roles = "Admin")]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult EditarEscuela(int escuelaId)
         {
             ViewBag.ListaDistritos = new List<SelectListItem>(distritoComponente.ObtenerDistritos().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
@@ -37,7 +52,10 @@ namespace Escuelas.UI.Controllers
             }
             return View(escuela);
         }
-        [HttpPost]
+
+        [Authorize(Roles = "Admin")]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult EditarEscuela(Escuela escuela)
         {
           

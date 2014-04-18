@@ -3,12 +3,24 @@
 @{
     ViewBag.Title = "Listado Escuelas";
 }
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+                <br />
+                <p>
+                @Html.ActionLink("Agregar Nueva Escuela", "EditarEscuela",new { escuelaId = 0 })
+                </p>
+            </hgroup>
+            <p>
+               
+            </p>
+        </div>
+    </section>
+}
 
-<h2>Listado Escuelas</h2>
-<br />
-<p>
-    @Html.ActionLink("Agregar Nueva Escuela", "EditarEscuela",new { escuelaId = 0 })
-</p>
 <table>
     <tr>
          <th>

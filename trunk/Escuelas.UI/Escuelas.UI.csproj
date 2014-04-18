@@ -313,6 +313,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Escuela\EscuelaIndex.cshtml" />
     <Content Include="Views\Escuela\EditarEscuela.cshtml" />
+    <Content Include="Views\Account\RoleCreate.cshtml" />
+    <Content Include="Views\Account\RoleIndex.cshtml" />
+    <Content Include="Views\Account\RoleAddToUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
