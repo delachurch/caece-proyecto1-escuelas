@@ -17,10 +17,17 @@ namespace Escuelas.NegocioComponentes
         {
             return escuelaDA.ObtenerEscuelas();
         }
+
         public Escuela ObtenerEscuelaPorId(int escuelaId)
         {
             return escuelaDA.ObtenerEscuelaPorId(escuelaId);
         }
+
+        public List<Escuela> ObtenerEscuelasPorDistrito(int distritoId)
+        {
+            return escuelaDA.ObtenerEscuelasPorDistrito(distritoId);
+        }
+
         public void GuardarEscuela(Escuela escuela)
         {
             if (escuela.ID > 0)
@@ -37,6 +44,11 @@ namespace Escuelas.NegocioComponentes
                 escuelaDA.InsertarEscuela(escuela);    
             }
             
+        }
+
+        public void BorrarEscuela(int escuelaId)
+        {
+            escuelaDA.BorrarEscuela(escuelaId);
         }
     }
 }

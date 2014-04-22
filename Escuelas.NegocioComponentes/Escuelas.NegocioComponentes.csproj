@@ -49,6 +49,7 @@
     <Compile Include="DistritoComponente.cs" />
     <Compile Include="EscuelaComponente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelevamientoComponente.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Escuelas.AccesoADatos\Escuelas.AccesoADatos.csproj">

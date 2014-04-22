@@ -27,6 +27,7 @@ namespace Escuelas.NegocioEntidades
         public int Numero { get; set; }
         [Required(ErrorMessage = "Debe Ingresar un nombre")]
         public string Nombre { get; set; }
+        public bool Activa { get; set; }
         public List<Relevamiento> Relevamientos { get; set; }
         public List<Personal> ListaPersonal { get; set; }
 

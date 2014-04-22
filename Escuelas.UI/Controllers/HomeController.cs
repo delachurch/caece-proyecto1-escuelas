@@ -20,6 +20,8 @@ namespace Escuelas.UI.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+
+    
             ViewBag.Message = "Universidad Caece";
 
             return View();

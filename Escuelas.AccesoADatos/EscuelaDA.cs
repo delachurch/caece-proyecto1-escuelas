@@ -13,21 +13,21 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Escuelas.Include("Distrito").Include("TipoEstablecimiento").ToList();
+                return contexto.Escuelas.Include("Distrito").Include("TipoEstablecimiento").Where(e => e.Activa == true).ToList();
             }
         }
         public List<Escuela> ObtenerEscuelasPorDistrito(int distId)
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Escuelas.Include("Distrito").Include("TipoEstablecimiento").Where(e => e.Distrito.ID == distId).ToList();
+                return contexto.Escuelas.Include("Distrito").Include("TipoEstablecimiento").Where(e => e.Distrito.ID == distId && e.Activa == true).ToList();
             }
         }
         public Escuela ObtenerEscuelaPorId(int escuelaId)
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Escuelas.Include("Distrito").Where(e => e.ID == escuelaId).SingleOrDefault();
+                return contexto.Escuelas.Include("Distrito").Where(e => e.ID == escuelaId && e.Activa == true).SingleOrDefault();
             }
         }
         public void InsertarEscuela(Escuela nuevaEscuela)
@@ -63,6 +63,20 @@ namespace Escuelas.AccesoADatos
 
                 contexto.SaveChanges();
             
+            }
+        }
+
+        public void BorrarEscuela(int escuelaId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                Escuela usrAcc = contexto.Escuelas.Where(e => e.ID == escuelaId).SingleOrDefault();
+
+                usrAcc.Activa = false;
+
+                contexto.Entry(usrAcc).State = System.Data.EntityState.Modified;
+
+                contexto.SaveChanges();
             }
         }
     }

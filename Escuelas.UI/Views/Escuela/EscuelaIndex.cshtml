@@ -32,7 +32,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Distrito.Nombre)
         </th>
-        <th>
+        <th style="text-align: center">
             @Html.DisplayNameFor(model => model.Direccion)
         </th>
        <th>
@@ -44,25 +44,25 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td style="text-align: center;width:200px">
             @Html.DisplayFor(modelItem => item.Numero)
         </td>
-        <td>
+        <td style="text-align: center;width:200px">
             @Html.DisplayFor(modelItem => item.Nombre)
         </td>
-        <td>
+        <td style="text-align: center;width:200px">
             @Html.DisplayFor(modelItem => item.Distrito.Nombre)
         </td>
-        <td>
+        <td style="text-align: center;width:200px">
             @Html.DisplayFor(modelItem => item.Direccion)
         </td>
-        <td>
+        <td style="text-align: center;width:200px">
             @Html.DisplayFor(modelItem => item.TipoEstablecimiento.Nombre)
         </td>
-        <td>
+        <td style="text-align: center;width:300px">
             @Html.ActionLink("Editar", "EditarEscuela", new { escuelaId=item.ID }) |
             @Html.ActionLink("Ver Detalles", "DetalleEscuela", new { escuelaId=item.ID }) |
-            @Html.ActionLink("Borrar", "BorrarEscuela", new { escuelaId=item.ID })
+            @Html.ActionLink("Borrar", "BorrarEscuela", new { escuelaId=item.ID },new { onclick = "return confirm('¿Está seguro que desea borrar esta escuela?');" })
         </td>
     </tr>
 }
