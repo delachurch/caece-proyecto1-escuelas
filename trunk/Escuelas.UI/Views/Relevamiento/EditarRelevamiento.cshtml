@@ -1,0 +1,118 @@
+﻿@model Escuelas.NegocioEntidades.Relevamiento
+
+@{
+    if(Model.ID != null && Model.ID > 0)
+    {
+        ViewBag.Title = "Editar Relevamiento";
+    }
+    else
+    {
+        ViewBag.Title = "Agregar Relevamiento";
+    }
+    
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+               
+            </p>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Relevamiento</legend>
+
+        @Html.HiddenFor(model => model.ID)
+
+          <div class="editor-label">
+            @Html.LabelFor(model => model.Escuela.Distrito)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Escuela.Distrito.ID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.Escuela.Distrito.ID), new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
+            @Html.ValidationMessageFor(model => model.Escuela.Distrito.ID)
+        </div>
+
+        <div class="editor-label">
+        @Html.LabelFor(model => model.Escuela)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Escuela.ID), new { id = "ddlEscuela" })
+            @Html.ValidationMessageFor(model => model.Escuela.ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CantMaquinas)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CantMaquinas)
+            @Html.ValidationMessageFor(model => model.CantMaquinas)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TieneADM)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TieneADM)
+            @Html.ValidationMessageFor(model => model.TieneADM)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Comentarios)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Comentarios)
+            @Html.ValidationMessageFor(model => model.Comentarios)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        function CargarEscuelas(dropdown) {
+            
+            var distId = dropdown.value;
+            showProgress();
+            $('#ddlEscuela').attr("disabled", "disabled");
+            var mivar;
+            $.getJSON("CargarEscuelasPorDistritoAsync", { DistId: distId }, actualizarEscuelas)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+            
+        
+        };
+
+        actualizarEscuelas = function (data) {
+
+            var ddl = $('#ddlEscuela');
+            ddl.empty();
+            
+            $(data).each(function() {
+                $(document.createElement('option'))
+                    .attr('value', this.Value)
+                    .text(this.Text)
+                    .appendTo(ddl);
+            });
+            
+            hideProgress();
+            $('#ddlEscuela').removeAttr("disabled");
+        };
+        </script>
+}

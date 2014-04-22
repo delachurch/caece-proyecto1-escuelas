@@ -54,7 +54,7 @@ namespace Escuelas.UI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        //[HttpPost]
+        [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult EditarEscuela(Escuela escuela)
         {
@@ -63,5 +63,14 @@ namespace Escuelas.UI.Controllers
 
             return RedirectToAction("EscuelaIndex");
         }
+
+        public ActionResult BorrarEscuela(int escuelaId)
+        {
+
+            escuelaComponente.BorrarEscuela(escuelaId);
+
+            return RedirectToAction("EscuelaIndex");
+        }
+
     }
 }

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Escuelas.NegocioEntidades.Relevamiento>
+
+@{
+    ViewBag.Title = "Listado Relevamientos";
+}
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+                <br />
+                <p>
+                @Html.ActionLink("Agregar Nuevo Relevamiento", "EditarRelevamiento",new { relevamientoId = 0 })
+                </p>
+            </hgroup>
+            <p>
+               
+            </p>
+        </div>
+    </section>
+}
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Escuela)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CantMaquinas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TieneADM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaRelevo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaModificacion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Escuela.Nombre)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.CantMaquinas)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.TieneADM)
+        </td>
+        <td style="text-align: center;width:200px">
+           @item.FechaRelevo.ToShortDateString()
+        </td>
+        <td style="text-align: center;width:300px">
+            @if(item.FechaModificacion != null)
+            {
+               <span> @(((DateTime)item.FechaModificacion).ToShortDateString())</span>
+            }
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.ActionLink("Editar", "EditarRelevamiento", new { id=item.ID }) |
+            @Html.ActionLink("Ver Detalles", "DetalleRelevamiento", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

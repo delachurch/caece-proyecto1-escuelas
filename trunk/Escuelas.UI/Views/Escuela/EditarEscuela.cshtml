@@ -1,7 +1,15 @@
 ﻿@model Escuelas.NegocioEntidades.Escuela
 
 @{
-    ViewBag.Title = "Editar Escuela";
+    if(Model.ID != null && Model.ID > 0)
+    {
+        ViewBag.Title = "Editar Escuela";
+    }
+    else
+    {
+        ViewBag.Title = "Agregar Escuela";
+    }
+    
 }
 @section featured {
     <section class="featured">
