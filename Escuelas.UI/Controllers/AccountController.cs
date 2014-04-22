@@ -510,7 +510,7 @@ namespace Escuelas.UI.Controllers
                     return "The password retrieval question provided is invalid. Please check the value and try again.";
 
                 case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
+                    return "El nombre de Usuario es invalido. Favor de ingresar uno valido e intentar de nuevo.";
 
                 case MembershipCreateStatus.ProviderError:
                     return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
@@ -519,7 +519,7 @@ namespace Escuelas.UI.Controllers
                     return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Ha ocurrido un error desconocido. Favor de verificar los datos ingresados e intentar de nuevo. Si el problema persiste, contactarse con su administrador de sistema.";
             }
         }
         #endregion
