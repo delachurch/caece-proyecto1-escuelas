@@ -39,6 +39,8 @@ namespace Escuelas.NegocioComponentes
             {
                 escuela.FechaAlta = DateTime.Now;
 
+                escuela.Activa = true;
+
                 escuela.TipoEstablecimiento = new CategoriaValor { ID = Enums.TipoEstablecimiento.Primario.GetHashCode() };
                 
                 escuelaDA.InsertarEscuela(escuela);    
