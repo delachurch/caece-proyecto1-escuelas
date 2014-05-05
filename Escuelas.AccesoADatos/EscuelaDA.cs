@@ -52,7 +52,7 @@ namespace Escuelas.AccesoADatos
                 if (escuela.Distrito.ID != nuevaEscuela.Distrito.ID)
                 {
                     escuela.Distrito = nuevaEscuela.Distrito;
-                    contexto.Distritos.Attach(nuevaEscuela.Distrito);
+                    contexto.Distritos.Attach(escuela.Distrito);
                 }
 
                 escuela.Nombre = nuevaEscuela.Nombre;

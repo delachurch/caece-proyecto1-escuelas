@@ -20,7 +20,7 @@ namespace Escuelas.NegocioEntidades
         public Escuela Escuela { get; set; }
         [Display(Name = "Cant. Maquinas")]
         public int CantMaquinas { get; set; }
-        [Display(Name = "Tiene ADM?")]
+        [Display(Name = "¿Tiene ADM?")]
         public bool TieneADM { get; set; }
         public string Comentarios { get; set; }
         [Display(Name = "Fecha Relevo")]

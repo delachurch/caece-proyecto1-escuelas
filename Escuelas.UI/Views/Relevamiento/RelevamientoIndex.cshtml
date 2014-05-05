@@ -62,8 +62,8 @@
             }
         </td>
         <td style="text-align: center;width:200px">
-            @Html.ActionLink("Editar", "EditarRelevamiento", new { id=item.ID }) |
-            @Html.ActionLink("Ver Detalles", "DetalleRelevamiento", new { id=item.ID })
+            @Html.ActionLink("Editar", "EditarRelevamiento", new { relevamientoId=item.ID }) |
+            @Html.ActionLink("Ver Detalles", "DetalleRelevamiento", new { relevamientoId=item.ID })
         </td>
     </tr>
 }

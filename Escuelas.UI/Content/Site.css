@@ -906,3 +906,44 @@ div#spinner
             margin: 0;
         }
 }
+.AccordionTab {
+background-color:#efeeef;
+height: 470px;
+}
+.AccordionTab input[type="radio"]{
+background-color:#efeeef;
+width:35px;
+}
+.AccordionTab .editor-label {
+padding-bottom:5px;
+}
+
+.AccordionTab .editor-field {
+padding-bottom:5px;
+}
+
+.AccordionTab .editor-label label,th{
+font-size:16.33px;
+font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+}
+
+.AccordionTabOtro {
+background-color:#efeeef;
+height: 100px;
+}
+.AccordionTabOtro input[type="radio"]{
+background-color:#efeeef;
+width:35px;
+}
+.AccordionTabOtro .editor-label {
+padding-bottom:5px;
+}
+
+.AccordionTabOtro .editor-field {
+padding-bottom:5px;
+}
+
+.AccordionTabOtro .editor-label label,th{
+font-size:16.33px;
+font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+}

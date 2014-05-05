@@ -32,6 +32,40 @@ namespace Escuelas.AccesoADatos
                 return contexto.Relevamientos.Include("Escuela.Distrito").Where(r => r.Escuela.Distrito.ID == distId).ToList();
             }
         }
+
+        public void InsertarRelevamiento(Relevamiento nuevoRelevamiento)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+
+                contexto.Escuelas.Attach(nuevoRelevamiento.Escuela);
+
+                contexto.Relevamientos.Add(nuevoRelevamiento);
+
+                contexto.SaveChanges();
+            }
+        }
+        public void ActualizarRelevamiento(Relevamiento nuevoRelevamiento)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                Relevamiento relevamiento = contexto.Relevamientos.Include("Escuela").Where(r => r.ID == nuevoRelevamiento.ID).SingleOrDefault();
+
+                if (relevamiento.Escuela.ID != nuevoRelevamiento.Escuela.ID)
+                {
+                    relevamiento.Escuela = nuevoRelevamiento.Escuela;
+                    contexto.Escuelas.Attach(relevamiento.Escuela);
+                }
+
+                relevamiento.CantMaquinas = nuevoRelevamiento.CantMaquinas;
+                relevamiento.Comentarios = nuevoRelevamiento.Comentarios;
+
+                contexto.Entry(relevamiento).State = System.Data.EntityState.Modified;
+
+                contexto.SaveChanges();
+
+            }
+        }
      
     }
 }
