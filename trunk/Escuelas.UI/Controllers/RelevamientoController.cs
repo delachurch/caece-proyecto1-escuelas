@@ -1,5 +1,7 @@
-﻿using Escuelas.NegocioComponentes;
+﻿using Escuelas.Comun;
+using Escuelas.NegocioComponentes;
 using Escuelas.NegocioEntidades;
+using Escuelas.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace relevamientos.UI.Controllers
         RelevamientoComponente relevamientoComponente = new RelevamientoComponente();
         EscuelaComponente escuelaComponente = new EscuelaComponente();
         DistritoComponente distritoComponente = new DistritoComponente();
+        CategoriaValorComponente categoriaValorComponente = new CategoriaValorComponente();
 
         public ActionResult RelevamientoIndex()
         {
@@ -33,21 +36,52 @@ namespace relevamientos.UI.Controllers
 
             ViewBag.ListaDistritos = new List<SelectListItem>(ListaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
+            ViewBag.ListaTipoDispositivos = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivo.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+
             ViewBag.ListaEscuelas = CargarEscuelasPorDistrito(ListaDistritos.First().ID);
 
+            RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
+
+            relevamientoModelo.Maquina = new Maquina();
+
+            relevamientoModelo.Dispositivo = new Dispositivo();
+
+            relevamientoModelo.Dispositivo.TipoDispositivo = new CategoriaValor(); 
+            
             if (relevamientoId > 0)
             {
-                relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
+                relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
             }
             else
             {
-                relevamiento = new Relevamiento();
-                relevamiento.Escuela = new Escuela();
-                relevamiento.Escuela.Distrito = new Distrito();
+                relevamientoModelo.Relevamiento = new Relevamiento();
+                relevamientoModelo.Relevamiento.Escuela = new Escuela();
+                relevamientoModelo.Relevamiento.Escuela.Distrito = new Distrito();
             }
 
-            return View(relevamiento);
+            return View(relevamientoModelo);
 
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult EditarRelevamiento(RelevamientoModelo relevamientoModelo)
+        {
+            relevamientoModelo.Relevamiento.Escuela.Distrito = null;
+
+
+            relevamientoComponente.GuardarRelevamiento(relevamientoModelo.Relevamiento);
+
+            return RedirectToAction("RelevamientoIndex");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult EditarMaquina(Relevamiento relevamiento)
+        {
+            string lala = "lala";
+
+            return RedirectToAction("RelevamientoIndex");
         }
 
         public List<SelectListItem> CargarEscuelasPorDistrito(int DistId)

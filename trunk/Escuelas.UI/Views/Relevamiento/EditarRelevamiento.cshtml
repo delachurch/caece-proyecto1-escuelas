@@ -1,7 +1,7 @@
-﻿@model Escuelas.NegocioEntidades.Relevamiento
+﻿@model Escuelas.UI.Models.RelevamientoModelo
 
 @{
-    if(Model.ID != null && Model.ID > 0)
+    if (Model.Relevamiento.ID != null && Model.Relevamiento.ID > 0)
     {
         ViewBag.Title = "Editar Relevamiento";
     }
@@ -25,59 +25,270 @@
     </section>
 }
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+
 
     <fieldset>
         <legend>Relevamiento</legend>
 
-        @Html.HiddenFor(model => model.ID)
-
+        @Html.HiddenFor(model => model.Relevamiento.ID)
+        <div id="accordion">
+        <h3>Información General</h3>
+        <div class="AccordionTab">
+            @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
+            {
+            @Html.ValidationSummary(true)
           <div class="editor-label">
-            @Html.LabelFor(model => model.Escuela.Distrito)
+            @Html.LabelFor(model => model.Relevamiento.Escuela.Distrito)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.Escuela.Distrito.ID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.Escuela.Distrito.ID), new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
-            @Html.ValidationMessageFor(model => model.Escuela.Distrito.ID)
+            @Html.DropDownListFor(model => model.Relevamiento.Escuela.Distrito.ID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.Relevamiento.Escuela.Distrito.ID), new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
+            @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.Distrito.ID)
         </div>
 
         <div class="editor-label">
-        @Html.LabelFor(model => model.Escuela)
+        @Html.LabelFor(model => model.Relevamiento.Escuela)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Escuela.ID), new { id = "ddlEscuela" })
-            @Html.ValidationMessageFor(model => model.Escuela.ID)
+            @Html.DropDownListFor(model => model.Relevamiento.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Relevamiento.Escuela.ID), new { id = "ddlEscuela" })
+            @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.ID)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.CantMaquinas)
+            @Html.LabelFor(model => model.Relevamiento.CantMaquinas)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.CantMaquinas)
-            @Html.ValidationMessageFor(model => model.CantMaquinas)
+            @Html.EditorFor(model => model.Relevamiento.CantMaquinas)
+            @Html.ValidationMessageFor(model => model.Relevamiento.CantMaquinas)
         </div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Relevamiento.TieneADM)
+        </div>
+        <div class="editor-field">
+            @Html.RadioButtonFor(model => model.Relevamiento.TieneADM, false)&nbsp;No
+            &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, true)&nbsp;Yes
+        </div>
+
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.TieneADM)
+            @Html.LabelFor(model => model.Relevamiento.Comentarios)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.TieneADM)
-            @Html.ValidationMessageFor(model => model.TieneADM)
+            @Html.EditorFor(model => model.Relevamiento.Comentarios)
+            @Html.ValidationMessageFor(model => model.Relevamiento.Comentarios)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Comentarios)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Comentarios)
-            @Html.ValidationMessageFor(model => model.Comentarios)
-        </div>
-
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Guardar" />
         </p>
+            }         
+        </div>
+            <h3>Maquinas</h3>
+            <div class="AccordionTab">
+                
+                     <table>
+                        <tr>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
+                            </th>
+                            <th style="text-align: center;width:200px"> 
+                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
+                            </th>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
+                            </th>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].MemoriaRAM)
+                            </th>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
+                            </th>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].PerteneceARed)
+                            </th>
+                        </tr>
+                    @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
+                    {
+                        foreach (var item in Model.Relevamiento.Maquinas)
+                        {
+                        <tr>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                             <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Marca)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.SistemaOperativo)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.MemoriaRAM)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.PerteneceARed)
+                            </td>
+                        </tr>
+                        }
+                    }
+                         else
+                         {
+                        <tr>
+                            <td colspan="6">
+                                No hay maquinas cargadas
+                            </td>
+                        </tr>
+                    }
+                    </table>
+                 @using (Html.BeginForm("EditarMaquina", "Relevamiento"))
+                {
+                     @Html.ValidationSummary(true)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.Nombre)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.Nombre)
+                        @Html.ValidationMessageFor(model => model.Maquina.Nombre)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.Procesador)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.Procesador)
+                        @Html.ValidationMessageFor(model => model.Maquina.Procesador)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.SistemaOperativo)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.SistemaOperativo)
+                        @Html.ValidationMessageFor(model => model.Maquina.SistemaOperativo)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.MemoriaRAM)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.MemoriaRAM)
+                        @Html.ValidationMessageFor(model => model.Maquina.MemoriaRAM)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.CapacidadDiscoDuro)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.CapacidadDiscoDuro)
+                        @Html.ValidationMessageFor(model => model.Maquina.CapacidadDiscoDuro)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.PerteneceARed)
+                    </div>
+                    <div class="editor-field">
+                         @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, false)&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, true)&nbsp;Yes
+                    </div>                     
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.DispositivoSonido)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.DispositivoSonido)
+                        @Html.ValidationMessageFor(model => model.Maquina.DispositivoSonido)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.PlacaVideo)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.PlacaVideo)
+                        @Html.ValidationMessageFor(model => model.Maquina.PlacaVideo)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.TieneMicrofono)
+                    </div>
+                    <div class="editor-field">
+                         @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, false)&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, true)&nbsp;Yes
+                    </div>
+                    
+                    <p>
+                        <input type="submit" value="Agregar Maquina" />
+                    </p>
+                }
+            </div>
+            
+             <h3>Dispositivos</h3>
+
+             <div class="AccordionTab">
+
+                 <table>
+                        <tr>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].TipoDispositivo)
+                            </th>
+                            <th style="text-align: center;width:200px"> 
+                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Marca)
+                            </th>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Descripcion)
+                            </th>                           
+                        </tr>
+                    @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
+                    {
+                        foreach (var item in Model.Relevamiento.Dispositivos)
+                        {
+                        <tr>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.TipoDispositivo.Nombre)
+                            </td>
+                             <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Marca)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                        </tr>
+                        }
+                    }
+                         else
+                         {
+                        <tr>
+                            <td colspan="3">
+                                No hay dispositivos cargados
+                            </td>
+                        </tr>
+                    }
+                    </table>
+                 @using (Html.BeginForm("EditarDispositivo", "Relevamiento"))
+                {
+                     @Html.ValidationSummary(true)
+                    
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Dispositivo.TipoDispositivo)
+                    </div>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.Dispositivo.TipoDispositivo.ID, new SelectList(ViewBag.ListaTipoDispositivos, "Value", "Text", Model.Dispositivo.TipoDispositivo.ID))
+                        @Html.ValidationMessageFor(model => model.Dispositivo.ID)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Dispositivo.Marca)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Dispositivo.Marca)
+                        @Html.ValidationMessageFor(model => model.Dispositivo.Marca)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Dispositivo.Descripcion)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Dispositivo.Descripcion)
+                        @Html.ValidationMessageFor(model => model.Dispositivo.Descripcion)
+                    </div>
+                    <p>
+                        <input type="submit" value="Agregar Dispositivo" />
+                    </p>
+                }
+            </div>
+        </div>
+       
     </fieldset>
-}
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -86,7 +297,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
+        $(document).ready(function () {
 
+            $("#accordion").accordion();
+
+
+        });
         function CargarEscuelas(dropdown) {
             
             var distId = dropdown.value;
