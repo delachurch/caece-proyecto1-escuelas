@@ -47,10 +47,13 @@
   <ItemGroup>
     <Compile Include="CategoriaValorComponente.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="DispositivoComponente.cs" />
     <Compile Include="DistritoComponente.cs" />
     <Compile Include="EscuelaComponente.cs" />
+    <Compile Include="MaquinaComponente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelevamientoComponente.cs" />
+    <Compile Include="ServicioComponente.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Escuelas.AccesoADatos\Escuelas.AccesoADatos.csproj">

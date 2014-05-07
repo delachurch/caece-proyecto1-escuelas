@@ -947,3 +947,11 @@ padding-bottom:5px;
 font-size:16.33px;
 font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
 }
+.Busqueda tr {
+  border: 0px;
+}
+.Busqueda td {
+      border: none;
+      padding-right: 10px;
+      padding-left: 10px;
+}
