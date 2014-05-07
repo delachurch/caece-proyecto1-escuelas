@@ -21,7 +21,7 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos").Include("Servicios").Where(r => r.ID == relevamientoId).SingleOrDefault();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Where(r => r.ID == relevamientoId).SingleOrDefault();
             }
         }
 
@@ -30,6 +30,14 @@ namespace Escuelas.AccesoADatos
             using (Contexto contexto = new Contexto())
             {
                 return contexto.Relevamientos.Include("Escuela.Distrito").Where(r => r.Escuela.Distrito.ID == distId).ToList();
+            }
+        }
+
+        public List<Relevamiento> ObtenerRelevamientosPorEscuela(int escId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                return contexto.Relevamientos.Include("Escuela.Distrito").Where(r => r.Escuela.ID == escId).ToList();
             }
         }
 
@@ -45,6 +53,7 @@ namespace Escuelas.AccesoADatos
                 contexto.SaveChanges();
             }
         }
+
         public void ActualizarRelevamiento(Relevamiento nuevoRelevamiento)
         {
             using (Contexto contexto = new Contexto())
@@ -57,6 +66,8 @@ namespace Escuelas.AccesoADatos
                     contexto.Escuelas.Attach(relevamiento.Escuela);
                 }
 
+                relevamiento.FechaModificacion = nuevoRelevamiento.FechaModificacion;
+                relevamiento.TieneADM = nuevoRelevamiento.TieneADM;
                 relevamiento.CantMaquinas = nuevoRelevamiento.CantMaquinas;
                 relevamiento.Comentarios = nuevoRelevamiento.Comentarios;
 
@@ -66,6 +77,6 @@ namespace Escuelas.AccesoADatos
 
             }
         }
-     
+  
     }
 }

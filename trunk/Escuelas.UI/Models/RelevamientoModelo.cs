@@ -12,5 +12,7 @@ namespace Escuelas.UI.Models
         public Relevamiento Relevamiento { get; set; }
         public Maquina Maquina { get; set; }
         public Dispositivo Dispositivo { get; set; }
+        public Servicio Servicio { get; set; }
+        public int TabActivo { get; set; }
     }
 }

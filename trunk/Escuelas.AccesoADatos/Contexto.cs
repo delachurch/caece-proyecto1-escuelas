@@ -24,7 +24,7 @@ namespace Escuelas.AccesoADatos
         public DbSet<CategoriaValor> CategoriaValores { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Maquina> Maquinas { get; set; }
-        public DbSet<Dispositivo> Dispositivo { get; set; }
+        public DbSet<Dispositivo> Dispositivos { get; set; }
         public DbSet<Servicio> Servicios { get; set; }
         public DbSet<Distrito> Distritos { get; set; }
 

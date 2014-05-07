@@ -30,13 +30,15 @@
     <fieldset>
         <legend>Relevamiento</legend>
 
-        @Html.HiddenFor(model => model.Relevamiento.ID)
+        
         <div id="accordion">
         <h3>Información General</h3>
         <div class="AccordionTab">
+            @Html.HiddenFor(model => model.TabActivo)
             @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
             {
             @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Relevamiento.ID)
           <div class="editor-label">
             @Html.LabelFor(model => model.Relevamiento.Escuela.Distrito)
         </div>
@@ -65,7 +67,7 @@
         </div>
         <div class="editor-field">
             @Html.RadioButtonFor(model => model.Relevamiento.TieneADM, false)&nbsp;No
-            &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, true)&nbsp;Yes
+            &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, true)&nbsp;Si
         </div>
 
 
@@ -140,15 +142,26 @@
                         </tr>
                     }
                     </table>
+                <br /><br />
+                <h4><u>Cargar Maquina: </u></h4><br />
                  @using (Html.BeginForm("EditarMaquina", "Relevamiento"))
                 {
                      @Html.ValidationSummary(true)
+                     @Html.HiddenFor(model => model.Relevamiento.ID)
+                     @Html.HiddenFor(model => model.Maquina.ID)
                     <div class="editor-label">
                         @Html.LabelFor(model => model.Maquina.Nombre)
                     </div>
                     <div class="editor-field">
                         @Html.EditorFor(model => model.Maquina.Nombre)
                         @Html.ValidationMessageFor(model => model.Maquina.Nombre)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.Marca)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.Marca)
+                        @Html.ValidationMessageFor(model => model.Maquina.Marca)
                     </div>
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Maquina.Procesador)
@@ -183,7 +196,7 @@
                     </div>
                     <div class="editor-field">
                          @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, false)&nbsp;No
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, true)&nbsp;Yes
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, true)&nbsp;Si
                     </div>                     
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Maquina.DispositivoSonido)
@@ -204,7 +217,7 @@
                     </div>
                     <div class="editor-field">
                          @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, false)&nbsp;No
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, true)&nbsp;Yes
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, true)&nbsp;Si
                     </div>
                     
                     <p>
@@ -213,7 +226,7 @@
                 }
             </div>
             
-             <h3>Dispositivos</h3>
+             <h3>Otros Dispositivos</h3>
 
              <div class="AccordionTab">
 
@@ -255,10 +268,13 @@
                         </tr>
                     }
                     </table>
+                 <br /><br />
+                 <h4><u>Cargar Dispositivo: </u></h4><br />
                  @using (Html.BeginForm("EditarDispositivo", "Relevamiento"))
                 {
                      @Html.ValidationSummary(true)
-                    
+                    @Html.HiddenFor(model => model.Relevamiento.ID)
+                     @Html.HiddenFor(model => model.Dispositivo.ID)
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Dispositivo.TipoDispositivo)
                     </div>
@@ -285,13 +301,90 @@
                     </p>
                 }
             </div>
+            <h3>Servicios</h3>
+
+             <div class="AccordionTab">
+
+                 <table>
+                        <tr>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
+                            </th>
+                            <th style="text-align: center;width:200px"> 
+                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Nombre)
+                            </th>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
+                            </th>     
+                                                    
+                        </tr>
+                    @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
+                    {
+                        foreach (var item in Model.Relevamiento.Servicios)
+                        {
+                        <tr>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
+                            </td>
+                             <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.EsPago)
+                            </td>
+                        </tr>
+                        }
+                    }
+                         else
+                         {
+                        <tr>
+                            <td colspan="3">
+                                No hay servicios cargados
+                            </td>
+                        </tr>
+                    }
+                    </table>
+                  <br /><br />
+                 <h4><u>Cargar Servicio: </u></h4><br />
+                 @using (Html.BeginForm("EditarServicio", "Relevamiento"))
+                {
+                     @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.Relevamiento.ID)
+                     @Html.HiddenFor(model => model.Servicio.ID)
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Servicio.TipoServicio)
+                    </div>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.Servicio.TipoServicio.ID, new SelectList(ViewBag.ListaTipoServicios, "Value", "Text", Model.Servicio.TipoServicio.ID))
+                        @Html.ValidationMessageFor(model => model.Servicio.ID)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Servicio.Nombre)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Servicio.Nombre)
+                        @Html.ValidationMessageFor(model => model.Servicio.Nombre)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Servicio.EsPago)
+                    </div>
+                    <div class="editor-field">
+                        @Html.RadioButtonFor(model => model.Servicio.EsPago, false)&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Servicio.EsPago, true)&nbsp;Si
+                        
+                    </div>
+                    <p>
+                        <input type="submit" value="Agregar Servicio" />
+                    </p>
+                }
+            </div>
         </div>
        
     </fieldset>
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver al listado de relevamientos", "RelevamientoIndex")
 </div>
 
 @section Scripts {
@@ -300,7 +393,8 @@
         $(document).ready(function () {
 
             $("#accordion").accordion();
-
+            var tabAct = parseInt($("#TabActivo").val())
+            $("#accordion").accordion({ active: tabAct });
 
         });
         function CargarEscuelas(dropdown) {
@@ -308,7 +402,6 @@
             var distId = dropdown.value;
             showProgress();
             $('#ddlEscuela').attr("disabled", "disabled");
-            var mivar;
             $.getJSON("CargarEscuelasPorDistritoAsync", { DistId: distId }, actualizarEscuelas)
             .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
             

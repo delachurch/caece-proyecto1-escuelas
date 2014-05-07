@@ -28,8 +28,14 @@ namespace Escuelas.NegocioComponentes
         {
             return relevamientoDA.ObtenerRelevamientosPorDistrito(distId);
         }
+        public List<Relevamiento> ObtenerRelevamientosPorEscuela(int escId)
+        {
+            return relevamientoDA.ObtenerRelevamientosPorEscuela(escId);
+        }
         public void GuardarRelevamiento(Relevamiento relevamiento)
         {
+            relevamiento.Escuela.Distrito = null;
+
             if (relevamiento.ID > 0)
             {
                 relevamiento.FechaModificacion = DateTime.Now;
@@ -42,6 +48,5 @@ namespace Escuelas.NegocioComponentes
                 relevamientoDA.InsertarRelevamiento(relevamiento);
             }
         }
-            
     }
 }
