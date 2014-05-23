@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using Rotativa;
 
 namespace relevamientos.UI.Controllers
 {
@@ -24,8 +25,14 @@ namespace relevamientos.UI.Controllers
         DistritoComponente distritoComponente = new DistritoComponente();
         CategoriaValorComponente categoriaValorComponente = new CategoriaValorComponente();
 
-        public ActionResult RelevamientoIndex(int distId, int escId)
+        public ActionResult RelevamientoIndex(int? distId, int? escId)
         {
+            if (distId == null)
+            {
+                distId = 0;
+                escId = 0;
+            }
+                    
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
@@ -36,17 +43,18 @@ namespace relevamientos.UI.Controllers
 
             int escuelaId;
 
-            if (escId > 0)
-                escuelaId = escId;
+            if (escId.Value > 0)
+                escuelaId = escId.Value ;
             else
                 escuelaId = listaEscuelas.First().ID;
 
             
             RelevamientoBusqueda relevamientoBusqueda = new RelevamientoBusqueda();
             
-            relevamientoBusqueda.EscuelaId = escId;
 
-            relevamientoBusqueda.DistritoId = distId;
+            relevamientoBusqueda.EscuelaId = escId.Value;
+
+            relevamientoBusqueda.DistritoId = distId.Value;
 
             relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(escuelaId);
 
@@ -58,6 +66,21 @@ namespace relevamientos.UI.Controllers
         {
             return RedirectToAction("RelevamientoIndex", new { distId = relevamientoBusqueda.DistritoId, escId = relevamientoBusqueda.EscuelaId });
         }
+
+        public ActionResult ExportPDF(int relevamientoId)
+        {
+            return new ActionAsPdf("ExpotarRelevamiento", new { relevamientoId = relevamientoId }) {FileName = "Relevamiento.pdf" };
+        }
+
+
+        public ActionResult ExportarRelevamiento(int relevamientoId)
+        {
+
+            RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
+            relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
+            return View(relevamientoModelo.Relevamiento);
+        }
+
         public ActionResult EditarRelevamiento(int relevamientoId, int tActivo)
         {   
             Relevamiento relevamiento;
