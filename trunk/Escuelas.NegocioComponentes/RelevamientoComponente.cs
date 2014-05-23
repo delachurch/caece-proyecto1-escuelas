@@ -35,7 +35,9 @@ namespace Escuelas.NegocioComponentes
         public void GuardarRelevamiento(Relevamiento relevamiento)
         {
             relevamiento.Escuela.Distrito = null;
-
+           
+            relevamiento.TieneADM = false;
+           
             if (relevamiento.ID > 0)
             {
                 relevamiento.FechaModificacion = DateTime.Now;
