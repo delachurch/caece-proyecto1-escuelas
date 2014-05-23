@@ -62,13 +62,7 @@
             @Html.EditorFor(model => model.Relevamiento.CantMaquinas)
             @Html.ValidationMessageFor(model => model.Relevamiento.CantMaquinas)
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(m => m.Relevamiento.TieneADM)
-        </div>
-        <div class="editor-field">
-            @Html.RadioButtonFor(model => model.Relevamiento.TieneADM, false)&nbsp;No
-            &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, true)&nbsp;Si
-        </div>
+    
 
 
         <div class="editor-label">
@@ -225,7 +219,15 @@
                     </p>
                 }
             </div>
-            
+            <h3>Dispositivos de Red</h3>
+            <div class="AccordionTab">
+                <div class="editor-label">
+                    <label>LALALA</label>
+                </div>
+                <div class="editor-field">
+                    PRUEBA DISPOSITIVOS DE RED
+                </div>
+            </div>
              <h3>Otros Dispositivos</h3>
 
              <div class="AccordionTab">
@@ -377,6 +379,15 @@
                         <input type="submit" value="Agregar Servicio" />
                     </p>
                 }
+            </div>
+            <h3>Comentarios</h3>
+            <div class="AccordionTab">
+                <div class="editor-label">
+                    <label>LALALA</label>
+                </div>
+                <div class="editor-field">
+                    PRUEBA DISPOSITIVOS DE RED
+                </div>
             </div>
         </div>
        
