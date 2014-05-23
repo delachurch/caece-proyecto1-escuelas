@@ -27,11 +27,7 @@ namespace relevamientos.UI.Controllers
 
         public ActionResult RelevamientoIndex(int? distId, int? escId)
         {
-            if (distId == null)
-            {
-                distId = 0;
-                escId = 0;
-            }
+       
                     
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
