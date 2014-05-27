@@ -65,7 +65,7 @@ namespace relevamientos.UI.Controllers
 
         public ActionResult ExportPDF(int relevamientoId)
         {
-            return new ActionAsPdf("ExpotarRelevamiento", new { relevamientoId = relevamientoId }) {FileName = "Relevamiento.pdf" };
+            return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relevamientoId }) {FileName = "Relevamiento.pdf" };
         }
 
 
@@ -74,13 +74,11 @@ namespace relevamientos.UI.Controllers
 
             RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
             relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
-            return View(relevamientoModelo.Relevamiento);
+            return View(relevamientoModelo);
         }
 
         public ActionResult EditarRelevamiento(int relevamientoId, int tActivo)
         {   
-            Relevamiento relevamiento;
-
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
