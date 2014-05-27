@@ -340,6 +340,7 @@
     <Content Include="Views\Relevamiento\RelevamientoIndex.cshtml" />
     <Content Include="Views\Relevamiento\EditarRelevamiento.cshtml" />
     <Content Include="Views\Relevamiento\ExportarRelevamiento.cshtml" />
+    <Content Include="Views\Shared\_PDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

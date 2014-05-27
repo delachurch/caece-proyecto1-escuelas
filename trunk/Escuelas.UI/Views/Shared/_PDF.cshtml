@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/base.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/style.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/Site.css" type="text/css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <img src="~/Images/Logo-Escuelas-Unsam-CAECE-276x286.png" style="float: right;margin-bottom:-70px;margin-left:-10px;z-index:3;" width="15%" border="5" />
+            </div>
+            <div class="float-right"> 
+                <p style="position: relative;background-color: #1fa919;color: #FFF;text-shadow: 0 1px 0 rgba(0,0,0,0.5);width: 100%;height: 48px;line-height: 48px;font-size: 18px;padding: 0 8px;
+                            box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box">Proyecto Escuela</p>
+            </div>
+            </div>
+    </header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - Universidad Caece & Universidad de San Martin</p>
+            </div>
+        </div>
+    </footer>
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+    </script>
+</body>
+</html>

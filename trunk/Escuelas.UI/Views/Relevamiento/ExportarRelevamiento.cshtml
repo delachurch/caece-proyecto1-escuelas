@@ -1,53 +1,44 @@
 ﻿@model Escuelas.UI.Models.RelevamientoModelo
 
 @{
-   ViewBag.Title = "Exportar Relevamiento";
-      
+    ViewBag.Title = "Informe de Relevamiento";
+    Layout = "~/Views/Shared/_PDF.cshtml";
 }
+
 @section featured {
     <section class="featured">
-     <div class="content-wrapper">
+        <div class="content-wrapper">
             <hgroup class="title">
                 <h1>@ViewBag.Title.</h1>
                 <h2>@ViewBag.Message</h2>
             </hgroup>
             <p>
-               
             </p>
         </div>
     </section>
 }
-
-
-@*
-    <fieldset>
-        <legend>Relevamiento</legend>
-
-        
-        <div id="accordion">
-        <h3>Información General</h3>
-        <div class="AccordionTab">
-            @Html.HiddenFor(model => model.TabActivo)
-            @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
-            {
-            @Html.ValidationSummary(true)
-            @Html.HiddenFor(model => model.Relevamiento.ID)
-          <div class="editor-label">
+<fieldset>
+    <legend>Relevamiento</legend>
+    <h3>Información General</h3>
+    @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Relevamiento.ID)
+        <div class="editor-label">
             @Html.LabelFor(model => model.Relevamiento.Escuela.Distrito)
-        </div>
+        </div>@*
         <div class="editor-field">
             @Html.DropDownListFor(model => model.Relevamiento.Escuela.Distrito.ID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.Relevamiento.Escuela.Distrito.ID), new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
             @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.Distrito.ID)
-        </div>
+        </div>*@
 
         <div class="editor-label">
-        @Html.LabelFor(model => model.Relevamiento.Escuela)
-        </div>
+            @Html.LabelFor(model => model.Relevamiento.Escuela)
+        </div>@*
         <div class="editor-field">
             @Html.DropDownListFor(model => model.Relevamiento.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Relevamiento.Escuela.ID), new { id = "ddlEscuela" })
             @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.ID)
-        </div>
-
+        </div>*@
         <div class="editor-label">
             @Html.LabelFor(model => model.Relevamiento.CantMaquinas)
         </div>
@@ -62,8 +53,6 @@
             @Html.RadioButtonFor(model => model.Relevamiento.TieneADM, false)&nbsp;No
             &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, true)&nbsp;Si
         </div>
-
-
         <div class="editor-label">
             @Html.LabelFor(model => model.Relevamiento.Comentarios)
         </div>
@@ -71,175 +60,149 @@
             @Html.EditorFor(model => model.Relevamiento.Comentarios)
             @Html.ValidationMessageFor(model => model.Relevamiento.Comentarios)
         </div>
-            }         
-        </div>
-            <h3>Maquinas</h3>
-            <div class="AccordionTab">
-                
-                     <table>
-                        <tr>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
-                            </th>
-                            <th style="text-align: center;width:200px"> 
-                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
-                            </th>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
-                            </th>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].MemoriaRAM)
-                            </th>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
-                            </th>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].PerteneceARed)
-                            </th>
-                        </tr>
-                    @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
-                    {
-                        foreach (var item in Model.Relevamiento.Maquinas)
-                        {
-                        <tr>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                             <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.Marca)
-                            </td>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.SistemaOperativo)
-                            </td>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.MemoriaRAM)
-                            </td>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
-                            </td>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.PerteneceARed)
-                            </td>
-                        </tr>
-                        }
-                    }
-                         else
-                         {
-                        <tr>
-                            <td colspan="6">
-                                No hay maquinas cargadas
-                            </td>
-                        </tr>
-                    }
-                    </table>
-                <br /><br />
-                }
-            </div>
-            
-             <h3>Otros Dispositivos</h3>
+    }
+    <br />
+    <h3>Maquinas</h3>
+    <table>
+        <tr>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].MemoriaRAM)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].PerteneceARed)
+            </th>
+        </tr>
+        @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
+        {
+            foreach (var item in Model.Relevamiento.Maquinas)
+            {
+            <tr>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.Marca)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.SistemaOperativo)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.MemoriaRAM)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.PerteneceARed)
+                </td>
+            </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">No hay maquinas cargadas
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <h3>Otros Dispositivos</h3>
+    <table>
+        <tr>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].TipoDispositivo)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Marca)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Descripcion)
+            </th>
+        </tr>
+        @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
+        {
+            foreach (var item in Model.Relevamiento.Dispositivos)
+            {
+            <tr>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.TipoDispositivo.Nombre)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.Marca)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+            </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">No hay dispositivos cargados
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <h3>Servicios</h3>
+    <table>
+        <tr>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Nombre)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
+            </th>
 
-             <div class="AccordionTab">
-
-                 <table>
-                        <tr>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].TipoDispositivo)
-                            </th>
-                            <th style="text-align: center;width:200px"> 
-                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Marca)
-                            </th>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Descripcion)
-                            </th>                           
-                        </tr>
-                    @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
-                    {
-                        foreach (var item in Model.Relevamiento.Dispositivos)
-                        {
-                        <tr>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.TipoDispositivo.Nombre)
-                            </td>
-                             <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.Marca)
-                            </td>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.Descripcion)
-                            </td>
-                        </tr>
-                        }
-                    }
-                         else
-                         {
-                        <tr>
-                            <td colspan="3">
-                                No hay dispositivos cargados
-                            </td>
-                        </tr>
-                    }
-                    </table>
-                 <br /><br />
-            </div>
-            <h3>Servicios</h3>
-
-             <div class="AccordionTab">
-
-                 <table>
-                        <tr>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
-                            </th>
-                            <th style="text-align: center;width:200px"> 
-                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Nombre)
-                            </th>
-                            <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
-                            </th>     
-                                                    
-                        </tr>
-                    @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
-                    {
-                        foreach (var item in Model.Relevamiento.Servicios)
-                        {
-                        <tr>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
-                            </td>
-                             <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.EsPago)
-                            </td>
-                        </tr>
-                        }
-                    }
-                         else
-                         {
-                        <tr>
-                            <td colspan="3">
-                                No hay servicios cargados
-                            </td>
-                        </tr>
-                    }
-                    </table>
-                  <br /><br />
-                }
-            </div>
-        </div>
-       
-    </fieldset>
+        </tr>
+        @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
+        {
+            foreach (var item in Model.Relevamiento.Servicios)
+            {
+            <tr>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.EsPago)
+                </td>
+            </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">No hay servicios cargados
+                </td>
+            </tr>
+        }
+    </table>
+</fieldset>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        $(document).ready(function () {
 
-            $("#accordion").accordion();
-            var tabAct = parseInt($("#TabActivo").val())
-            $("#accordion").accordion({ active: tabAct });
-
-        });
         function CargarEscuelas(dropdown) {
 
             var distId = dropdown.value;
@@ -266,5 +229,5 @@
             hideProgress();
             $('#ddlEscuela').removeAttr("disabled");
         };
-        </script>
-}*@
+    </script>
+}
