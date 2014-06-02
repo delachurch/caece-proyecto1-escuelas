@@ -9,6 +9,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Rotativa;
+using Newtonsoft.Json;
 
 namespace relevamientos.UI.Controllers
 {
@@ -21,38 +22,42 @@ namespace relevamientos.UI.Controllers
         EscuelaComponente escuelaComponente = new EscuelaComponente();
         MaquinaComponente maquinaComponente = new MaquinaComponente();
         DispositivoComponente dispositivoComponente = new DispositivoComponente();
+        DispositivoRedComponente dispositivoRedComponente = new DispositivoRedComponente();
         ServicioComponente servicioComponente = new ServicioComponente();
         DistritoComponente distritoComponente = new DistritoComponente();
         CategoriaValorComponente categoriaValorComponente = new CategoriaValorComponente();
 
         public ActionResult RelevamientoIndex(int? distId, int? escId)
         {
-       
+            RelevamientoBusqueda relevamientoBusqueda = new RelevamientoBusqueda();
                     
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
-            
-            List<Escuela> listaEscuelas = CargarEscuelasPorDistrito(listaDistritos.First().ID);
+
+            if (distId.Value > 0)
+            {
+                relevamientoBusqueda.DistritoId = distId.Value;
+            }
+            else
+            {
+                relevamientoBusqueda.DistritoId = listaDistritos.First().ID;
+            }
+
+            List<Escuela> listaEscuelas = CargarEscuelasPorDistrito(relevamientoBusqueda.DistritoId);
 
             ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            int escuelaId;
-
             if (escId.Value > 0)
-                escuelaId = escId.Value ;
+            {
+                relevamientoBusqueda.EscuelaId = escId.Value;
+            }
             else
-                escuelaId = listaEscuelas.First().ID;
+            {
+                relevamientoBusqueda.EscuelaId = listaEscuelas.First().ID;
+            }
 
-            
-            RelevamientoBusqueda relevamientoBusqueda = new RelevamientoBusqueda();
-            
-
-            relevamientoBusqueda.EscuelaId = escId.Value;
-
-            relevamientoBusqueda.DistritoId = distId.Value;
-
-            relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(escuelaId);
+            relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(relevamientoBusqueda.EscuelaId);
 
             return View(relevamientoBusqueda);
 
@@ -76,21 +81,32 @@ namespace relevamientos.UI.Controllers
             relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
             return View(relevamientoModelo);
         }
+        public ActionResult CopiarUltimoRelevamiento(int escuelaId)
+        {
 
-        public ActionResult EditarRelevamiento(int relevamientoId, int tActivo)
-        {   
+            Relevamiento relevamiento = relevamientoComponente.ObtenerUltimoRelevamiento(escuelaId);
+
+            relevamientoComponente.CopiarRelevamiento(relevamiento);
+
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 0, mensaje = "Relevamiento copiado exitosamente" });
+        }
+        public ActionResult EditarRelevamiento(int relevamientoId, int tActivo, string mensaje)
+        {  
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
             ViewBag.ListaTipoDispositivos = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivo.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
+            ViewBag.ListaTipoDispositivosRed = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivoRed.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+
             ViewBag.ListaTipoServicios = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoServicio.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            List<Escuela> listaEscuelas = CargarEscuelasPorDistrito(listaDistritos.First().ID);
+            ViewBag.Mensaje = mensaje;
 
-            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
-
+            List<Escuela> listaEscuelas;
+          
             RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
 
             relevamientoModelo.Maquina = new Maquina();
@@ -103,20 +119,39 @@ namespace relevamientos.UI.Controllers
 
             relevamientoModelo.Servicio.TipoServicio = new CategoriaValor();
 
+            relevamientoModelo.DispositivoRed = new DispositivoRed();
+
+            relevamientoModelo.DispositivoRed.TipoDispositivoRed = new CategoriaValor();
+
             relevamientoModelo.TabActivo = tActivo;
 
             if (relevamientoId > 0)
             {
                 
                 relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
+
+                listaEscuelas = CargarEscuelasPorDistrito(relevamientoModelo.Relevamiento.Escuela.Distrito.ID);
+
+                ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+
             }
             else
             {
                 relevamientoModelo.Relevamiento = new Relevamiento();
-                relevamientoModelo.Relevamiento.Escuela = new Escuela();
+
+                int escuelaId = 0;
+
+                listaEscuelas = CargarEscuelasPorDistrito(listaDistritos.First().ID);
+
+                if (listaEscuelas.Count() > 0)
+                    escuelaId = listaEscuelas.First().ID;
+
+                relevamientoModelo.Relevamiento.Escuela = new Escuela() { ID =  escuelaId } ;
                 relevamientoModelo.Relevamiento.Escuela.Distrito = new Distrito();
             }
 
+            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            
             return View(relevamientoModelo);
 
         }
@@ -130,7 +165,7 @@ namespace relevamientos.UI.Controllers
 
             relevamientoComponente.GuardarRelevamiento(relevamientoModelo.Relevamiento);
 
-            return RedirectToAction("RelevamientoIndex");
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Relevamiento.ID, tActivo = 0, mensaje= "Relevamiento guardado" });
         }
 
         [Authorize(Roles = "Admin")]
@@ -138,12 +173,43 @@ namespace relevamientos.UI.Controllers
         public ActionResult EditarMaquina(RelevamientoModelo relevamientoModelo)
         {
 
-            relevamientoModelo.Maquina.Relevamiento = new Relevamiento() { ID = relevamientoModelo.Relevamiento.ID };
-
+            relevamientoModelo.Maquina.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
 
             maquinaComponente.GuardarMaquina(relevamientoModelo.Maquina);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Relevamiento.ID,tActivo = 1 });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Maquina.Relevamiento.ID, tActivo = 1, mensaje = "Maquina guardada" });
+        }
+
+        public ActionResult BorrarMaquina(int maqId,int relId)
+        {
+
+            maquinaComponente.BorrarMaquina(maqId);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 1,  mensaje = "Maquina borrada" });
+        }
+
+        public ActionResult BorrarDispositivo(int disId, int relId)
+        {
+
+            dispositivoComponente.BorrarDispositivo(disId);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 3, mensaje = "Dispositivo borrado" });
+        }
+
+        public ActionResult BorrarDispositivoRed(int disRedId, int relId)
+        {
+
+            dispositivoRedComponente.BorrarDispositivoRed(disRedId);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 2, mensaje = "Dispositivo de Red borrado" });
+        }
+
+        public ActionResult BorrarServicio(int serId, int relId)
+        {
+
+           servicioComponente.BorrarServicio(serId);
+
+           return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 4, mensaje = "Servicio borrado" });
         }
 
         [Authorize(Roles = "Admin")]
@@ -151,22 +217,55 @@ namespace relevamientos.UI.Controllers
         public ActionResult EditarDispositivo(RelevamientoModelo relevamientoModelo)
         {
 
-            relevamientoModelo.Dispositivo.Relevamiento = new Relevamiento() { ID = relevamientoModelo.Relevamiento.ID };
+            relevamientoModelo.Dispositivo.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
 
             dispositivoComponente.GuardarDispositivo(relevamientoModelo.Dispositivo);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Relevamiento.ID, tActivo = 2 });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Dispositivo.Relevamiento.ID, tActivo = 3, mensaje = "Dispositivo guardado" });
+        }
+
+        [HttpPost]
+        public ActionResult EditarDispositivoRed(RelevamientoModelo relevamientoModelo)
+        {
+
+            relevamientoModelo.DispositivoRed.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
+
+            dispositivoRedComponente.GuardarDispositivoRed(relevamientoModelo.DispositivoRed);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.DispositivoRed.Relevamiento.ID, tActivo = 2, mensaje = "Dispositivo de Red guardado" });
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult EditarServicio(RelevamientoModelo relevamientoModelo)
         {
-            relevamientoModelo.Servicio.Relevamiento = new Relevamiento() { ID = relevamientoModelo.Relevamiento.ID };
+
+
+            relevamientoModelo.Servicio.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
 
             servicioComponente.GuardarServicio(relevamientoModelo.Servicio);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Relevamiento.ID, tActivo = 3 });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Servicio.Relevamiento.ID, tActivo = 4, mensaje = "Servicio guardado" });
+        }
+        public Relevamiento ObtenerOInsertarRelevamiento(RelevamientoModelo relevamientoModelo)
+        {
+            Relevamiento relevamiento;
+
+            if (relevamientoModelo.Relevamiento.ID == 0)
+            {
+                relevamiento = new Relevamiento();
+                relevamiento.Escuela = new Escuela() { ID = relevamientoModelo.Relevamiento.Escuela.ID };
+                relevamiento.AtendidoPor = relevamientoModelo.Relevamiento.AtendidoPor;
+                relevamiento.TieneADM = relevamientoModelo.Relevamiento.TieneADM;
+
+                relevamientoComponente.GuardarRelevamiento(relevamiento);
+            }
+            else
+            {
+                relevamiento = new Relevamiento() { ID = relevamientoModelo.Relevamiento.ID };
+            }
+
+            return relevamiento;
         }
         public List<Escuela> CargarEscuelasPorDistrito(int DistId)
         {
@@ -177,6 +276,33 @@ namespace relevamientos.UI.Controllers
         {
             List<SelectListItem> listaEscuelas =  new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
             return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ObtenerMaquinaAsync(int MaqId)
+        {
+            Maquina maq = maquinaComponente.ObtenerMaquinaPorId(MaqId);
+            return Json(maq , JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ObtenerDispositivoAsync(int DisId)
+        {
+            Dispositivo dis = dispositivoComponente.ObtenerDispositivoPorId(DisId);
+
+            return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion, TipoDispositivoId = dis.TipoDispositivo.ID }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ObtenerServicioAsync(int SerId)
+        {
+            Servicio ser = servicioComponente.ObtenerServicioPorId(SerId);
+
+            return Json(new { ID = ser.ID, Compañia = ser.Compañia, EsPago = ser.EsPago, Descripcion = ser.Descripcion, TipoServicioId = ser.TipoServicio.ID }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ObtenerDispositivoRedAsync(int DisRedId)
+        {
+            DispositivoRed dis = dispositivoRedComponente.ObtenerDispositivoRedPorId(DisRedId);
+
+            return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion,PuertosUtilizados = dis.PuertosUtilizados, Protocolo = dis.Protocolo, TipoDispositivoRedId = dis.TipoDispositivoRed.ID }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿@model Escuelas.UI.Models.RelevamientoModelo
+﻿@using Escuelas.UI.Helpers;
+
+@model Escuelas.UI.Models.RelevamientoModelo
 
 @{
     if (Model.Relevamiento.ID != null && Model.Relevamiento.ID > 0)
@@ -12,6 +14,7 @@
     
 }
 @section featured {
+    
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
@@ -30,12 +33,25 @@
     <fieldset>
         <legend>Relevamiento</legend>
 
+        @if (ViewBag.Mensaje != null && ViewBag.Mensaje != "")
+        { 
+            <ul style="color:green; font-weight:bold; font-size: large"><li>@ViewBag.Mensaje</li></ul> 
+        }
+       
+
+        <div id="tabs" style="display:none">
+            <ul>
+            <li><a href="#tabs-1">Información General</a></li>
+            <li><a href="#tabs-2">Máquinas</a></li>
+            <li><a href="#tabs-3">Dispositivos de Red</a></li>
+            <li><a href="#tabs-4">Otros Dispositivos</a></li>
+            <li><a href="#tabs-5">Servicios</a></li>
+            <li><a href="#tabs-6">Comentarios</a></li>
+            </ul>
         
-        <div id="accordion">
-        <h3>Información General</h3>
-        <div class="AccordionTab">
+        <div id="tabs-1" class="TabClase">
             @Html.HiddenFor(model => model.TabActivo)
-            @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
+            @using (Html.BeginForm("EditarRelevamiento", "Relevamiento", FormMethod.Post, new { id = "frmRelevamiento" }))
             {
             @Html.ValidationSummary(true)
             @Html.HiddenFor(model => model.Relevamiento.ID)
@@ -45,6 +61,7 @@
         <div class="editor-field">
             @Html.DropDownListFor(model => model.Relevamiento.Escuela.Distrito.ID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.Relevamiento.Escuela.Distrito.ID), new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
             @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.Distrito.ID)
+            
         </div>
 
         <div class="editor-label">
@@ -53,32 +70,35 @@
         <div class="editor-field">
             @Html.DropDownListFor(model => model.Relevamiento.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Relevamiento.Escuela.ID), new { id = "ddlEscuela" })
             @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.ID)
-        </div>
 
+            @if (Model.Relevamiento.ID == null || (Model.Relevamiento.ID != null && Model.Relevamiento.ID == 0))
+            { 
+            @Html.ActionLink("Copiar Ultimo Relevamiento", "CopiarUltimoRelevamiento", new { }, new { id = "btnCopiarRelevamiento" })
+            }
+            
+           
+        </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.Relevamiento.CantMaquinas)
+            @Html.LabelFor(model => model.Relevamiento.TieneADM)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Relevamiento.CantMaquinas)
-            @Html.ValidationMessageFor(model => model.Relevamiento.CantMaquinas)
+            @Html.RadioButtonFor(model => model.Relevamiento.TieneADM, "No")&nbsp;No
+            &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, "Si")&nbsp;Si
         </div>
-    
-
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Relevamiento.Comentarios)
+          <div class="editor-label">
+            @Html.LabelFor(model => model.Relevamiento.AtendidoPor)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Relevamiento.Comentarios)
-            @Html.ValidationMessageFor(model => model.Relevamiento.Comentarios)
-        </div>
+            @Html.TextBoxFor(model => model.Relevamiento.AtendidoPor, new { id = "txtAtendidoPor" })
+            @Html.ValidationMessageFor(model => model.Relevamiento.AtendidoPor)
+        </div>               
+       
         <p>
             <input type="submit" value="Guardar" />
         </p>
             }         
         </div>
-            <h3>Maquinas</h3>
-            <div class="AccordionTab">
+            <div id="tabs-2" class="TabClase">
                 
                      <table>
                         <tr>
@@ -100,6 +120,8 @@
                             <th style="text-align: center;width:200px">
                                 @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].PerteneceARed)
                             </th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
                     {
@@ -124,24 +146,35 @@
                             <td style="text-align: center;width:200px">
                                 @Html.DisplayFor(modelItem => item.PerteneceARed)
                             </td>
+                            <td style="text-align: center;width:50px">
+                                <img src="~/Images/Edit.PNG" onclick="EditarMaquina(@item.ID);" class="EditImage" />
+                             </td>
+                            <td style="text-align: center;width:50px">
+                                @Html.ActionImage("BorrarMaquina", new { maqId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Maquina")
+                             </td>
                         </tr>
                         }
                     }
                          else
                          {
                         <tr>
-                            <td colspan="6">
-                                No hay maquinas cargadas
+                            <td colspan="8">
+                                No hay máquinas cargadas
                             </td>
                         </tr>
                     }
                     </table>
                 <br /><br />
-                <h4><u>Cargar Maquina: </u></h4><br />
+                <h4><u>Cargar Máquina: </u></h4><br />
                  @using (Html.BeginForm("EditarMaquina", "Relevamiento"))
                 {
                      @Html.ValidationSummary(true)
                      @Html.HiddenFor(model => model.Relevamiento.ID)
+
+                     @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id="hdn_Maquina_EscuelaId" })
+                     @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id="hdn_Maquina_TieneADM" })
+                     @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id="hdn_Maquina_AtendidoPor" })
+
                      @Html.HiddenFor(model => model.Maquina.ID)
                     <div class="editor-label">
                         @Html.LabelFor(model => model.Maquina.Nombre)
@@ -189,8 +222,8 @@
                         @Html.LabelFor(model => model.Maquina.PerteneceARed)
                     </div>
                     <div class="editor-field">
-                         @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, false)&nbsp;No
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, true)&nbsp;Si
+                         @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "No")&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "Si")&nbsp;Si
                     </div>                     
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Maquina.DispositivoSonido)
@@ -210,27 +243,201 @@
                         @Html.LabelFor(model => model.Maquina.TieneMicrofono)
                     </div>
                     <div class="editor-field">
-                         @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, false)&nbsp;No
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, true)&nbsp;Si
+                         @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "No")&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "Si")&nbsp;Si
+                    </div>
+                   <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.LectoraCDDVD)
+                    </div>
+                    <div class="editor-field">
+                         @Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "No")&nbsp;No Tiene
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "CD")&nbsp;CD
+                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "DVD")&nbsp;DVD
+                    </div>
+                       <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.Disquetera)
+                    </div>
+                    <div class="editor-field">
+                         @Html.RadioButtonFor(model => model.Maquina.Disquetera, "No")&nbsp;No Tiene
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "3 1/2")&nbsp;3 1/2
+                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "5 1/4")&nbsp;5 1/4
+                    </div>
+                       <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.Monitor)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.Monitor)
+                        @Html.ValidationMessageFor(model => model.Maquina.Monitor)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.Webcam)
+                    </div>
+                      <div class="editor-field">
+                         @Html.RadioButtonFor(model => model.Maquina.Webcam, "No")&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Webcam, "Si")&nbsp;Si
+                    </div>
+                       <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.GrupoDeTrabajo)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.GrupoDeTrabajo)
+                        @Html.ValidationMessageFor(model => model.Maquina.GrupoDeTrabajo)
+                    </div>
+                       <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.IP)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.IP)
+                        @Html.ValidationMessageFor(model => model.Maquina.IP)
+                    </div>
+                       <div class="editor-label">
+                        @Html.LabelFor(model => model.Maquina.Ubicacion)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Maquina.Ubicacion)
+                        @Html.ValidationMessageFor(model => model.Maquina.Ubicacion)
                     </div>
                     
                     <p>
-                        <input type="submit" value="Agregar Maquina" />
+                        <input type="submit" value="Agregar Máquina" id="btnAgregarMaquina" onclick="ActualizarHiddens('Maquina');" />
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <input type="submit" value="Cancelar" onclick="javascript: return ResetCamposMaquina();" />
                     </p>
                 }
             </div>
-            <h3>Dispositivos de Red</h3>
-            <div class="AccordionTab">
-                <div class="editor-label">
-                    <label>LALALA</label>
-                </div>
-                <div class="editor-field">
-                    PRUEBA DISPOSITIVOS DE RED
-                </div>
+            <div id="tabs-3" class="TabClase">
+                 <table>
+                        <tr>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].TipoDispositivoRed)
+                            </th>
+                            <th style="text-align: center;width:200px"> 
+                                @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Marca)
+                            </th>
+                            <th style="text-align: center;width:200px"> 
+                                @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Modelo)
+                            </th>
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Ubicacion)
+                            </th>  
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosUtilizados)
+                            </th>  
+                            <th style="text-align: center;width:200px">
+                                @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Protocolo)
+                            </th>          
+                            <th></th>
+                            <th></th>                 
+                        </tr>
+                    @if (Model.Relevamiento.DispositivosRed != null && Model.Relevamiento.DispositivosRed.Count() > 0)
+                    {
+                        foreach (var item in Model.Relevamiento.DispositivosRed)
+                        {
+                        <tr>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.TipoDispositivoRed.Nombre)
+                            </td>
+                             <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Marca)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Modelo)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Ubicacion)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.PuertosUtilizados)
+                            </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Protocolo)
+                            </td>
+                             <td style="text-align: center;width:50px">
+                                <img src="~/Images/Edit.PNG" onclick="EditarDispositivoRed(@item.ID);" class="EditImage" />
+                             </td>
+                            <td style="text-align: center;width:50px">
+                                @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Dispositivo de Rsed")
+                             </td>
+                        </tr>
+                        }
+                    }
+                         else
+                         {
+                        <tr>
+                            <td colspan="8">
+                                No hay dispositivos de red cargados
+                            </td>
+                        </tr>
+                    }
+                    </table>
+                 <br /><br />
+                 <h4><u>Cargar Dispositivo de Red: </u></h4><br />
+                 @using (Html.BeginForm("EditarDispositivoRed", "Relevamiento"))
+                {
+                     @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.Relevamiento.ID)
+                     @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id="hdn_DispositivoRed_EscuelaId" })
+                     @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id="hdn_DispositivoRed_TieneADM" })
+                     @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id="hdn_DispositivoRed_AtendidoPor" })
+                     @Html.HiddenFor(model => model.DispositivoRed.ID)
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.DispositivoRed.TipoDispositivoRed)
+                    </div>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.DispositivoRed.TipoDispositivoRed.ID, new SelectList(ViewBag.ListaTipoDispositivosRed, "Value", "Text", Model.DispositivoRed.TipoDispositivoRed.ID))
+                        @Html.ValidationMessageFor(model => model.DispositivoRed.TipoDispositivoRed.ID)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.DispositivoRed.Marca)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.DispositivoRed.Marca)
+                        @Html.ValidationMessageFor(model => model.DispositivoRed.Marca)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.DispositivoRed.Modelo)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.DispositivoRed.Modelo)
+                        @Html.ValidationMessageFor(model => model.DispositivoRed.Modelo)
+                    </div>
+                      <div class="editor-label">
+                        @Html.LabelFor(model => model.DispositivoRed.Ubicacion)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.DispositivoRed.Ubicacion)
+                        @Html.ValidationMessageFor(model => model.DispositivoRed.Ubicacion)
+                    </div>
+                      <div class="editor-label">
+                        @Html.LabelFor(model => model.DispositivoRed.PuertosUtilizados)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.DispositivoRed.PuertosUtilizados)
+                        @Html.ValidationMessageFor(model => model.DispositivoRed.PuertosUtilizados)
+                    </div>
+                      <div class="editor-label">
+                        @Html.LabelFor(model => model.DispositivoRed.Protocolo)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.DispositivoRed.Protocolo)
+                        @Html.ValidationMessageFor(model => model.DispositivoRed.Protocolo)
+                    </div>
+                     <div class="editor-label">
+                        @Html.LabelFor(model => model.DispositivoRed.Descripcion)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(model => model.DispositivoRed.Descripcion)
+                        @Html.ValidationMessageFor(model => model.DispositivoRed.Descripcion)
+                    </div>
+                    <p>
+                        <input type="submit" value="Agregar Dispositivo de Red" id="btnAgregarDispositivoRed" onclick="ActualizarHiddens('DispositivoRed');" />
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <input type="submit" value="Cancelar" onclick="javascript: return ResetCamposDispositivoRed();" />
+                    </p>
+                }
             </div>
-             <h3>Otros Dispositivos</h3>
 
-             <div class="AccordionTab">
+             <div id="tabs-4" class="TabClase">
 
                  <table>
                         <tr>
@@ -240,9 +447,14 @@
                             <th style="text-align: center;width:200px"> 
                                 @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Marca)
                             </th>
+                            <th style="text-align: center;width:200px"> 
+                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Modelo)
+                            </th>
                             <th style="text-align: center;width:200px">
-                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Descripcion)
-                            </th>                           
+                                @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Ubicacion)
+                            </th>          
+                            <th></th>
+                            <th></th>                 
                         </tr>
                     @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
                     {
@@ -256,8 +468,17 @@
                                 @Html.DisplayFor(modelItem => item.Marca)
                             </td>
                             <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.Descripcion)
+                                @Html.DisplayFor(modelItem => item.Modelo)
                             </td>
+                            <td style="text-align: center;width:200px">
+                                @Html.DisplayFor(modelItem => item.Ubicacion)
+                            </td>
+                             <td style="text-align: center;width:50px">
+                                <img src="~/Images/Edit.PNG" onclick="EditarOtroDispositivo(@item.ID);" class="EditImage" />
+                             </td>
+                            <td style="text-align: center;width:50px">
+                                @Html.ActionImage("BorrarDispositivo", new { disId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Dispositivo")
+                             </td>
                         </tr>
                         }
                     }
@@ -276,13 +497,16 @@
                 {
                      @Html.ValidationSummary(true)
                     @Html.HiddenFor(model => model.Relevamiento.ID)
+                     @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id="hdn_Dispositivo_EscuelaId" })
+                     @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id="hdn_Dispositivo_TieneADM" })
+                     @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id="hdn_Dispositivo_AtendidoPor" })
                      @Html.HiddenFor(model => model.Dispositivo.ID)
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Dispositivo.TipoDispositivo)
                     </div>
                     <div class="editor-field">
                         @Html.DropDownListFor(model => model.Dispositivo.TipoDispositivo.ID, new SelectList(ViewBag.ListaTipoDispositivos, "Value", "Text", Model.Dispositivo.TipoDispositivo.ID))
-                        @Html.ValidationMessageFor(model => model.Dispositivo.ID)
+                        @Html.ValidationMessageFor(model => model.Dispositivo.TipoDispositivo.ID)
                     </div>
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Dispositivo.Marca)
@@ -291,21 +515,36 @@
                         @Html.EditorFor(model => model.Dispositivo.Marca)
                         @Html.ValidationMessageFor(model => model.Dispositivo.Marca)
                     </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Dispositivo.Modelo)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Dispositivo.Modelo)
+                        @Html.ValidationMessageFor(model => model.Dispositivo.Modelo)
+                    </div>
+                      <div class="editor-label">
+                        @Html.LabelFor(model => model.Dispositivo.Ubicacion)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Dispositivo.Ubicacion)
+                        @Html.ValidationMessageFor(model => model.Dispositivo.Ubicacion)
+                    </div>
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Dispositivo.Descripcion)
                     </div>
                     <div class="editor-field">
-                        @Html.EditorFor(model => model.Dispositivo.Descripcion)
+                        @Html.TextAreaFor(model => model.Dispositivo.Descripcion)
                         @Html.ValidationMessageFor(model => model.Dispositivo.Descripcion)
                     </div>
                     <p>
-                        <input type="submit" value="Agregar Dispositivo" />
+                        <input type="submit" value="Agregar Dispositivo" id="btnAgregarDispositivo" onclick="ActualizarHiddens('Dispositivo');" />
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <input type="submit" value="Cancelar" onclick="javascript: return ResetCamposDispositivo();" />
                     </p>
                 }
             </div>
-            <h3>Servicios</h3>
 
-             <div class="AccordionTab">
+             <div id="tabs-5" class="TabClase">
 
                  <table>
                         <tr>
@@ -313,12 +552,12 @@
                                 @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
                             </th>
                             <th style="text-align: center;width:200px"> 
-                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Nombre)
+                                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Compañia)
                             </th>
                             <th style="text-align: center;width:200px">
                                 @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
                             </th>     
-                                                    
+                            <th></th><th></th>                           
                         </tr>
                     @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
                     {
@@ -329,11 +568,17 @@
                                 @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
                             </td>
                              <td style="text-align: center;width:200px">
-                                @Html.DisplayFor(modelItem => item.Nombre)
+                                @Html.DisplayFor(modelItem => item.Compañia)
                             </td>
                             <td style="text-align: center;width:200px">
                                 @Html.DisplayFor(modelItem => item.EsPago)
                             </td>
+                            <td style="text-align: center;width:50px">
+                                <img src="~/Images/Edit.PNG" onclick="EditarServicio(@item.ID);" class="EditImage" />
+                             </td>
+                            <td style="text-align: center;width:50px">
+                                @Html.ActionImage("BorrarServicio", new { serId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Servicio")
+                             </td>
                         </tr>
                         }
                     }
@@ -352,6 +597,10 @@
                 {
                      @Html.ValidationSummary(true)
                     @Html.HiddenFor(model => model.Relevamiento.ID)
+                     @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id="hdn_Servicio_EscuelaId" })
+                     @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id="hdn_Servicio_TieneADM" })
+                     @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id="hdn_Servicio_AtendidoPor" })
+
                      @Html.HiddenFor(model => model.Servicio.ID)
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Servicio.TipoServicio)
@@ -361,33 +610,46 @@
                         @Html.ValidationMessageFor(model => model.Servicio.ID)
                     </div>
                      <div class="editor-label">
-                        @Html.LabelFor(model => model.Servicio.Nombre)
+                        @Html.LabelFor(model => model.Servicio.Compañia)
                     </div>
                     <div class="editor-field">
-                        @Html.EditorFor(model => model.Servicio.Nombre)
-                        @Html.ValidationMessageFor(model => model.Servicio.Nombre)
+                        @Html.EditorFor(model => model.Servicio.Compañia)
+                        @Html.ValidationMessageFor(model => model.Servicio.Compañia)
                     </div>
                      <div class="editor-label">
                         @Html.LabelFor(model => model.Servicio.EsPago)
                     </div>
                     <div class="editor-field">
-                        @Html.RadioButtonFor(model => model.Servicio.EsPago, false)&nbsp;No
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Servicio.EsPago, true)&nbsp;Si
+                        @Html.RadioButtonFor(model => model.Servicio.EsPago, "No")&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Servicio.EsPago, "Si")&nbsp;Si
                         
                     </div>
+                      <div class="editor-label">
+                        @Html.LabelFor(model => model.Servicio.Descripcion)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(model => model.Servicio.Descripcion)
+                        @Html.ValidationMessageFor(model => model.Servicio.Descripcion)
+                    </div>
                     <p>
-                        <input type="submit" value="Agregar Servicio" />
+                        <input type="submit" value="Agregar Servicio" id="btnAgregarServicio" onclick="ActualizarHiddens('Servicio');" />
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <input type="submit" value="Cancelar" onclick="javascript: return ResetCamposServicio();" />
                     </p>
                 }
             </div>
-            <h3>Comentarios</h3>
-            <div class="AccordionTab">
-                <div class="editor-label">
-                    <label>LALALA</label>
-                </div>
-                <div class="editor-field">
-                    PRUEBA DISPOSITIVOS DE RED
-                </div>
+           
+            <div id="tabs-6" class="TabClase">
+                 <div class="editor-label">
+            Comentarios borrar
+
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("txtBorrar")
+            @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id="hdn_Comentarios_EscuelaId" })
+            @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id="hdn_Comentarios_TieneADM" })
+            @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id="hdn_Comentarios_AtenidoPor" })
+        </div>      
             </div>
         </div>
        
@@ -402,14 +664,47 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(function () {
+       
+        $("#tabs").tabs();
+    });
+  </script>
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#accordion").accordion();
             var tabAct = parseInt($("#TabActivo").val())
-            $("#accordion").accordion({ active: tabAct });
+
+            $("#tabs").tabs({ active: tabAct });
+
+            $("#tabs").show();
+
+            $('#btnCopiarRelevamiento').click(function ()
+            {
+                var escuelaId = $("#ddlEscuela").val();
+                
+                $(this).attr("href", $(this).attr("href") + "?escuelaId=" + escuelaId);
+            });
+         
 
         });
+
+        function ActualizarHiddens(nombreEntidad) {
+            var escuelaId = 0;
+
+            if (!isNaN($('#ddlEscuela').val()))
+                escuelaId = $('#ddlEscuela').val();
+
+            $('#hdn_' + nombreEntidad + '_EscuelaId').val(escuelaId);
+
+            $('#hdn_' + nombreEntidad + '_AtendidoPor').val($('#txtAtendidoPor').val());
+
+            var tieneADM = $("input[name='Relevamiento.TieneADM']:checked","#frmRelevamiento").val()
+
+            $('#hdn_' + nombreEntidad + '_TieneADM').val(tieneADM);
+        };
+
+
         function CargarEscuelas(dropdown) {
             
             var distId = dropdown.value;
@@ -434,7 +729,222 @@
             });
             
             hideProgress();
+
+
             $('#ddlEscuela').removeAttr("disabled");
+
         };
+
+        function EditarMaquina(maqId) {
+            
+            showProgress();
+            $.getJSON("ObtenerMaquinaAsync", { MaqId: maqId }, actualizarCamposMaquina)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+            
+        
+        };
+        function EditarOtroDispositivo(disId) {
+
+            showProgress();
+            $.getJSON("ObtenerDispositivoAsync", { DisId: disId }, actualizarCamposDispositivo)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+
+        };
+
+        function EditarServicio(serId) {
+
+            showProgress();
+            $.getJSON("ObtenerServicioAsync", { SerId: serId }, actualizarCamposServicio)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+
+        };
+
+        function EditarDispositivoRed(disRedId) {
+
+            showProgress();
+            $.getJSON("ObtenerDispositivoRedAsync", { DisRedId: disRedId }, actualizarCamposDispositivoRed)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+
+        };
+        actualizarCamposMaquina = function (data) {
+
+            
+
+            $('#Maquina_ID').val(data.ID);
+            $("#Maquina_Marca").val(data.Marca);
+            $("#Maquina_Nombre").val(data.Nombre);
+            $("#Maquina_Procesador").val(data.Procesador);
+            $("#Maquina_MemoriaRAM").val(data.MemoriaRAM);
+            $("#Maquina_CapacidadDiscoDuro").val(data.CapacidadDiscoDuro);
+            $("#Maquina_SistemaOperativo").val(data.SistemaOperativo);
+            $("#Maquina_DispositivoSonido").val(data.DispositivoSonido);
+            $("#Maquina_Comentarios").val(data.Comentarios);
+            $("#Maquina_PlacaVideo").val(data.PlacaVideo);
+
+            ActualizarRadio("Maquina.PerteneceARed", data.PerteneceARed);
+
+            ActualizarRadio("Maquina.TieneMicrofono", data.TieneMicrofono);
+
+            ActualizarRadio("Maquina.LectoraCDDVD", data.LectoraCDDVD);
+
+            ActualizarRadio("Maquina.Disquetera", data.Disquetera);
+
+            $("#Maquina_Monitor").val(data.Monitor);
+
+            ActualizarRadio("Maquina.Webcam", data.Webcam);
+
+            $("#Maquina_GrupoDeTrabajo").val(data.GrupoDeTrabajo);
+
+            $("#Maquina_IP").val(data.IP);
+
+            $("#Maquina_Ubicacion").val(data.Ubicacion);
+
+            document.getElementById("btnAgregarMaquina").value = "Actualizar Maquina";
+
+            hideProgress();
+            
+        };
+
+        actualizarCamposDispositivo = function (data) {
+
+
+            $('#Dispositivo_ID').val(data.ID);
+            $("#Dispositivo_Marca").val(data.Marca);
+            $("#Dispositivo_Modelo").val(data.Modelo);
+            $("#Dispositivo_Ubicacion").val(data.Ubicacion);
+            $("#Dispositivo_Descripcion").val(data.Descripcion);
+            $("#Dispositivo_TipoDispositivo_ID").val(data.TipoDispositivoId);
+            
+
+            document.getElementById("btnAgregarDispositivo").value = "Actualizar Dispositivo";
+
+            hideProgress();
+
+        };
+
+        actualizarCamposServicio = function (data) {
+
+
+            $('#Servicio_ID').val(data.ID);
+            $("#Servicio_Compa_ia").val(data.Compañia);
+            ActualizarRadio("Servicio.EsPago", data.EsPago);
+            $("#Servicio_Descripcion").val(data.Descripcion);
+            $("#Servicio_TipoServicio_ID").val(data.TipoServicioId);
+
+
+            document.getElementById("btnAgregarServicio").value = "Actualizar Servicio";
+
+            hideProgress();
+
+        };
+
+        actualizarCamposDispositivoRed = function (data) {
+
+
+            $('#DispositivoRed_ID').val(data.ID);
+            $("#DispositivoRed_Marca").val(data.Marca);
+            $("#DispositivoRed_Modelo").val(data.Modelo);
+            $("#DispositivoRed_Ubicacion").val(data.Ubicacion);
+            $("#DispositivoRed_Descripcion").val(data.Descripcion);
+            $("#DispositivoRed_PuertosUtilizados").val(data.PuertosUtilizados);
+            $("#DispositivoRed_Protocolo").val(data.Protocolo);
+            $("#DispositivoRed_TipoDispositivoRed_ID").val(data.TipoDispositivoRedId);
+
+
+            document.getElementById("btnAgregarDispositivoRed").value = "Actualizar Dispositivo de Red";
+
+            hideProgress();
+
+        };
+
+        function ResetCamposMaquina()
+        {
+
+            $('#Maquina_ID').val("");
+            $("#Maquina_Marca").val("");
+            $("#Maquina_Nombre").val("");
+            $("#Maquina_Procesador").val("");
+            $("#Maquina_MemoriaRAM").val("");
+            $("#Maquina_CapacidadDiscoDuro").val("");
+            $("#Maquina_SistemaOperativo").val("");
+            $("#Maquina_DispositivoSonido").val("");
+            $("#Maquina_Comentarios").val("");
+            $("#Maquina_PlacaVideo").val("");
+
+            ActualizarRadio("Maquina.PerteneceARed","False");
+
+            ActualizarRadio("Maquina.TieneMicrofono", "False");
+
+            document.getElementById("btnAgregarMaquina").value = "Agregar Maquina";
+
+            return false;
+        }
+
+        function ResetCamposServicio() {
+
+            $('#Servicio_ID').val("");
+            $("#Servicio_Nombre").val("");
+            $("#Servicio_Descripcion").val("");
+            
+            ActualizarRadio("Servicio.EsPago", "False");
+
+            $("#Servicio_TipoServicio_ID").val($("#Servicio_TipoServicio_ID option:first").val());
+
+            document.getElementById("btnAgregarServicio").value = "Agregar Servicio";
+
+            return false;
+        }
+
+        function ResetCamposDispositivo() {
+
+            $('#Dispositivo_ID').val("");
+            $("#Dispositivo_Marca").val("");
+            $("#Dispositivo_Modelo").val("");
+            $("#Dispositivo_Ubicacion").val("");
+            $("#Dispositivo_Descripcion").val("");
+
+            $("#Dispositivo_TipoDispositivo_ID").val($("#Dispositivo_TipoDispositivo_ID option:first").val());
+
+            document.getElementById("btnAgregarDispositivo").value = "Agregar Dispositivo";
+
+            return false;
+        }
+
+        function ResetCamposDispositivoRed() {
+
+            $('#DispositivoRed_ID').val("");
+            $("#DispositivoRed_Marca").val("");
+            $("#DispositivoRed_Modelo").val("");
+            $("#DispositivoRed_Ubicacion").val("");
+            $("#DispositivoRed_Descripcion").val("");
+            $("#DispositivoRed_PuertosUtilizados").val("");
+            $("#DispositivoRed_Protocolo").val("");
+
+            $("#DispositivoRed_TipoDispositivoRed_ID").val($("#DispositivoRed_TipoDispositivoRed_ID option:first").val());
+            
+            document.getElementById("btnAgregarDispositivoRed").value = "Agregar Dispositivo de Red";
+
+            return false;
+        }
+
+        function ActualizarRadio(prop,valor)
+        {
+            var rdlControl = $("input:radio[name='" + prop + "']");
+
+            if (valor != null) {
+
+                rdlControl.filter("[value='" + String(valor) + "']").prop('checked', true);
+
+            }
+            else {
+
+                rdlControl.removeAttr('checked');
+
+            }
+
+        }
         </script>
 }

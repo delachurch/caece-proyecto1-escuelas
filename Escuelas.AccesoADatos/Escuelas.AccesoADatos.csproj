@@ -47,6 +47,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Contexto.cs" />
     <Compile Include="DispositivoDA.cs" />
+    <Compile Include="DispositivoRedDA.cs" />
     <Compile Include="DistritoDA.cs" />
     <Compile Include="EscuelaDA.cs" />
     <Compile Include="MaquinaDA.cs" />

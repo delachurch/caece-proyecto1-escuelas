@@ -11,6 +11,13 @@ namespace Escuelas.NegocioComponentes
     public class DispositivoComponente
     {
         DispositivoDA dispositivoDA = new DispositivoDA();
+
+        public Dispositivo ObtenerDispositivoPorId(int disId)
+        {
+            return dispositivoDA.ObtenerDispositivoPorId(disId);
+        }
+
+
         public void GuardarDispositivo(Dispositivo dispositivo)
         {
 
@@ -22,6 +29,11 @@ namespace Escuelas.NegocioComponentes
             {
                 dispositivoDA.InsertarDispositivo(dispositivo);
             }
+        }
+
+        public void BorrarDispositivo(int disId)
+        {
+            dispositivoDA.BorrarDispositivo(disId);
         }
     }
 }

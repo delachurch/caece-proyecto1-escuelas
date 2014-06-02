@@ -39,13 +39,7 @@
             @Html.DropDownListFor(model => model.Relevamiento.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Relevamiento.Escuela.ID), new { id = "ddlEscuela" })
             @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.ID)
         </div>*@
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Relevamiento.CantMaquinas)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Relevamiento.CantMaquinas)
-            @Html.ValidationMessageFor(model => model.Relevamiento.CantMaquinas)
-        </div>
+        
         <div class="editor-label">
             @Html.LabelFor(m => m.Relevamiento.TieneADM)
         </div>

@@ -24,6 +24,11 @@ namespace Escuelas.NegocioComponentes
             return relevamientoDA.ObtenerRelevamientoPorId(relevamientoId);
         }
 
+        public Relevamiento ObtenerUltimoRelevamiento(int escuelaId)
+        {
+            return relevamientoDA.ObtenerUltimoRelevamiento(escuelaId);
+        }
+
         public List<Relevamiento> ObtenerRelevamientosPorDistrito(int distId)
         {
             return relevamientoDA.ObtenerRelevamientosPorDistrito(distId);
@@ -32,11 +37,14 @@ namespace Escuelas.NegocioComponentes
         {
             return relevamientoDA.ObtenerRelevamientosPorEscuela(escId);
         }
+
+        public void CopiarRelevamiento(Relevamiento relevamiento)
+        {
+            relevamientoDA.CopiarRelevamiento(relevamiento);
+        }
         public void GuardarRelevamiento(Relevamiento relevamiento)
         {
             relevamiento.Escuela.Distrito = null;
-           
-            relevamiento.TieneADM = false;
            
             if (relevamiento.ID > 0)
             {

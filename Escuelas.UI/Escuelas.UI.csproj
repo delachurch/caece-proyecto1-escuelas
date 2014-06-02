@@ -188,6 +188,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\RelevamientoBusqueda.cs" />
     <Compile Include="Models\RelevamientoModelo.cs" />
@@ -260,6 +261,8 @@
     <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\deleteicon.gif" />
+    <Content Include="Images\Edit.PNG" />
     <Content Include="NuGet.exe" />
     <Content Include="Rotativa\libeay32.dll" />
     <Content Include="Rotativa\libgcc_s_dw2-1.dll" />

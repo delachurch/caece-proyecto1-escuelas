@@ -906,47 +906,26 @@ div#spinner
             margin: 0;
         }
 }
-.AccordionTab {
-background-color:#efeeef;
-height: 470px;
+.TabClase {
+background:#efeeef !important;
 }
-.AccordionTab input[type="radio"]{
+.TabClase input[type="radio"]{
 background-color:#efeeef;
 width:35px;
 }
-.AccordionTab .editor-label {
+.TabClase .editor-label {
 padding-bottom:5px;
 }
 
-.AccordionTab .editor-field {
+.TabClase .editor-field {
 padding-bottom:5px;
 }
 
-.AccordionTab .editor-label label,th{
+.TabClase .editor-label label,th{
 font-size:16.33px;
 font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
 }
 
-.AccordionTabOtro {
-background-color:#efeeef;
-height: 100px;
-}
-.AccordionTabOtro input[type="radio"]{
-background-color:#efeeef;
-width:35px;
-}
-.AccordionTabOtro .editor-label {
-padding-bottom:5px;
-}
-
-.AccordionTabOtro .editor-field {
-padding-bottom:5px;
-}
-
-.AccordionTabOtro .editor-label label,th{
-font-size:16.33px;
-font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-}
 .Busqueda tr {
   border: 0px;
 }
@@ -954,4 +933,7 @@ font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
       border: none;
       padding-right: 10px;
       padding-left: 10px;
+}
+.EditImage{
+cursor: pointer;
 }
