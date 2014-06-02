@@ -9,7 +9,13 @@ namespace Escuelas.AccesoADatos
 {
     public class MaquinaDA
     {
-        
+        public Maquina ObtenerMaquinaPorId(int maquinaId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                return contexto.Maquinas.Where(m => m.ID == maquinaId).SingleOrDefault();
+            }            
+        }
         public void InsertarMaquina(Maquina nuevaMaquina)
         {
             using (Contexto contexto = new Contexto())
@@ -40,11 +46,30 @@ namespace Escuelas.AccesoADatos
                 maquina.DispositivoSonido = nuevaMaquina.DispositivoSonido;
                 maquina.MemoriaRAM = nuevaMaquina.MemoriaRAM;
                 maquina.Comentarios = nuevaMaquina.Comentarios;
+                maquina.LectoraCDDVD = nuevaMaquina.LectoraCDDVD;
+                maquina.Disquetera = nuevaMaquina.Disquetera;
+                maquina.Monitor = nuevaMaquina.Monitor;
+                maquina.Webcam = nuevaMaquina.Webcam;
+                maquina.GrupoDeTrabajo = nuevaMaquina.GrupoDeTrabajo;
+                maquina.IP = nuevaMaquina.IP;
+                maquina.Ubicacion = nuevaMaquina.Ubicacion;
 
                 contexto.Entry(maquina).State = System.Data.EntityState.Modified;
 
                 contexto.SaveChanges();
 
+            }
+        }
+
+        public void BorrarMaquina(int maqId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                Maquina maquina = contexto.Maquinas.Where(m => m.ID == maqId).SingleOrDefault();
+
+                contexto.Maquinas.Remove(maquina);
+
+                contexto.SaveChanges();
             }
         }
 

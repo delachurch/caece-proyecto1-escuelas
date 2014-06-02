@@ -12,6 +12,11 @@ namespace Escuelas.NegocioComponentes
     {
         ServicioDA servicioDA = new ServicioDA();
 
+        public Servicio ObtenerServicioPorId(int serId)
+        {
+            return servicioDA.ObtenerServicioPorId(serId);
+        }
+
         public void GuardarServicio(Servicio servicio)
         {
 
@@ -23,6 +28,11 @@ namespace Escuelas.NegocioComponentes
             {
                 servicioDA.InsertarServicio(servicio);
             }
+        }
+
+        public void BorrarServicio(int serId)
+        {
+            servicioDA.BorrarServicio(serId);
         }
     }
 }

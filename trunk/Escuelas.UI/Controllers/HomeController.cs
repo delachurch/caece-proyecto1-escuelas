@@ -22,7 +22,7 @@ namespace Escuelas.UI.Controllers
         {
 
     
-            ViewBag.Message = "Universidad Caece";
+            ViewBag.Message = "Universidad Caece & Universidad de San Martin";
 
             return View();
         }

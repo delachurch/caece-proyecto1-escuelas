@@ -12,6 +12,11 @@ namespace Escuelas.NegocioComponentes
     {
         MaquinaDA maquinaDA = new MaquinaDA();
 
+        public Maquina ObtenerMaquinaPorId(int maquinaId)
+        {
+            return maquinaDA.ObtenerMaquinaPorId(maquinaId);
+        }
+        
         public void GuardarMaquina(Maquina maquina)
         {
 
@@ -23,6 +28,11 @@ namespace Escuelas.NegocioComponentes
             {
                 maquinaDA.InsertarMaquina(maquina);
             }
+        }
+
+        public void BorrarMaquina(int maqId)
+        {
+            maquinaDA.BorrarMaquina(maqId);
         }
     }
 }

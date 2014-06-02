@@ -9,6 +9,15 @@ namespace Escuelas.AccesoADatos
 {
     public class DispositivoDA
     {
+
+        public Dispositivo ObtenerDispositivoPorId(int disId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                return contexto.Dispositivos.Include("TipoDispositivo").Where(d => d.ID == disId).SingleOrDefault();
+            }
+        }
+
         public void InsertarDispositivo(Dispositivo nuevoDispositivo)
         {
             using (Contexto contexto = new Contexto())
@@ -33,6 +42,8 @@ namespace Escuelas.AccesoADatos
 
                 dispositivo.Descripcion = nuevoDispositivo.Descripcion;
                 dispositivo.Marca = nuevoDispositivo.Marca;
+                dispositivo.Modelo = nuevoDispositivo.Modelo;
+                dispositivo.Ubicacion = nuevoDispositivo.Ubicacion;
 
                 if (dispositivo.TipoDispositivo.ID != nuevoDispositivo.TipoDispositivo.ID)
                 {
@@ -44,6 +55,18 @@ namespace Escuelas.AccesoADatos
 
                 contexto.SaveChanges();
 
+            }
+        }
+
+        public void BorrarDispositivo(int disId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                Dispositivo dispositivo = contexto.Dispositivos.Where(d => d.ID == disId).SingleOrDefault();
+
+                contexto.Dispositivos.Remove(dispositivo);
+
+                contexto.SaveChanges();
             }
         }
     }

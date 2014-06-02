@@ -47,6 +47,7 @@
     <Compile Include="CategoriaValor.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Dispositivo.cs" />
+    <Compile Include="DispositivoRed.cs" />
     <Compile Include="Distrito.cs" />
     <Compile Include="Escuela.cs" />
     <Compile Include="Maquina.cs" />

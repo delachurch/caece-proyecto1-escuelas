@@ -12,7 +12,7 @@
                 <h2>@ViewBag.Message</h2>
                 <br />
                 <p>
-                @Html.ActionLink("Agregar Nuevo Relevamiento", "EditarRelevamiento",new { relevamientoId = 0,tActivo = 0 })
+                @Html.ActionLink("Agregar Nuevo Relevamiento", "EditarRelevamiento",new { relevamientoId = 0,tActivo = 0, mensaje = "" })
                 </p>
             </hgroup>
             <p>
@@ -40,9 +40,6 @@
             @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Relevamientos[0].CantMaquinas)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Relevamientos[0].TieneADM)
         </th>
         <th>
@@ -61,9 +58,6 @@ foreach (var item in Model.Relevamientos) {
             @Html.DisplayFor(modelItem => item.Escuela.Nombre)
         </td>
         <td style="text-align: center;width:200px">
-            @Html.DisplayFor(modelItem => item.CantMaquinas)
-        </td>
-        <td style="text-align: center;width:200px">
             @Html.DisplayFor(modelItem => item.TieneADM)
         </td>
         <td style="text-align: center;width:200px">
@@ -76,7 +70,7 @@ foreach (var item in Model.Relevamientos) {
             }
         </td>
         <td style="text-align: center;width:200px">
-            @Html.ActionLink("Editar", "EditarRelevamiento", new { relevamientoId=item.ID, tActivo = 0 }) |
+            @Html.ActionLink("Editar", "EditarRelevamiento", new { relevamientoId=item.ID, tActivo = 0, mensaje = "" }) |
             @Html.ActionLink("Ver Detalles", "DetalleRelevamiento", new { relevamientoId=item.ID })
         </td>
     </tr>

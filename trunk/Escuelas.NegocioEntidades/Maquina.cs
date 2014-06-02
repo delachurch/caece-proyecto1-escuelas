@@ -23,12 +23,24 @@ namespace Escuelas.NegocioEntidades
         [Display(Name = "Dispositivo de Sonido")]
         public string DispositivoSonido { get; set; }
         [Display(Name = "¿Tiene Microfono?")]
-        public bool TieneMicrofono { get; set; }
+        public string TieneMicrofono { get; set; }
         public string Comentarios { get; set; }
         public Relevamiento Relevamiento { get; set; }
         [Display(Name = "Placa de Video")]
         public string PlacaVideo { get; set; }
         [Display(Name = "¿Pertenece a Red?")]
-        public bool PerteneceARed { get; set; }
+        public string PerteneceARed { get; set; }
+        [Display(Name = "Lectora CD/DVD")]
+        public string LectoraCDDVD { get; set; }
+        public string Disquetera{ get; set; }
+        public string Monitor { get; set; }
+        [Display(Name = "¿Tiene Webcam?")]
+        public string Webcam { get; set; }
+        [Display(Name = "Grupo de trabajo")]
+        public string GrupoDeTrabajo { get; set; }
+        public string IP { get; set; }
+        [Display(Name = "Ubicación")]
+        public string Ubicacion { get; set; }
+
     }
 }

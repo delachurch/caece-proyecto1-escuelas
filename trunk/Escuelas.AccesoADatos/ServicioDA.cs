@@ -9,6 +9,14 @@ namespace Escuelas.AccesoADatos
 {
     public class ServicioDA
     {
+        public Servicio ObtenerServicioPorId(int serId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                return contexto.Servicios.Include("TipoServicio").Where(s => s.ID == serId).SingleOrDefault();
+            }
+        }
+
         public void InsertarServicio(Servicio nuevoServicio)
         {
             using (Contexto contexto = new Contexto())
@@ -32,7 +40,8 @@ namespace Escuelas.AccesoADatos
 
 
                 servicio.EsPago = nuevoServicio.EsPago;
-                servicio.Nombre = nuevoServicio.Nombre;
+                servicio.Compañia = nuevoServicio.Compañia;
+                servicio.Descripcion = nuevoServicio.Descripcion;
 
                 if (servicio.TipoServicio.ID != nuevoServicio.TipoServicio.ID)
                 {
@@ -44,6 +53,17 @@ namespace Escuelas.AccesoADatos
 
                 contexto.SaveChanges();
 
+            }
+        }
+        public void BorrarServicio(int serId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                Servicio servicio = contexto.Servicios.Where(s => s.ID == serId).SingleOrDefault();
+
+                contexto.Servicios.Remove(servicio);
+
+                contexto.SaveChanges();
             }
         }
     }
