@@ -22,7 +22,7 @@ namespace Escuelas.UI.Helpers
             // build the <a> tag
             var anchorBuilder = new TagBuilder("a");
             anchorBuilder.MergeAttribute("href", url.Action(action, routeValues));
-            anchorBuilder.MergeAttribute("onclick", "return confirm('¿Está seguro que desea borrar este item?')");
+            if (alt.Contains("Borrar")||alt.Contains("Eliminar")) anchorBuilder.MergeAttribute("onclick", "return confirm('¿Está seguro que desea borrar este item?')");
             anchorBuilder.InnerHtml = imgHtml; // include the <img> tag inside
             string anchorHtml = anchorBuilder.ToString(TagRenderMode.Normal);
 

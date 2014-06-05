@@ -147,10 +147,10 @@
                                 @Html.DisplayFor(modelItem => item.PerteneceARed)
                             </td>
                             <td style="text-align: center;width:50px">
-                                <img src="~/Images/Edit.PNG" onclick="EditarMaquina(@item.ID);" class="EditImage" />
+                                <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
                              </td>
                             <td style="text-align: center;width:50px">
-                                @Html.ActionImage("BorrarMaquina", new { maqId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Maquina")
+                                @Html.ActionImage("BorrarMaquina", new { maqId = item.ID,relId = Model.Relevamiento.ID },"~/Images/ico/eliminar24.ico","Borrar Maquina")
                              </td>
                         </tr>
                         }
@@ -353,10 +353,10 @@
                                 @Html.DisplayFor(modelItem => item.Protocolo)
                             </td>
                              <td style="text-align: center;width:50px">
-                                <img src="~/Images/Edit.PNG" onclick="EditarDispositivoRed(@item.ID);" class="EditImage" />
+                                <img src="~/Images/ico/editar22.png" onclick="EditarDispositivoRed(@item.ID);" class="EditImage" />
                              </td>
                             <td style="text-align: center;width:50px">
-                                @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Dispositivo de Rsed")
+                                @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.ID,relId = Model.Relevamiento.ID },"~/Images/ico/eliminar24.ico","Borrar Dispositivo de Rsed")
                              </td>
                         </tr>
                         }
@@ -474,10 +474,10 @@
                                 @Html.DisplayFor(modelItem => item.Ubicacion)
                             </td>
                              <td style="text-align: center;width:50px">
-                                <img src="~/Images/Edit.PNG" onclick="EditarOtroDispositivo(@item.ID);" class="EditImage" />
+                                <img src="~/Images/ico/editar22.png" onclick="EditarOtroDispositivo(@item.ID);" class="EditImage" />
                              </td>
                             <td style="text-align: center;width:50px">
-                                @Html.ActionImage("BorrarDispositivo", new { disId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Dispositivo")
+                                @Html.ActionImage("BorrarDispositivo", new { disId = item.ID,relId = Model.Relevamiento.ID },"~/Images/ico/eliminar24.ico","Borrar Dispositivo")
                              </td>
                         </tr>
                         }
@@ -574,10 +574,10 @@
                                 @Html.DisplayFor(modelItem => item.EsPago)
                             </td>
                             <td style="text-align: center;width:50px">
-                                <img src="~/Images/Edit.PNG" onclick="EditarServicio(@item.ID);" class="EditImage" />
+                                <img src="~/Images/ico/editar22.png" onclick="EditarServicio(@item.ID);" class="EditImage" />
                              </td>
                             <td style="text-align: center;width:50px">
-                                @Html.ActionImage("BorrarServicio", new { serId = item.ID,relId = Model.Relevamiento.ID },"~/Images/deleteicon.gif","Borrar Servicio")
+                                @Html.ActionImage("BorrarServicio", new { serId = item.ID,relId = Model.Relevamiento.ID },"~/Images/ico/eliminar24.ico","Borrar Servicio")
                              </td>
                         </tr>
                         }
@@ -658,7 +658,7 @@
 
 <div>
     @Html.ActionLink("Volver al listado de relevamientos", "RelevamientoIndex")
-    @Html.ActionLink("Exportar a PDF", "ExportPDF", new {relevamientoId = Model.Relevamiento.ID})
+    
 
 </div>
 

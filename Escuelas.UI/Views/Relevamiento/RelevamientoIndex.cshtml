@@ -1,4 +1,5 @@
-﻿@model Escuelas.UI.Models.RelevamientoBusqueda
+﻿@using Escuelas.UI.Helpers;
+@model Escuelas.UI.Models.RelevamientoBusqueda
 
 @{
     ViewBag.Title = "Listado Relevamientos";
@@ -11,10 +12,7 @@
                 <h1>@ViewBag.Title.</h1>
                 <h2>@ViewBag.Message</h2>
                 <br />
-                <p>
-                @Html.ActionLink("Agregar Nuevo Relevamiento", "EditarRelevamiento",new { relevamientoId = 0,tActivo = 0, mensaje = "" })
-                </p>
-            </hgroup>
+                </hgroup>
             <p>
                
             </p>
@@ -70,8 +68,9 @@ foreach (var item in Model.Relevamientos) {
             }
         </td>
         <td style="text-align: center;width:200px">
-            @Html.ActionLink("Editar", "EditarRelevamiento", new { relevamientoId=item.ID, tActivo = 0, mensaje = "" }) |
-            @Html.ActionLink("Ver Detalles", "DetalleRelevamiento", new { relevamientoId=item.ID })
+            @Html.ActionImage("EditarRelevamiento", new { relevamientoId=item.ID, tActivo = 0, mensaje = "" },"~/Images/ico/editar22.png","Editar Relevamiento")
+            @Html.ActionImage("DetalleRelevamiento", new { relevamientoId=item.ID },"~/Images/ico/ver24.ico","Ver Detalles")
+            @Html.ActionImage("ExportPDF", new { relevamientoId=item.ID },"~/Images/ico/pdf24.ico","Exportar a PDF")
         </td>
     </tr>
     }
