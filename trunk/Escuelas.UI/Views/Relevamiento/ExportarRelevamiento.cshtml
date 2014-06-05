@@ -47,13 +47,6 @@
             @Html.RadioButtonFor(model => model.Relevamiento.TieneADM, false)&nbsp;No
             &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, true)&nbsp;Si
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Relevamiento.Comentarios)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Relevamiento.Comentarios)
-            @Html.ValidationMessageFor(model => model.Relevamiento.Comentarios)
-        </div>
     }
     <br />
     <h3>Maquinas</h3>
@@ -159,12 +152,13 @@
                 @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
             </th>
             <th style="text-align: center; width: 200px">
-                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Nombre)
+                @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Compañia)
             </th>
             <th style="text-align: center; width: 200px">
                 @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
             </th>
-
+            <th></th>
+            <th></th>
         </tr>
         @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
         {
@@ -175,7 +169,7 @@
                     @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
                 </td>
                 <td style="text-align: center; width: 200px">
-                    @Html.DisplayFor(modelItem => item.Nombre)
+                    @Html.DisplayFor(modelItem => item.Compañia)
                 </td>
                 <td style="text-align: center; width: 200px">
                     @Html.DisplayFor(modelItem => item.EsPago)

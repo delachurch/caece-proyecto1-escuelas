@@ -267,6 +267,9 @@
     <Content Include="Images\ico\eliminar16.ico" />
     <Content Include="Images\ico\eliminar24.ico" />
     <Content Include="Images\ico\eliminar32.ico" />
+    <Content Include="Images\ico\info16.ico" />
+    <Content Include="Images\ico\info24.ico" />
+    <Content Include="Images\ico\info32.ico" />
     <Content Include="Images\ico\pdf16.ico" />
     <Content Include="Images\ico\pdf24.ico" />
     <Content Include="Images\ico\pdf32.ico" />
