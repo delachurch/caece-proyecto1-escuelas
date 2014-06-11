@@ -145,7 +145,7 @@
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
                         </td>
-                        <td style="text-align: center; width: 50px">
+                        <td style="text-align: center; width: 50px" id="info">
                             <img src="~/Images/ico/info24.ico" id="info" onmouseover="VerMaquina(@item.ID);" onmouseout="CerrarMaquina()"/>
                         </td>
                         <td style="text-align: center; width: 50px">
@@ -658,10 +658,16 @@
     </div>
 
     <div id="pop-up">
-      <h3>Maquina:</h3>
-      <p>
-        Descripcion Maquina
-      </p>
+        <h3>Maquina:</h3>
+        <p>
+            Descripcion Maquina
+        </p>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Maquina.Nombre)
+        </div>
+        <div class="editor-label">
+            @Html.EditorFor(model => model.Maquina.Nombre)
+        </div>
     </div>
 
 </fieldset>
@@ -953,39 +959,42 @@
         }
 
         function VerMaquina(maqId) {
-   
-            var moveLeft = 20;
-            var moveDown = 10;
-              
-            
-            
-            $('div#pop-up').show()
-                    .css('top', this.pageY + moveDown)
-                    .css('left', this.pageX + moveLeft)
-                    .appendTo('body');
-            
-            //showProgress();
 
-            //$.getJSON("ObtenerMaquinaAsync", { MaqId: maqId }, actualizarPopupMaquina)
-            //.error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+            var moveLeft = 60;
+            var moveDown = 75;
+
+
+
+            $('div#pop-up').show()
+                    .css('top', document.getElementById("info").offsetTop + moveDown)
+                    .css('left', document.getElementById("info").offsetLeft + moveLeft)
+                    .appendTo('td#info');
+
+            showProgress();
+
+            $.getJSON("ObtenerMaquinaAsync", { MaqId: maqId }, actualizarPopupMaquina)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+
+
         }
-           
+
         function CerrarMaquina() {
-                $('div#pop-up').hide();
+            $('div#pop-up').hide();
         };
 
         actualizarPopupMaquina = function (data) {
 
-            $('#Maquina_ID').val(data.ID);
-            $("#Maquina_Marca").val(data.Marca);
+            //$('#Maquina_ID').val(data.ID);
+            //$("#Maquina_Marca").val(data.Marca);
             $("#Maquina_Nombre").val(data.Nombre);
-            $("#Maquina_Procesador").val(data.Procesador);
-            $("#Maquina_MemoriaRAM").val(data.MemoriaRAM);
-            $("#Maquina_CapacidadDiscoDuro").val(data.CapacidadDiscoDuro);
-            $("#Maquina_SistemaOperativo").val(data.SistemaOperativo);
-            $("#Maquina_DispositivoSonido").val(data.DispositivoSonido);
-            $("#Maquina_Comentarios").val(data.Comentarios);
-            $("#Maquina_PlacaVideo").val(data.PlacaVideo);
+            //$("#Maquina_Procesador").val(data.Procesador);
+            //$("#Maquina_MemoriaRAM").val(data.MemoriaRAM);
+            //$("#Maquina_CapacidadDiscoDuro").val(data.CapacidadDiscoDuro);
+            //$("#Maquina_SistemaOperativo").val(data.SistemaOperativo);
+            //$("#Maquina_DispositivoSonido").val(data.DispositivoSonido);
+            //$("#Maquina_Comentarios").val(data.Comentarios);
+            //$("#Maquina_PlacaVideo").val(data.PlacaVideo);
 
             //ActualizarRadio("Maquina.PerteneceARed", data.PerteneceARed);
 
@@ -995,17 +1004,17 @@
 
             //ActualizarRadio("Maquina.Disquetera", data.Disquetera);
 
-            $("#Maquina_Monitor").val(data.Monitor);
+            //$("#Maquina_Monitor").val(data.Monitor);
 
             //ActualizarRadio("Maquina.Webcam", data.Webcam);
 
-            $("#Maquina_GrupoDeTrabajo").val(data.GrupoDeTrabajo);
-            $("#Maquina_IP").val(data.IP);
-            $("#Maquina_Ubicacion").val(data.Ubicacion);
+            //$("#Maquina_GrupoDeTrabajo").val(data.GrupoDeTrabajo);
+            //$("#Maquina_IP").val(data.IP);
+            //$("#Maquina_Ubicacion").val(data.Ubicacion);
 
             hideProgress();
 
         };
-          
+
     </script>
 }
