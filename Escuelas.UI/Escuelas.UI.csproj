@@ -259,6 +259,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="App_Browsers\qt.browser" />
+    <None Include="Properties\PublishProfiles\SIRET.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\ico\editar16.ico" />
@@ -398,7 +399,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>11660</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:50805/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
