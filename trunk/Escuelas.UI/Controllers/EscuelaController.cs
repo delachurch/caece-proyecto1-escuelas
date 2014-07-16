@@ -64,6 +64,7 @@ namespace Escuelas.UI.Controllers
             return RedirectToAction("EscuelaIndex");
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult BorrarEscuela(int escuelaId)
         {
 

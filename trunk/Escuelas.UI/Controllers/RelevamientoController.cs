@@ -27,6 +27,7 @@ namespace relevamientos.UI.Controllers
         DistritoComponente distritoComponente = new DistritoComponente();
         CategoriaValorComponente categoriaValorComponente = new CategoriaValorComponente();
 
+        [Authorize(Roles = "Admin")]
         public ActionResult RelevamientoIndex(int? distId, int? escId)
         {
             RelevamientoBusqueda relevamientoBusqueda = new RelevamientoBusqueda();
@@ -62,18 +63,21 @@ namespace relevamientos.UI.Controllers
             return View(relevamientoBusqueda);
 
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult RelevamientoIndex(RelevamientoBusqueda relevamientoBusqueda)
         {
             return RedirectToAction("RelevamientoIndex", new { distId = relevamientoBusqueda.DistritoId, escId = relevamientoBusqueda.EscuelaId });
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ExportPDF(int relevamientoId)
         {
             return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relevamientoId }) {FileName = "Relevamiento.pdf" };
         }
 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult ExportarRelevamiento(int relevamientoId)
         {
 
@@ -81,6 +85,8 @@ namespace relevamientos.UI.Controllers
             relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
             return View(relevamientoModelo);
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult CopiarUltimoRelevamiento(int escuelaId)
         {
 
@@ -91,6 +97,8 @@ namespace relevamientos.UI.Controllers
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 0, mensaje = "Relevamiento copiado exitosamente" });
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult EditarRelevamiento(int relevamientoId, int tActivo, string mensaje)
         {  
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
@@ -180,6 +188,7 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Maquina.Relevamiento.ID, tActivo = 1, mensaje = "Maquina guardada" });
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult BorrarMaquina(int maqId,int relId)
         {
 
@@ -188,6 +197,7 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 1,  mensaje = "Maquina borrada" });
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult BorrarDispositivo(int disId, int relId)
         {
 
@@ -196,6 +206,7 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 3, mensaje = "Dispositivo borrado" });
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult BorrarDispositivoRed(int disRedId, int relId)
         {
 
@@ -204,6 +215,7 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 2, mensaje = "Dispositivo de Red borrado" });
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult BorrarServicio(int serId, int relId)
         {
 
@@ -224,6 +236,7 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Dispositivo.Relevamiento.ID, tActivo = 3, mensaje = "Dispositivo guardado" });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult EditarDispositivoRed(RelevamientoModelo relevamientoModelo)
         {
@@ -247,6 +260,8 @@ namespace relevamientos.UI.Controllers
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Servicio.Relevamiento.ID, tActivo = 4, mensaje = "Servicio guardado" });
         }
+
+        [Authorize(Roles = "Admin")]
         public Relevamiento ObtenerOInsertarRelevamiento(RelevamientoModelo relevamientoModelo)
         {
             Relevamiento relevamiento;
@@ -267,23 +282,29 @@ namespace relevamientos.UI.Controllers
 
             return relevamiento;
         }
+
+        [Authorize(Roles = "Admin")]
         public List<Escuela> CargarEscuelasPorDistrito(int DistId)
         {
 
            return escuelaComponente.ObtenerEscuelasPorDistrito(DistId);
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult CargarEscuelasPorDistritoAsync(int DistId)
         {
             List<SelectListItem> listaEscuelas =  new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
             return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ObtenerMaquinaAsync(int MaqId)
         {
             Maquina maq = maquinaComponente.ObtenerMaquinaPorId(MaqId);
             return Json(maq , JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ObtenerDispositivoAsync(int DisId)
         {
             Dispositivo dis = dispositivoComponente.ObtenerDispositivoPorId(DisId);
@@ -291,6 +312,7 @@ namespace relevamientos.UI.Controllers
             return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion, TipoDispositivoId = dis.TipoDispositivo.ID }, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ObtenerServicioAsync(int SerId)
         {
             Servicio ser = servicioComponente.ObtenerServicioPorId(SerId);
@@ -298,6 +320,7 @@ namespace relevamientos.UI.Controllers
             return Json(new { ID = ser.ID, Compañia = ser.Compañia, EsPago = ser.EsPago, Descripcion = ser.Descripcion, TipoServicioId = ser.TipoServicio.ID }, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ObtenerDispositivoRedAsync(int DisRedId)
         {
             DispositivoRed dis = dispositivoRedComponente.ObtenerDispositivoRedPorId(DisRedId);
