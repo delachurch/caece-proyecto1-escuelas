@@ -63,7 +63,7 @@
         </td>
         <td style="text-align: center;width:300px">
             @Html.ActionLink("Editar", "EditarEscuela", new { escuelaId=item.ID }) |
-            @Html.ActionLink("Ver Detalles", "DetalleEscuela", new { escuelaId=item.ID }) |
+            @*@Html.ActionLink("Ver Detalles", "DetalleEscuela", new { escuelaId=item.ID }) | *@
             @Html.ActionLink("Borrar", "BorrarEscuela", new { escuelaId=item.ID },new { onclick = "return confirm('¿Está seguro que desea borrar esta escuela?');" })
         </td>
     </tr>

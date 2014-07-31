@@ -145,9 +145,9 @@
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
                         </td>
-                        <td style="text-align: center; width: 50px" id="info">
+@*                        <td style="text-align: center; width: 50px" id="info">
                             <img src="~/Images/ico/info24.ico" id="info" onmouseover="VerMaquina(@item.ID);" onmouseout="CerrarMaquina()"/>
-                        </td>
+                        </td>*@
                         <td style="text-align: center; width: 50px">
                             @Html.ActionImage("BorrarMaquina", new { maqId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Maquina")
                         </td>
@@ -662,12 +662,8 @@
         <p>
             Descripcion Maquina
         </p>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Maquina.Nombre)
-        </div>
-        <div class="editor-label">
-            @Html.EditorFor(model => model.Maquina.Nombre)
-        </div>
+
+
     </div>
 
 </fieldset>
@@ -987,7 +983,7 @@
 
             //$('#Maquina_ID').val(data.ID);
             //$("#Maquina_Marca").val(data.Marca);
-            $("#Maquina_Nombre").val(data.Nombre);
+            //$("#Maquina_Nombre").val(data.Nombre);
             //$("#Maquina_Procesador").val(data.Procesador);
             //$("#Maquina_MemoriaRAM").val(data.MemoriaRAM);
             //$("#Maquina_CapacidadDiscoDuro").val(data.CapacidadDiscoDuro);
