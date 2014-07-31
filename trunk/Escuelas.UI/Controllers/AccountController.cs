@@ -347,7 +347,7 @@ namespace Escuelas.UI.Controllers
             return RedirectToAction("RoleIndex", "Account");
         }
 
-        [Authorize(Roles = "Admin,ReadOnly")]
+        [Authorize(Roles = "Admin")]
         public ActionResult RoleIndex()
         {
             var roles = Roles.GetAllRoles();
