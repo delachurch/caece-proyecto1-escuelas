@@ -23,7 +23,7 @@ namespace Escuelas.UI.Controllers
         EscuelaComponente escuelaComponente = new EscuelaComponente(); 
         DistritoComponente distritoComponente = new DistritoComponente();
 
-        [Authorize(Roles = "Admin,ReadOnly")]
+        [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult EscuelaIndex()
