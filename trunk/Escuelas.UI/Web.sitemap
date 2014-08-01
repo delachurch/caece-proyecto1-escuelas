@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="" title="Root"  description="The Root for the site map" roles="*">
+        <siteMapNode url="~/Home/Index" title="Home"  description="Home page"/>
+      <siteMapNode url="" title="Escuelas"  description="Escuelas">
+        <siteMapNode url="~/Escuela/EscuelaIndex" title="Ver Escuelas"  description="Ver Escuela" roles="Admin,ReadOnly"/>
+      <siteMapNode url="~/Escuela/EditarEscuela?escuelaId=0" title="Agregar Escuela"  description="Agregar Escuela" roles="Admin" />
+      </siteMapNode>
+     <siteMapNode url="" title="Relevamientos"  description="Relevamientos">
+        <siteMapNode url="~/Relevamiento/RelevamientoIndex?distId=0&amp;escId=0" title="Ver Relevamientos"  description="Ver Relevamientos" roles="Admin,ReadOnly" />
+      <siteMapNode url="~/Relevamiento/EditarRelevamiento?relevamientoId=0&amp;tActivo=0&amp;mensaje=" title="Agregar Relevamiento"  description="Agregar Relevamiento" roles="Admin" />
+      </siteMapNode>
+     <siteMapNode url="" title="Roles"  description="Roles" roles="Admin">
+        <siteMapNode url="~/Account/RoleIndex" title="Ver Roles"  description="Ver Roles"/>
+      <siteMapNode url="~/Account/RoleAddToUser" title="Asignar Roles"  description="Asignar Roles"/>
+     <siteMapNode url="~/Account/RoleCreate" title="Crear Rol"  description="Crear Rol"/>
+      </siteMapNode>
+    <siteMapNode url="~/Home/About" title="Sobre Nosotros"  description="Sobre Nosotros"/>
+    </siteMapNode>
+</siteMap>

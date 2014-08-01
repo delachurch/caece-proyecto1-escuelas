@@ -69,7 +69,7 @@
                     @Html.LabelFor(model => model.Relevamiento.Escuela)
                 </div>
                 <div class="editor-field">
-                    @Html.DropDownListFor(model => model.Relevamiento.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Relevamiento.Escuela.ID), new { id = "ddlEscuela" })
+                    @Html.DropDownListFor(model => model.Relevamiento.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Relevamiento.Escuela.ID), new { id = "ddlEscuela", onchange = "CargarDatosEscuela(this);" })
                     @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.ID)
 
                     @if (Model.Relevamiento.ID == null || (Model.Relevamiento.ID != null && Model.Relevamiento.ID == 0))
@@ -79,6 +79,30 @@
 
 
                 </div>
+               
+                        @Html.HiddenFor(modelItem => modelItem.Relevamiento.Escuela.Director)
+                        @Html.HiddenFor(modelItem => modelItem.Relevamiento.Escuela.ViceDirector)
+                <div id="divDirector">
+                <div class="editor-label">
+                         @Html.LabelFor(model => model.Relevamiento.Escuela.Director)
+                    </div>
+                    <div class="editor-field">
+                         <label id="lblDirector" style="font-size:small"></label>
+                    </div>
+                </div>
+                <div id="divViceDirector">
+                     <div class="editor-label">
+                       @Html.LabelFor(model => model.Relevamiento.Escuela.ViceDirector)
+                    </div>
+                    <div class="editor-field">
+                      <label id="lblViceDirector" style="font-size:small"></label>
+                    </div>
+                </div>       
+                       
+                         
+                        
+
+                          
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Relevamiento.TieneADM)
                 </div>
@@ -645,26 +669,41 @@
 
         <div id="tabs-6" class="TabClase">
             <div class="editor-label">
-                Comentarios borrar
-
+                Comentarios
             </div>
+            @using (Html.BeginForm("EditarComentarios", "Relevamiento"))
+            {
             <div class="editor-field">
-                @Html.TextArea("txtBorrar")
+                @Html.TextAreaFor(model => model.Comentarios, new { style = "height:50px" })
+                @Html.HiddenFor(model => model.Relevamiento.ID)
                 @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id = "hdn_Comentarios_EscuelaId" })
                 @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id = "hdn_Comentarios_TieneADM" })
-                @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_Comentarios_AtenidoPor" })
+                @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_Comentarios_AtendidoPor" })
             </div>
+                 <p>
+                    <input type="submit" value="Agregar Comentario" id="btnAgregarComentario" onclick="ActualizarHiddens('Comentarios');" />
+                         
+                </p>
+                 <div class="editor-label">
+                Historial
+            </div>
+                 <div class="editor-field">
+                @Html.TextAreaFor(model => model.HistorialComentarios, new { @readonly = true,style = "height:500px" })
+
+            </div>
+            
+            }
         </div>
     </div>
 
-    <div id="pop-up">
+    <div id="pop-up" style="height:100px">
         <h3>Maquina:</h3>
         <p>
             Descripcion Maquina
         </p>
 
 
-    </div>
+        </div>
 
 </fieldset>
 
@@ -689,6 +728,23 @@
             $("#tabs").tabs({ active: tabAct });
 
             $("#tabs").show();
+
+            
+            if ($("#Relevamiento_Escuela_Director").val() != "") {
+                $("#lblDirector").text($("#Relevamiento_Escuela_Director").val());
+                $("#divDirector").show();
+            }
+            else {
+                $("#divDirector").hide();
+            }
+            
+            if ($("#Relevamiento_Escuela_ViceDirector").val() != "") {
+                $("#lblViceDirector").text($("#Relevamiento_Escuela_ViceDirector").val());
+                $("#divViceDirector").show();
+            }
+            else {
+                $("#divViceDirector").hide();
+            }
 
             $('#btnCopiarRelevamiento').click(function () {
                 var escuelaId = $("#ddlEscuela").val();
@@ -724,7 +780,22 @@
             .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
 
+            
+
+
         };
+
+        function CargarDatosEscuela(dropdown) {
+
+            var escId = dropdown.value;
+            showProgress();
+
+            $.getJSON("CargarDatosEscuelaAsync", { EscId: escId }, actualizarCamposEscuela)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+
+
+        }
 
         actualizarEscuelas = function (data) {
 
@@ -743,8 +814,40 @@
 
             $('#ddlEscuela').removeAttr("disabled");
 
+            var escId = 0;
+
+            if (ddl.val() != null)
+            {
+                escId = ddl.val();
+            }
+            
+            $.getJSON("CargarDatosEscuelaAsync", { EscId: escId }, actualizarCamposEscuela)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
         };
 
+        actualizarCamposEscuela = function (data) {
+            
+            if (data.Director != "") {
+                $("#lblDirector").text(data.Director);
+                $("#divDirector").show();
+            }
+            else {
+                $("#divDirector").hide();
+            }
+
+            if (data.ViceDirector != "") {
+                $("#lblViceDirector").text(data.ViceDirector);
+                $("#divViceDirector").show();
+            }
+            else {
+                $("#divViceDirector").hide();
+            }
+
+            $("#HistorialComentarios").val(data.HistorialComentarios);
+
+            hideProgress();
+        }
         function EditarMaquina(maqId) {
 
             showProgress();
@@ -961,10 +1064,12 @@
 
 
 
+            
             $('div#pop-up').show()
                     .css('top', document.getElementById("info").offsetTop + moveDown)
                     .css('left', document.getElementById("info").offsetLeft + moveLeft)
                     .appendTo('td#info');
+
 
             showProgress();
 
