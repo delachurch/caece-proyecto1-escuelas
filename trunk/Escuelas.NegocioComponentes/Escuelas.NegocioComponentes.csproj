@@ -51,10 +51,12 @@
     <Compile Include="DispositivoRedComponente.cs" />
     <Compile Include="DistritoComponente.cs" />
     <Compile Include="EscuelaComponente.cs" />
+    <Compile Include="HistorialComentarioComponente.cs" />
     <Compile Include="MaquinaComponente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelevamientoComponente.cs" />
     <Compile Include="ServicioComponente.cs" />
+    <Compile Include="UsuarioComponente.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Escuelas.AccesoADatos\Escuelas.AccesoADatos.csproj">
