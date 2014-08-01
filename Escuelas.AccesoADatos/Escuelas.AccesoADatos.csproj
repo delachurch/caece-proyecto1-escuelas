@@ -50,10 +50,12 @@
     <Compile Include="DispositivoRedDA.cs" />
     <Compile Include="DistritoDA.cs" />
     <Compile Include="EscuelaDA.cs" />
+    <Compile Include="HistorialComentarioDA.cs" />
     <Compile Include="MaquinaDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelevamientoDA.cs" />
     <Compile Include="ServicioDA.cs" />
+    <Compile Include="UsuarioDA.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Escuelas.NegocioEntidades\Escuelas.NegocioEntidades.csproj">
