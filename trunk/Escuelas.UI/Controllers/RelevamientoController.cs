@@ -178,6 +178,7 @@ namespace relevamientos.UI.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,Colaborador")]
         private string ConstruirHistorialComentarios(List<HistorialComentario> historialComentarios)
         {
             
@@ -282,6 +283,7 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.DispositivoRed.Relevamiento.ID, tActivo = 2, mensaje = "Dispositivo de Red guardado" });
         }
 
+        [Authorize(Roles = "Admin,Colaborador")]
         [HttpPost]
         public ActionResult EditarComentarios(RelevamientoModelo relevamientoModelo)
         {
@@ -300,7 +302,7 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 5, mensaje = "Comentario Guardado" });
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Colaborador")]
         [HttpPost]
         public ActionResult EditarServicio(RelevamientoModelo relevamientoModelo)
         {
@@ -348,6 +350,8 @@ namespace relevamientos.UI.Controllers
             List<SelectListItem> listaEscuelas =  new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
             return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult CargarDatosEscuelaAsync(int EscId)
         {
 
@@ -369,6 +373,7 @@ namespace relevamientos.UI.Controllers
 
             return Json(new { Director = director, ViceDirector = viceDirector, HistorialComentarios = historialComentarios }, JsonRequestBehavior.AllowGet);
         }
+
         [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult ObtenerMaquinaAsync(int MaqId)
         {
