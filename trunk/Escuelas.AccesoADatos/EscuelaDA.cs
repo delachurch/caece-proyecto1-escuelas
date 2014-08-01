@@ -16,6 +16,7 @@ namespace Escuelas.AccesoADatos
                 return contexto.Escuelas.Include("Distrito").Include("TipoEstablecimiento").Where(e => e.Activa == true).ToList();
             }
         }
+        
         public List<Escuela> ObtenerEscuelasPorDistrito(int distId)
         {
             using (Contexto contexto = new Contexto())
@@ -58,7 +59,8 @@ namespace Escuelas.AccesoADatos
                 escuela.Nombre = nuevaEscuela.Nombre;
                 escuela.Numero = nuevaEscuela.Numero;
                 escuela.Direccion = nuevaEscuela.Direccion;
-
+                escuela.Director = nuevaEscuela.Director;
+                escuela.ViceDirector = nuevaEscuela.ViceDirector;
                 contexto.Entry(escuela).State = System.Data.EntityState.Modified;
 
                 contexto.SaveChanges();
