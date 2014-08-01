@@ -62,7 +62,20 @@
             @Html.TextBoxFor(model => model.Direccion)
             @Html.ValidationMessageFor(model => model.Direccion)
         </div>
-
+         <div class="editor-label">
+            @Html.LabelFor(model => model.Director)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Director)
+            @Html.ValidationMessageFor(model => model.Director)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ViceDirector)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ViceDirector)
+            @Html.ValidationMessageFor(model => model.ViceDirector)
+        </div>
         <p>
             <input type="submit" value="Guardar" />
         </p>

@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    @using Escuelas.UI.Helpers;
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width" />
@@ -23,50 +24,7 @@
                     @Html.Partial("_LoginPartial")
                 </section>
                 <div>
-                    <ul id="navigation" class="slimmenu">
-                        <li>
-                            @Html.ActionLink("Inicio", "../Home/Index")
-                        </li>
-                        <li>
-                            @Html.ActionLink("Escuelas", "../Escuela/EscuelaIndex")
-                            <ul>
-                                <li>
-                                    @Html.ActionLink("Ver Escuelas", "../Escuela/EscuelaIndex")
-                                </li>
-                                <li>
-                                    @Html.ActionLink("Agregar Escuela", "../Escuela/EditarEscuela", new { escuelaId = 0 })
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            @Html.ActionLink("Relevamientos", "../Relevamiento/RelevamientoIndex", new { distId = 0, escId = 0 })
-                            <ul>
-                                <li>
-                                    @Html.ActionLink("Ver Relevamientos", "../Relevamiento/RelevamientoIndex", new { distId = 0, escId = 0 })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("Agregar Relevamiento", "../Relevamiento/EditarRelevamiento", new { relevamientoId = 0, tActivo = 0, mensaje = "" })
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            @Html.ActionLink("Roles", "../Account/RoleIndex")
-                            <ul>
-                                <li>
-                                    @Html.ActionLink("Ver Roles", "../Account/RoleIndex")
-                                </li>
-                                <li>
-                                    @Html.ActionLink("Asignar Roles", "../Account/RoleAddToUser")
-                                </li>
-                                <li>
-                                    @Html.ActionLink("Crear Rol", "../Account/RoleCreate")
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            @Html.ActionLink("Sobre Nosotros", "../Home/About")
-                        </li>
-                    </ul>
+                    @Html.Menu("navigation","menuEscuela",User.Identity.Name)
                 </div>
             </div>
             <div id="spinner">
@@ -131,5 +89,7 @@
         };
 
     </script>
+
+    
 </body>
 </html>
