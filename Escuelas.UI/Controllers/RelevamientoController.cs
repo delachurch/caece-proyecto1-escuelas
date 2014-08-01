@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Rotativa;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace relevamientos.UI.Controllers
 {
@@ -20,6 +21,8 @@ namespace relevamientos.UI.Controllers
         // GET: /Relevamiento/
         RelevamientoComponente relevamientoComponente = new RelevamientoComponente();
         EscuelaComponente escuelaComponente = new EscuelaComponente();
+        HistorialComentarioComponente historialComentarioComponente = new HistorialComentarioComponente();
+        UsuarioComponente usuarioComponente = new UsuarioComponente();
         MaquinaComponente maquinaComponente = new MaquinaComponente();
         DispositivoComponente dispositivoComponente = new DispositivoComponente();
         DispositivoRedComponente dispositivoRedComponente = new DispositivoRedComponente();
@@ -148,20 +151,51 @@ namespace relevamientos.UI.Controllers
                 relevamientoModelo.Relevamiento = new Relevamiento();
 
                 int escuelaId = 0;
+                string director = "";
+                string viceDirector = "";
 
                 listaEscuelas = CargarEscuelasPorDistrito(listaDistritos.First().ID);
 
                 if (listaEscuelas.Count() > 0)
+                {
                     escuelaId = listaEscuelas.First().ID;
+                    director = listaEscuelas.First().Director;
+                    viceDirector = listaEscuelas.First().ViceDirector;
+                }
+
 
                 relevamientoModelo.Relevamiento.Escuela = new Escuela() { ID =  escuelaId } ;
                 relevamientoModelo.Relevamiento.Escuela.Distrito = new Distrito();
+                relevamientoModelo.Relevamiento.Escuela.Director = director;
+                relevamientoModelo.Relevamiento.Escuela.ViceDirector = viceDirector;
             }
 
             ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
             
+            relevamientoModelo.HistorialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
+
             return View(relevamientoModelo);
 
+        }
+
+        private string ConstruirHistorialComentarios(List<HistorialComentario> historialComentarios)
+        {
+            
+            if (historialComentarios.Count() > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (HistorialComentario elem in historialComentarios)
+                {
+                    sb.AppendLine(elem.FechaAlta + " - " + elem.UserProfile.UserName);
+                    sb.AppendLine(elem.Comentarios + "\n\n");
+                }
+
+                return sb.ToString();
+        }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -248,7 +282,25 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.DispositivoRed.Relevamiento.ID, tActivo = 2, mensaje = "Dispositivo de Red guardado" });
         }
 
-        [Authorize(Roles = "Admin,Colaborador")]
+        [HttpPost]
+        public ActionResult EditarComentarios(RelevamientoModelo relevamientoModelo)
+        {
+
+            Relevamiento relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
+
+            HistorialComentario historialComentario = new HistorialComentario();
+
+            historialComentario.Escuela = new Escuela { ID = relevamientoModelo.Relevamiento.Escuela.ID };
+            historialComentario.UserProfile = new Escuelas.NegocioEntidades.UserProfile { UserId = usuarioComponente.ObtenerUsuarioPorNombre(User.Identity.Name).UserId };
+            historialComentario.FechaAlta = DateTime.Now;
+            historialComentario.Comentarios = relevamientoModelo.Comentarios;
+
+            historialComentarioComponente.GuardarComentario(historialComentario);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 5, mensaje = "Comentario Guardado" });
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult EditarServicio(RelevamientoModelo relevamientoModelo)
         {
@@ -296,7 +348,27 @@ namespace relevamientos.UI.Controllers
             List<SelectListItem> listaEscuelas =  new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
             return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult CargarDatosEscuelaAsync(int EscId)
+        {
 
+            Escuela escuela = escuelaComponente.ObtenerEscuelaPorId(EscId);
+
+            string director = "";
+            string viceDirector = "";
+
+            if(escuela != null)
+            {
+                if (escuela.Director != null)
+                    director = escuela.Director;
+
+                if (escuela.ViceDirector != null)
+                    viceDirector = escuela.ViceDirector;
+            }
+
+            string historialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(EscId));
+
+            return Json(new { Director = director, ViceDirector = viceDirector, HistorialComentarios = historialComentarios }, JsonRequestBehavior.AllowGet);
+        }
         [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult ObtenerMaquinaAsync(int MaqId)
         {
