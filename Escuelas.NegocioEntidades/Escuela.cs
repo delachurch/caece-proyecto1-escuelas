@@ -14,6 +14,7 @@ namespace Escuelas.NegocioEntidades
         {
             Relevamientos = new List<Relevamiento>();
             ListaPersonal = new List<Personal>();
+            HistorialComentarios = new List<HistorialComentario>();
         }
         public int ID { get; set; }
         public Distrito Distrito { get; set; }
@@ -27,9 +28,14 @@ namespace Escuelas.NegocioEntidades
         public int Numero { get; set; }
         [Required(ErrorMessage = "Debe Ingresar un nombre")]
         public string Nombre { get; set; }
+        [Display(Name = "Director")]
+        public string Director { get; set; }
+        [Display(Name = "Vice Director")]
+        public string ViceDirector { get; set; }
         public bool Activa { get; set; }
         public List<Relevamiento> Relevamientos { get; set; }
         public List<Personal> ListaPersonal { get; set; }
+        public List<HistorialComentario> HistorialComentarios { get; set; }
 
     }
 }

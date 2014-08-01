@@ -28,6 +28,8 @@ namespace Escuelas.AccesoADatos
         public DbSet<DispositivoRed> DispositivosRed { get; set; }
         public DbSet<Servicio> Servicios { get; set; }
         public DbSet<Distrito> Distritos { get; set; }
+        public DbSet<HistorialComentario> HistorialComentarios { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -56,6 +58,8 @@ namespace Escuelas.AccesoADatos
             modelBuilder.Entity<Usuario>().HasRequired(u => u.Distrito).WithMany(d => d.Usuarios).Map(x => x.MapKey("DistritoId"));
             modelBuilder.Entity<Usuario>().HasRequired(u => u.Rol).WithMany(r => r.Usuarios).Map(x => x.MapKey("RolId"));
 
+            modelBuilder.Entity<HistorialComentario>().HasRequired(h => h.Escuela).WithMany(e => e.HistorialComentarios).Map(x => x.MapKey("EscuelaId"));
+            modelBuilder.Entity<HistorialComentario>().HasRequired(h => h.UserProfile).WithMany(u => u.HistorialComentarios).Map(x => x.MapKey("UserProfileId"));
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
