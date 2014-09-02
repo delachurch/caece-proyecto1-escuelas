@@ -1,6 +1,7 @@
 ﻿using Escuelas.AccesoADatos;
 using Escuelas.Comun;
 using Escuelas.NegocioEntidades;
+using Escuelas.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,15 +49,31 @@ namespace Escuelas.NegocioComponentes
            
             if (relevamiento.ID > 0)
             {
+
+                relevamiento.ModificadoPor = new UserProfile { UserId = UsuarioActual.ObtenerUsuarioActual().UserId };
+
                 relevamiento.FechaModificacion = DateTime.Now;
+                
                 relevamientoDA.ActualizarRelevamiento(relevamiento);
             }
             else
             {
+                relevamiento.CreadoPor = new UserProfile { UserId = UsuarioActual.ObtenerUsuarioActual().UserId };
+
                 relevamiento.FechaRelevo = DateTime.Now;
 
                 relevamientoDA.InsertarRelevamiento(relevamiento);
             }
+        }
+        public void ActualizarFechaYModificadoPor(int relevamientoId)
+        {
+            Relevamiento relevamiento = new Relevamiento { ID = relevamientoId };
+            
+            relevamiento.ModificadoPor = new UserProfile { UserId = UsuarioActual.ObtenerUsuarioActual().UserId };
+
+            relevamiento.FechaModificacion = DateTime.Now;
+
+            relevamientoDA.ActualizarFechaYModificadoPor(relevamiento);
         }
     }
 }

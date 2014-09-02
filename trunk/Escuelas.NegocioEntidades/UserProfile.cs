@@ -13,10 +13,14 @@ namespace Escuelas.NegocioEntidades
         public UserProfile()
         {
             HistorialComentarios = new List<HistorialComentario>();
+            RelevamientosCreados = new List<Relevamiento>();
+            RelevamientosModificados = new List<Relevamiento>();
         }
         [Key]
         public int UserId { get; set; }
         public string UserName { get; set; }
         public List<HistorialComentario> HistorialComentarios { get; set; }
+        public List<Relevamiento> RelevamientosCreados { get; set; }
+        public List<Relevamiento> RelevamientosModificados { get; set; }
     }
 }

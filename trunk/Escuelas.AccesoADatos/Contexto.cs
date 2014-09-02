@@ -48,6 +48,8 @@ namespace Escuelas.AccesoADatos
             modelBuilder.Entity<Personal>().HasRequired(p => p.Escuela).WithMany(e => e.ListaPersonal).Map(x => x.MapKey("EscuelaId"));
 
             modelBuilder.Entity<Relevamiento>().HasRequired(r => r.Escuela).WithMany(e => e.Relevamientos).Map(x => x.MapKey("EscuelaId"));
+            modelBuilder.Entity<Relevamiento>().HasRequired(r => r.CreadoPor).WithMany(e => e.RelevamientosCreados).Map(x => x.MapKey("CreadoPor"));
+            modelBuilder.Entity<Relevamiento>().HasOptional(r => r.ModificadoPor).WithMany(e => e.RelevamientosModificados).Map(x => x.MapKey("ModificadoPor"));
 
             modelBuilder.Entity<Servicio>().HasRequired(s => s.TipoServicio).WithMany(ts => ts.Servicios).Map(x => x.MapKey("TipoServicioId"));
             modelBuilder.Entity<Servicio>().HasRequired(s => s.Relevamiento).WithMany(r => r.Servicios).Map(x => x.MapKey("RelevamientoId"));

@@ -43,7 +43,7 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Where(r => r.Escuela.ID == escId).ToList();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("CreadoPor").Include("ModificadoPor").Where(r => r.Escuela.ID == escId).ToList();
             }
         }
 
@@ -53,6 +53,8 @@ namespace Escuelas.AccesoADatos
             {
 
                 contexto.Escuelas.Attach(nuevoRelevamiento.Escuela);
+
+                contexto.UserProfiles.Attach(nuevoRelevamiento.CreadoPor);
 
                 contexto.Relevamientos.Add(nuevoRelevamiento);
 
@@ -160,6 +162,12 @@ namespace Escuelas.AccesoADatos
                     contexto.Escuelas.Attach(relevamiento.Escuela);
                 }
 
+                if ((relevamiento.ModificadoPor == null) || (relevamiento.ModificadoPor != null && relevamiento.ModificadoPor.UserId != nuevoRelevamiento.ModificadoPor.UserId))
+                {
+                    relevamiento.ModificadoPor = nuevoRelevamiento.ModificadoPor;
+                    contexto.UserProfiles.Attach(relevamiento.ModificadoPor);
+                }
+
                 relevamiento.FechaModificacion = nuevoRelevamiento.FechaModificacion;
                 relevamiento.TieneADM = nuevoRelevamiento.TieneADM;
                 relevamiento.AtendidoPor = nuevoRelevamiento.AtendidoPor;
@@ -170,6 +178,26 @@ namespace Escuelas.AccesoADatos
 
             }
         }
-  
+
+        public void ActualizarFechaYModificadoPor(Relevamiento nuevoRelevamiento)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                Relevamiento relevamiento = contexto.Relevamientos.Include("Escuela").Where(r => r.ID == nuevoRelevamiento.ID).SingleOrDefault();
+
+                if ((relevamiento.ModificadoPor == null) || (relevamiento.ModificadoPor != null && relevamiento.ModificadoPor.UserId != nuevoRelevamiento.ModificadoPor.UserId))
+                {
+                    relevamiento.ModificadoPor = nuevoRelevamiento.ModificadoPor;
+                    contexto.UserProfiles.Attach(relevamiento.ModificadoPor);
+                }
+                relevamiento.FechaModificacion = nuevoRelevamiento.FechaModificacion;
+
+                contexto.Entry(relevamiento).State = System.Data.EntityState.Modified;
+
+                contexto.SaveChanges();
+
+            }
+        }
+
     }
 }

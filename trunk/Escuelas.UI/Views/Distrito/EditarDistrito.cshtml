@@ -1,0 +1,65 @@
+﻿@model Escuelas.NegocioEntidades.Distrito
+
+@{
+    if (Model.ID != null && Model.ID > 0)
+    {
+        ViewBag.Title = "Editar Distrito";
+    }
+    else
+    {
+        ViewBag.Title = "Agregar Distrito";
+    }
+    
+}
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+               
+            </p>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Distrito</legend>
+
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Region)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Region)
+            @Html.ValidationMessageFor(model => model.Region)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+
+        <p>
+            <input type="submit" value="Guardar" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Volver al Listado de Distritos", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

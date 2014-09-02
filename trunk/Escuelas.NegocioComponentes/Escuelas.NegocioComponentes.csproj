@@ -71,6 +71,10 @@
       <Project>{a9018140-2801-4440-a5ff-3310675c1840}</Project>
       <Name>Escuelas.NegocioEntidades</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Escuelas.Seguridad\Escuelas.Seguridad.csproj">
+      <Project>{83953ab8-9295-4705-a9c7-7096d592c0fd}</Project>
+      <Name>Escuelas.Seguridad</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,5 +15,31 @@ namespace Escuelas.NegocioComponentes
         {
             return distritoDA.ObtenerDistritos();
         }
+
+        public Distrito ObtenerDistritoPorId(int distritoId)
+        {
+            return distritoDA.ObtenerDistritoPorId(distritoId);
+        }
+
+        public void GuardarDistrito(Distrito distrito)
+        {
+            if (distrito.ID > 0)
+            {
+                distrito.Inactivo = false;
+
+                distritoDA.ActualizarDistrito(distrito);
+            }
+            else
+            {
+                distritoDA.InsertarDistrito(distrito);
+            }
+
+        }
+
+        public void BorrarDistrito(int distritoId)
+        {
+            distritoDA.BorrarDistrito(distritoId);
+        }
+
     }
 }

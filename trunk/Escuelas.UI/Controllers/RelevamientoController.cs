@@ -1,6 +1,7 @@
 ﻿using Escuelas.Comun;
 using Escuelas.NegocioComponentes;
 using Escuelas.NegocioEntidades;
+using Escuelas.Seguridad;
 using Escuelas.UI.Models;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace relevamientos.UI.Controllers
             }
             else
             {
+                
                 relevamientoBusqueda.DistritoId = listaDistritos.First().ID;
             }
 
@@ -58,7 +60,11 @@ namespace relevamientos.UI.Controllers
             }
             else
             {
-                relevamientoBusqueda.EscuelaId = listaEscuelas.First().ID;
+                if (listaEscuelas.Count() > 0)
+                {
+                    relevamientoBusqueda.EscuelaId = listaEscuelas.First().ID;
+                }
+                
             }
 
             relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(relevamientoBusqueda.EscuelaId);
@@ -203,8 +209,6 @@ namespace relevamientos.UI.Controllers
         [HttpPost]
         public ActionResult EditarRelevamiento(RelevamientoModelo relevamientoModelo)
         {
-           
-
 
             relevamientoComponente.GuardarRelevamiento(relevamientoModelo.Relevamiento);
 
@@ -293,7 +297,7 @@ namespace relevamientos.UI.Controllers
             HistorialComentario historialComentario = new HistorialComentario();
 
             historialComentario.Escuela = new Escuela { ID = relevamientoModelo.Relevamiento.Escuela.ID };
-            historialComentario.UserProfile = new Escuelas.NegocioEntidades.UserProfile { UserId = usuarioComponente.ObtenerUsuarioPorNombre(User.Identity.Name).UserId };
+            historialComentario.UserProfile = new Escuelas.NegocioEntidades.UserProfile { UserId = UsuarioActual.ObtenerUsuarioActual().UserId };
             historialComentario.FechaAlta = DateTime.Now;
             historialComentario.Comentarios = relevamientoModelo.Comentarios;
 
@@ -331,7 +335,10 @@ namespace relevamientos.UI.Controllers
             }
             else
             {
+                relevamientoComponente.ActualizarFechaYModificadoPor(relevamientoModelo.Relevamiento.ID);
+
                 relevamiento = new Relevamiento() { ID = relevamientoModelo.Relevamiento.ID };
+
             }
 
             return relevamiento;

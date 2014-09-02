@@ -131,16 +131,16 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].GrupoDeTrabajo)
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Ubicacion)
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].PerteneceARed)
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].MemoriaRAM)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].IP)
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
                     </th>
                     <th></th>
                     <th></th>
@@ -155,16 +155,16 @@
                             @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.GrupoDeTrabajo)
+                            @Html.DisplayFor(modelItem => item.Marca)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Ubicacion)
+                            @Html.DisplayFor(modelItem => item.SistemaOperativo)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.PerteneceARed)
+                            @Html.DisplayFor(modelItem => item.MemoriaRAM)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.IP)
+                            @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
                         </td>
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
