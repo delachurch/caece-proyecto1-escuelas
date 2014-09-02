@@ -38,13 +38,16 @@
             @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Relevamientos[0].TieneADM)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Relevamientos[0].FechaRelevo)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].CreadoPor)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Relevamientos[0].FechaModificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].ModificadoPor)
         </th>
         <th></th>
     </tr>
@@ -56,16 +59,22 @@ foreach (var item in Model.Relevamientos) {
             @Html.DisplayFor(modelItem => item.Escuela.Nombre)
         </td>
         <td style="text-align: center;width:200px">
-            @Html.DisplayFor(modelItem => item.TieneADM)
-        </td>
-        <td style="text-align: center;width:200px">
            @item.FechaRelevo.ToShortDateString()
+        </td>
+         <td style="text-align: center;width:200px">
+           @item.CreadoPor.UserName
         </td>
         <td style="text-align: center;width:300px">
             @if(item.FechaModificacion != null)
             {
                <span> @(((DateTime)item.FechaModificacion).ToShortDateString())</span>
             }
+        </td>
+         <td style="text-align: center;width:300px">
+            @if(item.ModificadoPor != null)
+            {
+               <span> @item.ModificadoPor.UserName </span>
+            }   
         </td>
         <td style="text-align: center;width:200px">
             @Html.ActionImage("EditarRelevamiento", new { relevamientoId=item.ID, tActivo = 0, mensaje = "" },"~/Images/ico/editar22.png","Editar Relevamiento")

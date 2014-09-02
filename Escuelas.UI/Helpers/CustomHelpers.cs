@@ -86,9 +86,26 @@ namespace Escuelas.UI.Helpers
              if (nodo.ChildNodes.Count > 0)
              {
 
-                 sb.AppendLine("<li>");
+                 if (nodo.Description == "Roles" || nodo.Description == "Distritos")
+                 {
+                     sb.AppendLine("<li style='width:185px !important;'>");
+                 }
+                 else
+                 {
+                     sb.AppendLine("<li>");
+                     
+                 }
                  sb.AppendLine(CrearItemMenu(nodo));
-                 sb.AppendLine("<ul>");
+                 if (nodo.Description == "Admin")
+                 {
+                     sb.AppendLine("<ul style='width:185px !important;'>");
+                 }
+                 else
+                 {
+                     sb.AppendLine("<ul>");
+
+                 }
+                 
    
 
                  foreach (SiteMapNode subNodo in nodo.ChildNodes)

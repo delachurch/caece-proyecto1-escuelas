@@ -20,6 +20,7 @@ namespace Escuelas.NegocioEntidades
         public int Region { get; set; }
         [Display(Name = "Distrito")]
         public string Nombre { get; set; }
+        public bool Inactivo { get; set; }
         public List<Escuela> Escuelas { get; set; }
         public List<Personal> ListaPersonal { get; set; }
         public List<Usuario> Usuarios { get; set; }

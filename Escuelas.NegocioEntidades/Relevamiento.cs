@@ -25,6 +25,8 @@ namespace Escuelas.NegocioEntidades
         public string AtendidoPor { get; set; }
         [Display(Name = "Fecha Relevo")]
         public DateTime FechaRelevo { get; set; }
+        public UserProfile CreadoPor { get; set; }
+        public UserProfile ModificadoPor { get; set; }
         [Display(Name = "Fecha Modificación")]
         public DateTime? FechaModificacion { get; set; }
         public List<Maquina> Maquinas { get; set; }

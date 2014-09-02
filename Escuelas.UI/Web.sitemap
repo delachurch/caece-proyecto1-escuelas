@@ -10,11 +10,18 @@
         <siteMapNode url="~/Relevamiento/RelevamientoIndex?distId=0&amp;escId=0" title="Ver Relevamientos"  description="Ver Relevamientos" roles="Admin,ReadOnly,Colaborador" />
       <siteMapNode url="~/Relevamiento/EditarRelevamiento?relevamientoId=0&amp;tActivo=0&amp;mensaje=" title="Agregar Relevamiento"  description="Agregar Relevamiento" roles="Admin,Colaborador" />
       </siteMapNode>
-     <siteMapNode url="" title="Roles"  description="Roles" roles="Admin">
-        <siteMapNode url="~/Account/RoleIndex" title="Ver Roles"  description="Ver Roles"/>
+      <siteMapNode url="" title="Admin"  description="Admin" roles="Admin">
+     <siteMapNode url="" title="Roles"  description="Roles" roles="Admin" hola="hola123">
+        <siteMapNode url="~/Account/RoleIndex" title="Ver Roles &amp;nbsp;&amp;nbsp;&amp;nbsp;"  description="Ver Roles"/>
       <siteMapNode url="~/Account/RoleAddToUser" title="Asignar Roles"  description="Asignar Roles"/>
-     <siteMapNode url="~/Account/RoleCreate" title="Crear Rol"  description="Crear Rol"/>
+     <siteMapNode url="~/Account/RoleCreate" title="Crear Rol &amp;nbsp;&amp;nbsp;&amp;nbsp;"  description="Crear Rol"/>
       </siteMapNode>
+      <siteMapNode url="" title="Distritos"  description="Distritos" roles="Admin">
+        <siteMapNode url="~/Distrito/DistritoIndex" title="Ver Distritos"  description="Ver Distritos" />
+        <siteMapNode url="~/Distrito/EditarDistrito?distritoId=0" title="Agregar Distrito"  description="Agregar Distrito" />
+      </siteMapNode>
+      </siteMapNode>
+      
     <siteMapNode url="~/Home/About" title="Sobre Nosotros"  description="Sobre Nosotros"/>
     </siteMapNode>
 </siteMap>
