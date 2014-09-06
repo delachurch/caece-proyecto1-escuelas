@@ -21,6 +21,8 @@ namespace Escuelas.NegocioEntidades
         public string Descripcion { get; set; }
         [Display(Name = "Puertos utilizados")]
         public int PuertosUtilizados { get; set; }
+        [Display(Name = "Puertos Totales")]
+        public int PuertosTotales { get; set; }
         public string Protocolo { get; set; }
     }
 }

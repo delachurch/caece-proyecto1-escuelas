@@ -41,7 +41,7 @@ namespace Escuelas.NegocioComponentes
 
         public void CopiarRelevamiento(Relevamiento relevamiento)
         {
-            relevamientoDA.CopiarRelevamiento(relevamiento);
+            relevamientoDA.CopiarRelevamiento(relevamiento,UsuarioActual.ObtenerUsuarioActual());
         }
         public void GuardarRelevamiento(Relevamiento relevamiento)
         {

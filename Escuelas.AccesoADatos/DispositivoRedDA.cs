@@ -44,6 +44,7 @@ namespace Escuelas.AccesoADatos
                 dispositivoRed.Modelo = nuevoDispositivoRed.Modelo;
                 dispositivoRed.Ubicacion = nuevoDispositivoRed.Ubicacion;
                 dispositivoRed.PuertosUtilizados = nuevoDispositivoRed.PuertosUtilizados;
+                dispositivoRed.PuertosTotales = nuevoDispositivoRed.PuertosTotales;
                 dispositivoRed.Protocolo = nuevoDispositivoRed.Protocolo;
 
                 if (dispositivoRed.TipoDispositivoRed.ID != nuevoDispositivoRed.TipoDispositivoRed.ID)

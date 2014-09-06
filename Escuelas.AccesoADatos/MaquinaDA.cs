@@ -53,6 +53,8 @@ namespace Escuelas.AccesoADatos
                 maquina.GrupoDeTrabajo = nuevaMaquina.GrupoDeTrabajo;
                 maquina.IP = nuevaMaquina.IP;
                 maquina.Ubicacion = nuevaMaquina.Ubicacion;
+                maquina.PuertosUSBFrontales = nuevaMaquina.PuertosUSBFrontales;
+                maquina.PuertosUSBTraseros = nuevaMaquina.PuertosUSBTraseros;
 
                 contexto.Entry(maquina).State = System.Data.EntityState.Modified;
 

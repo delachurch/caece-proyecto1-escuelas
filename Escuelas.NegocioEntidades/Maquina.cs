@@ -41,6 +41,10 @@ namespace Escuelas.NegocioEntidades
         public string IP { get; set; }
         [Display(Name = "Ubicación")]
         public string Ubicacion { get; set; }
+        [Display(Name = "Puertos USB Frontales")]
+        public int PuertosUSBFrontales { get; set; }
+        [Display(Name = "Puertos USB Traseros")]
+        public int PuertosUSBTraseros { get; set; }
 
     }
 }
