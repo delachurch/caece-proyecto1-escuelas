@@ -241,14 +241,7 @@
                 <div class="editor-field">
                     @Html.EditorFor(model => model.Maquina.CapacidadDiscoDuro)
                     @Html.ValidationMessageFor(model => model.Maquina.CapacidadDiscoDuro)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.PerteneceARed)
-                </div>
-                <div class="editor-field">
-                    @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "No")&nbsp;No
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "Si")&nbsp;Si
-                </div>                     
+                </div>                   
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Maquina.DispositivoSonido)
                 </div>
@@ -301,18 +294,39 @@
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Webcam, "Si")&nbsp;Si
                 </div>
                 <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.GrupoDeTrabajo)
+                    @Html.LabelFor(model => model.Maquina.PuertosUSBFrontales)
                 </div>
                 <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.GrupoDeTrabajo)
-                    @Html.ValidationMessageFor(model => model.Maquina.GrupoDeTrabajo)
+                    @Html.EditorFor(model => model.Maquina.PuertosUSBFrontales)
+                    @Html.ValidationMessageFor(model => model.Maquina.PuertosUSBFrontales)
                 </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Maquina.PuertosUSBTraseros)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Maquina.PuertosUSBTraseros)
+                    @Html.ValidationMessageFor(model => model.Maquina.PuertosUSBTraseros)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Maquina.PerteneceARed)
+                </div>
+                <div class="editor-field">
+                    @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "No")&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "Si")&nbsp;Si
+                </div>  
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Maquina.IP)
                 </div>
                 <div class="editor-field">
                     @Html.EditorFor(model => model.Maquina.IP)
                     @Html.ValidationMessageFor(model => model.Maquina.IP)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Maquina.GrupoDeTrabajo)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Maquina.GrupoDeTrabajo)
+                    @Html.ValidationMessageFor(model => model.Maquina.GrupoDeTrabajo)
                 </div>
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Maquina.Ubicacion)
@@ -342,7 +356,7 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Modelo)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Ubicacion)
+                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosTotales)
                     </th>
                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosUtilizados)
@@ -367,8 +381,8 @@
                         <td style="text-align: center; width: 200px">
                             @Html.DisplayFor(modelItem => item.Modelo)
                         </td>
-                        <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Ubicacion)
+                       <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.PuertosTotales)
                         </td>
                         <td style="text-align: center; width: 200px">
                             @Html.DisplayFor(modelItem => item.PuertosUtilizados)
@@ -432,6 +446,13 @@
                 <div class="editor-field">
                     @Html.EditorFor(model => model.DispositivoRed.Ubicacion)
                     @Html.ValidationMessageFor(model => model.DispositivoRed.Ubicacion)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DispositivoRed.PuertosTotales)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.DispositivoRed.PuertosTotales)
+                    @Html.ValidationMessageFor(model => model.DispositivoRed.PuertosTotales)
                 </div>
                 <div class="editor-label">
                     @Html.LabelFor(model => model.DispositivoRed.PuertosUtilizados)
@@ -895,6 +916,8 @@
             $("#Maquina_DispositivoSonido").val(data.DispositivoSonido);
             $("#Maquina_Comentarios").val(data.Comentarios);
             $("#Maquina_PlacaVideo").val(data.PlacaVideo);
+            $("#Maquina_PuertosUSBFrontales").val(data.PuertosUSBFrontales);
+            $("#Maquina_PuertosUSBTraseros").val(data.PuertosUSBTraseros);
 
             ActualizarRadio("Maquina.PerteneceARed", data.PerteneceARed);
 
@@ -962,6 +985,7 @@
             $("#DispositivoRed_Ubicacion").val(data.Ubicacion);
             $("#DispositivoRed_Descripcion").val(data.Descripcion);
             $("#DispositivoRed_PuertosUtilizados").val(data.PuertosUtilizados);
+            $("#DispositivoRed_PuertosTotales").val(data.PuertosTotales);
             $("#DispositivoRed_Protocolo").val(data.Protocolo);
             $("#DispositivoRed_TipoDispositivoRed_ID").val(data.TipoDispositivoRedId);
 
@@ -984,6 +1008,8 @@
             $("#Maquina_DispositivoSonido").val("");
             $("#Maquina_Comentarios").val("");
             $("#Maquina_PlacaVideo").val("");
+            $("#Maquina_PuertosUSBFrontales").val("");
+            $("#Maquina_PuertosUSBTraseros").val("");
 
             ActualizarRadio("Maquina.PerteneceARed", "False");
 
@@ -1032,6 +1058,7 @@
             $("#DispositivoRed_Ubicacion").val("");
             $("#DispositivoRed_Descripcion").val("");
             $("#DispositivoRed_PuertosUtilizados").val("");
+            $("#DispositivoRed_PuertosTotales").val("");
             $("#DispositivoRed_Protocolo").val("");
 
             $("#DispositivoRed_TipoDispositivoRed_ID").val($("#DispositivoRed_TipoDispositivoRed_ID option:first").val());

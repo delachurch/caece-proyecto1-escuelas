@@ -409,7 +409,7 @@ namespace relevamientos.UI.Controllers
         {
             DispositivoRed dis = dispositivoRedComponente.ObtenerDispositivoRedPorId(DisRedId);
 
-            return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion,PuertosUtilizados = dis.PuertosUtilizados, Protocolo = dis.Protocolo, TipoDispositivoRedId = dis.TipoDispositivoRed.ID }, JsonRequestBehavior.AllowGet);
+            return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion, PuertosUtilizados = dis.PuertosUtilizados, PuertosTotales = dis.PuertosTotales, Protocolo = dis.Protocolo, TipoDispositivoRedId = dis.TipoDispositivoRed.ID }, JsonRequestBehavior.AllowGet);
         }
     }
 }

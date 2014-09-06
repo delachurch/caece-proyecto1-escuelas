@@ -260,6 +260,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="App_Browsers\qt.browser" />
+    <None Include="Properties\PublishProfiles\Otro.pubxml" />
     <None Include="Properties\PublishProfiles\SIRET.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\ajax-loader.gif" />

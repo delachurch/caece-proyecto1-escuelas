@@ -28,7 +28,7 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
             }
         }
         public List<Relevamiento> ObtenerRelevamientosPorDistrito(int distId)
@@ -43,7 +43,10 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("CreadoPor").Include("ModificadoPor").Where(r => r.Escuela.ID == escId).ToList();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("CreadoPor").Include("ModificadoPor")
+                    .Where(r => r.Escuela.ID == escId)
+                    .OrderByDescending(r => r.FechaRelevo)
+                    .ToList();
             }
         }
 
@@ -62,19 +65,20 @@ namespace Escuelas.AccesoADatos
             }
         }
 
-        public void CopiarRelevamiento(Relevamiento relevamiento)
+        public void CopiarRelevamiento(Relevamiento relevamiento, UserProfile creadoPor)
         {
             Relevamiento nuevoRelevamiento = new Relevamiento();
 
-            nuevoRelevamiento.Escuela = relevamiento.Escuela;
+            nuevoRelevamiento.Escuela = new Escuela { ID = relevamiento.Escuela.ID };
             nuevoRelevamiento.TieneADM = relevamiento.TieneADM;
             nuevoRelevamiento.AtendidoPor = relevamiento.AtendidoPor;
             nuevoRelevamiento.FechaRelevo = DateTime.Now;
-
+            nuevoRelevamiento.CreadoPor = new UserProfile { UserId = creadoPor.UserId };
             using (Contexto contexto = new Contexto())
             {                
 
                 contexto.Escuelas.Attach(nuevoRelevamiento.Escuela);
+                contexto.UserProfiles.Attach(nuevoRelevamiento.CreadoPor);
 
                 foreach (Maquina maq in relevamiento.Maquinas)
                 {
@@ -98,9 +102,12 @@ namespace Escuelas.AccesoADatos
                     nuevaMaquina.TieneMicrofono = maq.TieneMicrofono;
                     nuevaMaquina.Ubicacion = maq.Ubicacion;
                     nuevaMaquina.Webcam = maq.Webcam;
-
+                    nuevaMaquina.PuertosUSBFrontales = maq.PuertosUSBFrontales;
+                    nuevaMaquina.PuertosUSBTraseros = maq.PuertosUSBTraseros;
                     nuevoRelevamiento.Maquinas.Add(nuevaMaquina);
                 }
+
+                List<CategoriaValor> listaAttacheados = new List<CategoriaValor>();
 
                 foreach (DispositivoRed disRed in relevamiento.DispositivosRed)
                 {
@@ -111,7 +118,24 @@ namespace Escuelas.AccesoADatos
                     nuevoDispositivoRed.Modelo = disRed.Modelo;
                     nuevoDispositivoRed.Protocolo = disRed.Protocolo;
                     nuevoDispositivoRed.PuertosUtilizados = disRed.PuertosUtilizados;
-                    nuevoDispositivoRed.TipoDispositivoRed = disRed.TipoDispositivoRed;
+                    nuevoDispositivoRed.PuertosTotales = disRed.PuertosTotales;
+
+
+                    CategoriaValor attacheado = listaAttacheados.Find(cv => cv.ID == disRed.TipoDispositivoRed.ID);
+
+                    if (attacheado == null)
+                    {
+                        nuevoDispositivoRed.TipoDispositivoRed = new CategoriaValor() { ID = disRed.TipoDispositivoRed.ID };
+
+                        contexto.CategoriaValores.Attach(nuevoDispositivoRed.TipoDispositivoRed);
+
+                        listaAttacheados.Add(nuevoDispositivoRed.TipoDispositivoRed);
+                    }
+                    else
+                    {
+                        nuevoDispositivoRed.TipoDispositivoRed = attacheado;
+                    }
+                    
                     nuevoDispositivoRed.Ubicacion = disRed.Ubicacion;
 
                     nuevoRelevamiento.DispositivosRed.Add(nuevoDispositivoRed);
@@ -125,7 +149,21 @@ namespace Escuelas.AccesoADatos
                     nuevoDispositivo.Marca = dis.Marca;
                     nuevoDispositivo.Modelo = dis.Modelo;
                     nuevoDispositivo.Ubicacion = dis.Ubicacion;
-                    nuevoDispositivo.TipoDispositivo = dis.TipoDispositivo;
+
+                    CategoriaValor attacheado = listaAttacheados.Find(cv => cv.ID == dis.TipoDispositivo.ID);
+
+                    if (attacheado == null)
+                    {
+                        nuevoDispositivo.TipoDispositivo = new CategoriaValor() { ID = dis.TipoDispositivo.ID };
+
+                        contexto.CategoriaValores.Attach(nuevoDispositivo.TipoDispositivo);
+
+                        listaAttacheados.Add(nuevoDispositivo.TipoDispositivo);
+                    }
+                    else
+                    {
+                        nuevoDispositivo.TipoDispositivo = attacheado;
+                    }
 
                     nuevoRelevamiento.Dispositivos.Add(nuevoDispositivo);
                 }
@@ -135,7 +173,22 @@ namespace Escuelas.AccesoADatos
                     Servicio nuevoServicio = new Servicio();
 
                     nuevoServicio.Descripcion = ser.Descripcion;
-                    nuevoServicio.TipoServicio = ser.TipoServicio;
+
+                    CategoriaValor attacheado = listaAttacheados.Find(cv => cv.ID == ser.TipoServicio.ID);
+
+                    if (attacheado == null)
+                    {
+                        nuevoServicio.TipoServicio = new CategoriaValor() { ID = ser.TipoServicio.ID };
+
+                        contexto.CategoriaValores.Attach(nuevoServicio.TipoServicio);
+
+                        listaAttacheados.Add(nuevoServicio.TipoServicio);
+                    }
+                    else
+                    {
+                        nuevoServicio.TipoServicio = attacheado;
+                    }
+
                     nuevoServicio.Compañia = ser.Compañia;
                     nuevoServicio.EsPago = ser.EsPago;
 
