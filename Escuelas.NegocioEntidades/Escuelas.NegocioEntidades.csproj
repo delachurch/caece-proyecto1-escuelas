@@ -57,6 +57,7 @@
     <Compile Include="Relevamiento.cs" />
     <Compile Include="Rol.cs" />
     <Compile Include="Servicio.cs" />
+    <Compile Include="Software.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>

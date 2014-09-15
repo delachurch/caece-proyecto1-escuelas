@@ -21,7 +21,7 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Where(r => r.ID == relevamientoId).SingleOrDefault();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Include("Softwares.TipoSoftware").Where(r => r.ID == relevamientoId).SingleOrDefault();
             }
         }
         public Relevamiento ObtenerUltimoRelevamiento(int escuelaId)
@@ -166,6 +166,31 @@ namespace Escuelas.AccesoADatos
                     }
 
                     nuevoRelevamiento.Dispositivos.Add(nuevoDispositivo);
+                }
+
+                foreach (Software soft in relevamiento.Softwares)
+                {
+                    Software nuevoSoftware = new Software();
+
+                    nuevoSoftware.Descripcion = soft.Descripcion;
+                    nuevoSoftware.Nombre = soft.Nombre;
+
+                    CategoriaValor attacheado = listaAttacheados.Find(cv => cv.ID == soft.TipoSoftware.ID);
+
+                    if (attacheado == null)
+                    {
+                        nuevoSoftware.TipoSoftware = new CategoriaValor() { ID = soft.TipoSoftware.ID };
+
+                        contexto.CategoriaValores.Attach(nuevoSoftware.TipoSoftware);
+
+                        listaAttacheados.Add(nuevoSoftware.TipoSoftware);
+                    }
+                    else
+                    {
+                        nuevoSoftware.TipoSoftware = attacheado;
+                    }
+
+                    nuevoRelevamiento.Softwares.Add(nuevoSoftware);
                 }
 
                 foreach (Servicio ser in relevamiento.Servicios)

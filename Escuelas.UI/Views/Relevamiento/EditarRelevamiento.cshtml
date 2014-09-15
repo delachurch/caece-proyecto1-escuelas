@@ -47,7 +47,9 @@
             <li><a href="#tabs-3">Dispositivos de Red</a></li>
             <li><a href="#tabs-4">Otros Dispositivos</a></li>
             <li><a href="#tabs-5">Servicios</a></li>
-            <li><a href="#tabs-6">Seg. Pedagógico</a></li>
+            <li><a href="#tabs-6">Herr. Software</a></li>
+            <li><a href="#tabs-7">Comentarios</a></li>
+            <li><a href="#tabs-8">Seg. Pedagógico</a></li>
         </ul>
 
         <div id="tabs-1" class="TabClase">
@@ -687,8 +689,94 @@
                 </p>
             }
         </div>
-
         <div id="tabs-6" class="TabClase">
+
+            <table>
+                <tr>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].TipoSoftware)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Nombre)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Descripcion)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.Softwares)
+                    {
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.TipoSoftware.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarSoftware(@item.ID);" class="EditImage" />
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            @Html.ActionImage("BorrarSoftware", new { softId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Software")
+                        </td>
+                    </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3">No hay herramientas de software cargadas
+                        </td>
+                    </tr>
+                }
+            </table>
+            <br />
+            <br />
+            <h4><u>Cargar Software: </u></h4>
+            <br />
+            @using (Html.BeginForm("EditarSoftware", "Relevamiento"))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.Relevamiento.ID)
+                @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id = "hdn_Software_EscuelaId" })
+                @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id = "hdn_Software_TieneADM" })
+                @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_Software_AtendidoPor" })
+                @Html.HiddenFor(model => model.Software.ID)
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Software.TipoSoftware)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Software.TipoSoftware.ID, new SelectList(ViewBag.ListaTipoSoftwares, "Value", "Text", Model.Software.TipoSoftware.ID))
+                    @Html.ValidationMessageFor(model => model.Software.TipoSoftware.ID)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Software.Nombre)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Software.Nombre)
+                    @Html.ValidationMessageFor(model => model.Software.Nombre)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Software.Descripcion)
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Software.Descripcion)
+                    @Html.ValidationMessageFor(model => model.Software.Descripcion)
+                </div>
+                <p>
+                    <input type="submit" value="Agregar Software" id="btnAgregarSoftware" onclick="ActualizarHiddens('Software');" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <input type="submit" value="Cancelar" onclick="javascript: return ResetCamposSoftware();" />
+                </p>
+            }
+        </div>
+        <div id="tabs-7" class="TabClase">
             <div class="editor-label">
                 Comentarios
             </div>
@@ -714,6 +802,11 @@
             </div>
             
             }
+        </div>
+        <div id="tabs-8" class="TabClase">
+            <div class="editor-label">
+                Seg. Pedagógico
+            </div>
         </div>
     </div>
 
@@ -902,6 +995,15 @@
 
 
         };
+
+        function EditarSoftware(softId) {
+
+            showProgress();
+            $.getJSON("ObtenerSoftwareAsync", { SoftId: softId }, actualizarCamposSoftware)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+
+        };
         actualizarCamposMaquina = function (data) {
 
 
@@ -959,6 +1061,22 @@
             hideProgress();
 
         };
+
+        actualizarCamposSoftware = function (data) {
+
+
+            $('#Software_ID').val(data.ID);
+            $("#Software_Nombre").val(data.Nombre)
+            $("#Software_Descripcion").val(data.Descripcion);
+            $("#Software_TipoSoftware_ID").val(data.TipoSoftwareId);
+
+
+            document.getElementById("btnAgregarSoftware").value = "Actualizar Software";
+
+            hideProgress();
+
+        };
+
 
         actualizarCamposServicio = function (data) {
 
@@ -1049,6 +1167,20 @@
 
             return false;
         }
+
+        function ResetCamposSoftware() {
+
+            $('#Software_ID').val("");
+            $("#Software_Nombre").val("");
+            $("#Software_Descripcion").val("");
+
+            $("#Software_TipoSoftware_ID").val($("#Software_TipoSoftware_ID option:first").val());
+
+            document.getElementById("btnAgregarSoftware").value = "Agregar Software";
+
+            return false;
+        }
+
 
         function ResetCamposDispositivoRed() {
 
