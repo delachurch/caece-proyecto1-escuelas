@@ -12,6 +12,7 @@ namespace Escuelas.UI.Models
         public Relevamiento Relevamiento { get; set; }
         public Maquina Maquina { get; set; }
         public Dispositivo Dispositivo { get; set; }
+        public Software Software{ get; set; }
         public DispositivoRed DispositivoRed { get; set; }
         public Servicio Servicio { get; set; }
         public string HistorialComentarios { get; set; }

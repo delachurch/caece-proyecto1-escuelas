@@ -26,6 +26,7 @@ namespace relevamientos.UI.Controllers
         UsuarioComponente usuarioComponente = new UsuarioComponente();
         MaquinaComponente maquinaComponente = new MaquinaComponente();
         DispositivoComponente dispositivoComponente = new DispositivoComponente();
+        SoftwareComponente softwareComponente = new SoftwareComponente();
         DispositivoRedComponente dispositivoRedComponente = new DispositivoRedComponente();
         ServicioComponente servicioComponente = new ServicioComponente();
         DistritoComponente distritoComponente = new DistritoComponente();
@@ -116,6 +117,8 @@ namespace relevamientos.UI.Controllers
 
             ViewBag.ListaTipoDispositivos = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivo.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
+            ViewBag.ListaTipoSoftwares = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoSoftware.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+
             ViewBag.ListaTipoDispositivosRed = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivoRed.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
             ViewBag.ListaTipoServicios = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoServicio.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
@@ -131,6 +134,10 @@ namespace relevamientos.UI.Controllers
             relevamientoModelo.Dispositivo = new Dispositivo();
 
             relevamientoModelo.Dispositivo.TipoDispositivo = new CategoriaValor();
+
+            relevamientoModelo.Software= new Software();
+
+            relevamientoModelo.Software.TipoSoftware = new CategoriaValor();
 
             relevamientoModelo.Servicio= new Servicio();
 
@@ -246,6 +253,15 @@ namespace relevamientos.UI.Controllers
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
+        public ActionResult BorrarSoftware(int softId, int relId)
+        {
+
+            softwareComponente.BorrarSoftware(softId);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 5, mensaje = "Software borrado" });
+        }
+
+        [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult BorrarDispositivoRed(int disRedId, int relId)
         {
 
@@ -273,6 +289,18 @@ namespace relevamientos.UI.Controllers
             dispositivoComponente.GuardarDispositivo(relevamientoModelo.Dispositivo);
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Dispositivo.Relevamiento.ID, tActivo = 3, mensaje = "Dispositivo guardado" });
+        }
+
+        [Authorize(Roles = "Admin,Colaborador")]
+        [HttpPost]
+        public ActionResult EditarSoftware(RelevamientoModelo relevamientoModelo)
+        {
+
+            relevamientoModelo.Software.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
+
+            softwareComponente.GuardarSoftware(relevamientoModelo.Software);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Software.Relevamiento.ID, tActivo = 5, mensaje = "Software guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -394,6 +422,14 @@ namespace relevamientos.UI.Controllers
             Dispositivo dis = dispositivoComponente.ObtenerDispositivoPorId(DisId);
 
             return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion, TipoDispositivoId = dis.TipoDispositivo.ID }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Admin,Colaborador")]
+        public ActionResult ObtenerSoftwareAsync(int SoftId)
+        {
+            Software soft = softwareComponente.ObtenerSoftwarePorId(SoftId);
+
+            return Json(new { ID = soft.ID, Nombre = soft.Nombre, Descripcion = soft.Descripcion, TipoSoftwareId = soft.TipoSoftware.ID }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
