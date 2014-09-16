@@ -82,29 +82,25 @@
 
                 </div>
                
-                        @Html.HiddenFor(modelItem => modelItem.Relevamiento.Escuela.Director)
-                        @Html.HiddenFor(modelItem => modelItem.Relevamiento.Escuela.ViceDirector)
+                @Html.HiddenFor(modelItem => modelItem.Relevamiento.Escuela.Director)
+                @Html.HiddenFor(modelItem => modelItem.Relevamiento.Escuela.ViceDirector)
                 <div id="divDirector">
-                <div class="editor-label">
-                         @Html.LabelFor(model => model.Relevamiento.Escuela.Director)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Relevamiento.Escuela.Director)
                     </div>
                     <div class="editor-field">
-                         <label id="lblDirector" style="font-size:small"></label>
+                        <label id="lblDirector" style="font-size: small"></label>
                     </div>
                 </div>
                 <div id="divViceDirector">
-                     <div class="editor-label">
-                       @Html.LabelFor(model => model.Relevamiento.Escuela.ViceDirector)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Relevamiento.Escuela.ViceDirector)
                     </div>
                     <div class="editor-field">
-                      <label id="lblViceDirector" style="font-size:small"></label>
+                        <label id="lblViceDirector" style="font-size: small"></label>
                     </div>
                 </div>       
-                       
-                         
-                        
 
-                          
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Relevamiento.TieneADM)
                 </div>
@@ -171,7 +167,7 @@
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
                         </td>
-@*                        <td style="text-align: center; width: 50px" id="info">
+                        @*                        <td style="text-align: center; width: 50px" id="info">
                             <img src="~/Images/ico/info24.ico" id="info" onmouseover="VerMaquina(@item.ID);" onmouseout="CerrarMaquina()"/>
                         </td>*@
                         <td style="text-align: center; width: 50px">
@@ -190,8 +186,7 @@
             </table>
             <br />
             <br />
-            <h4><u>Cargar Máquina: </u></h4>
-            <br />
+            <h4><u>Cargar Máquina:</u></h4>
             @using (Html.BeginForm("EditarMaquina", "Relevamiento"))
             {
                 @Html.ValidationSummary(true)
@@ -209,135 +204,165 @@
                     @Html.EditorFor(model => model.Maquina.Nombre)
                     @Html.ValidationMessageFor(model => model.Maquina.Nombre)
                 </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.Marca)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.Marca)
-                    @Html.ValidationMessageFor(model => model.Maquina.Marca)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.Procesador)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.Procesador)
-                    @Html.ValidationMessageFor(model => model.Maquina.Procesador)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.SistemaOperativo)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.SistemaOperativo)
-                    @Html.ValidationMessageFor(model => model.Maquina.SistemaOperativo)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.MemoriaRAM)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.MemoriaRAM)
-                    @Html.ValidationMessageFor(model => model.Maquina.MemoriaRAM)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.CapacidadDiscoDuro)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.CapacidadDiscoDuro)
-                    @Html.ValidationMessageFor(model => model.Maquina.CapacidadDiscoDuro)
-                </div>                   
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.DispositivoSonido)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.DispositivoSonido)
-                    @Html.ValidationMessageFor(model => model.Maquina.DispositivoSonido)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.PlacaVideo)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.PlacaVideo)
-                    @Html.ValidationMessageFor(model => model.Maquina.PlacaVideo)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.TieneMicrofono)
-                </div>
-                <div class="editor-field">
-                    @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "No")&nbsp;No
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "Si")&nbsp;Si
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.LectoraCDDVD)
-                </div>
-                <div class="editor-field">
-                    @Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "No")&nbsp;No Tiene
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "CD")&nbsp;CD
-                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "DVD")&nbsp;DVD
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.Disquetera)
-                </div>
-                <div class="editor-field">
-                    @Html.RadioButtonFor(model => model.Maquina.Disquetera, "No")&nbsp;No Tiene
+                <section class="round-border">
+                    <h5 style="float: left;">CPU</h5>
+                    <div href="#collapseCPU" class="nav-toggle">
+                        <img src="~/Images/ico/toggle_expand_48.ico" width="24px" />
+                    </div>
+                    <div class="clear" />
+                    <div id="collapseCPU" style="display: none">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.Marca)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.Marca)
+                            @Html.ValidationMessageFor(model => model.Maquina.Marca)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.Procesador)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.Procesador)
+                            @Html.ValidationMessageFor(model => model.Maquina.Procesador)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.SistemaOperativo)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.SistemaOperativo)
+                            @Html.ValidationMessageFor(model => model.Maquina.SistemaOperativo)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.MemoriaRAM)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.MemoriaRAM)
+                            @Html.ValidationMessageFor(model => model.Maquina.MemoriaRAM)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.CapacidadDiscoDuro)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.CapacidadDiscoDuro)
+                            @Html.ValidationMessageFor(model => model.Maquina.CapacidadDiscoDuro)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.Disquetera)
+                        </div>
+                        <div class="editor-field">
+                            @Html.RadioButtonFor(model => model.Maquina.Disquetera, "No")&nbsp;No Tiene
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "3 1/2")&nbsp;3 1/2
                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "5 1/4")&nbsp;5 1/4
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.Monitor)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.Monitor)
-                    @Html.ValidationMessageFor(model => model.Maquina.Monitor)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.Webcam)
-                </div>
-                <div class="editor-field">
-                    @Html.RadioButtonFor(model => model.Maquina.Webcam, "No")&nbsp;No
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.PlacaVideo)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.PlacaVideo)
+                            @Html.ValidationMessageFor(model => model.Maquina.PlacaVideo)
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="round-border">
+                    <h5 style="float: left;">Multimedia</h5>
+                    <div href="#collapseMultimedia" class="nav-toggle">
+                        <img src="~/Images/ico/toggle_expand_48.ico" width="24px" />
+                    </div>
+                    <div class="clear" />
+                    <div id="collapseMultimedia" style="display: none">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.DispositivoSonido)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.DispositivoSonido)
+                            @Html.ValidationMessageFor(model => model.Maquina.DispositivoSonido)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.TieneMicrofono)
+                        </div>
+                        <div class="editor-field">
+                            @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "No")&nbsp;No
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "Si")&nbsp;Si
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.LectoraCDDVD)
+                        </div>
+                        <div class="editor-field">
+                            @Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "No")&nbsp;No Tiene
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "CD")&nbsp;CD
+                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "DVD")&nbsp;DVD
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.Monitor)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.Monitor)
+                            @Html.ValidationMessageFor(model => model.Maquina.Monitor)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.Webcam)
+                        </div>
+                        <div class="editor-field">
+                            @Html.RadioButtonFor(model => model.Maquina.Webcam, "No")&nbsp;No
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Webcam, "Si")&nbsp;Si
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.PuertosUSBFrontales)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.PuertosUSBFrontales)
-                    @Html.ValidationMessageFor(model => model.Maquina.PuertosUSBFrontales)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.PuertosUSBTraseros)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.PuertosUSBTraseros)
-                    @Html.ValidationMessageFor(model => model.Maquina.PuertosUSBTraseros)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.PerteneceARed)
-                </div>
-                <div class="editor-field">
-                    @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "No")&nbsp;No
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.PuertosUSBFrontales)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.PuertosUSBFrontales)
+                            @Html.ValidationMessageFor(model => model.Maquina.PuertosUSBFrontales)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.PuertosUSBTraseros)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.PuertosUSBTraseros)
+                            @Html.ValidationMessageFor(model => model.Maquina.PuertosUSBTraseros)
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="round-border">
+                    <h5 style="float: left">Red</h5>
+                    <div href="#collapseRed" class="nav-toggle">
+                        <img src="~/Images/ico/toggle_expand_48.ico" width="24px" />
+                    </div>
+                    <div class="clear" />
+                    <div id="collapseRed" style="display: none">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.PerteneceARed)
+                        </div>
+                        <div class="editor-field">
+                            @Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "No")&nbsp;No
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.PerteneceARed, "Si")&nbsp;Si
-                </div>  
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.IP)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.IP)
-                    @Html.ValidationMessageFor(model => model.Maquina.IP)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.GrupoDeTrabajo)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.GrupoDeTrabajo)
-                    @Html.ValidationMessageFor(model => model.Maquina.GrupoDeTrabajo)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Maquina.Ubicacion)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Maquina.Ubicacion)
-                    @Html.ValidationMessageFor(model => model.Maquina.Ubicacion)
-                </div>
-                    
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.IP)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.IP)
+                            @Html.ValidationMessageFor(model => model.Maquina.IP)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.GrupoDeTrabajo)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.GrupoDeTrabajo)
+                            @Html.ValidationMessageFor(model => model.Maquina.GrupoDeTrabajo)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Maquina.Ubicacion)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Maquina.Ubicacion)
+                            @Html.ValidationMessageFor(model => model.Maquina.Ubicacion)
+                        </div>
+                    </div>
+                </section>
+
                 <p>
                     <input type="submit" value="Agregar Máquina" id="btnAgregarMaquina" onclick="ActualizarHiddens('Maquina');" />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -383,7 +408,7 @@
                         <td style="text-align: center; width: 200px">
                             @Html.DisplayFor(modelItem => item.Modelo)
                         </td>
-                       <td style="text-align: center; width: 200px">
+                        <td style="text-align: center; width: 200px">
                             @Html.DisplayFor(modelItem => item.PuertosTotales)
                         </td>
                         <td style="text-align: center; width: 200px">
@@ -782,24 +807,24 @@
             </div>
             @using (Html.BeginForm("EditarComentarios", "Relevamiento"))
             {
-            <div class="editor-field">
-                @Html.TextAreaFor(model => model.Comentarios, new { style = "height:50px" })
-                @Html.HiddenFor(model => model.Relevamiento.ID)
-                @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id = "hdn_Comentarios_EscuelaId" })
-                @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id = "hdn_Comentarios_TieneADM" })
-                @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_Comentarios_AtendidoPor" })
-            </div>
-                 <p>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Comentarios, new { style = "height:50px" })
+                    @Html.HiddenFor(model => model.Relevamiento.ID)
+                    @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id = "hdn_Comentarios_EscuelaId" })
+                    @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id = "hdn_Comentarios_TieneADM" })
+                    @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_Comentarios_AtendidoPor" })
+                </div>
+                <p>
                     <input type="submit" value="Agregar Comentario" id="btnAgregarComentario" onclick="ActualizarHiddens('Comentarios');" />
-                         
-                </p>
-                 <div class="editor-label">
-                Historial
-            </div>
-                 <div class="editor-field">
-                @Html.TextAreaFor(model => model.HistorialComentarios, new { @readonly = true,style = "height:500px" })
 
-            </div>
+                </p>
+                <div class="editor-label">
+                    Historial
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.HistorialComentarios, new { @readonly = true, style = "height:500px" })
+
+                </div>
             
             }
         </div>
@@ -810,14 +835,14 @@
         </div>
     </div>
 
-    <div id="pop-up" style="height:100px">
+    <div id="pop-up" style="height: 100px">
         <h3>Maquina:</h3>
         <p>
             Descripcion Maquina
         </p>
 
 
-        </div>
+    </div>
 
 </fieldset>
 
@@ -843,7 +868,7 @@
 
             $("#tabs").show();
 
-            
+
             if ($("#Relevamiento_Escuela_Director").val() != "") {
                 $("#lblDirector").text($("#Relevamiento_Escuela_Director").val());
                 $("#divDirector").show();
@@ -851,7 +876,7 @@
             else {
                 $("#divDirector").hide();
             }
-            
+
             if ($("#Relevamiento_Escuela_ViceDirector").val() != "") {
                 $("#lblViceDirector").text($("#Relevamiento_Escuela_ViceDirector").val());
                 $("#divViceDirector").show();
@@ -867,7 +892,27 @@
             });
 
 
+            $('.nav-toggle').click(function () {
+                //get collapse content selector
+                var collapse_content_selector = $(this).attr('href');
+
+                //make the collapse content to be shown or hide
+                var toggle_switch = $(this);
+                $(collapse_content_selector).toggle(function () {
+                    if ($(this).css('display') == 'none') {
+                        //change the button label to be 'Show'
+                        toggle_switch.html('<img src="/Images/ico/toggle_expand_48.ico" width="24px"/>');
+                    } else {
+                        //change the button label to be 'Hide'
+                        toggle_switch.html('<img src="/Images/ico/toggle_collapse_48.ico" width="24px"/>');
+                    }
+                });
+            });
+
         });
+
+
+
 
         function ActualizarHiddens(nombreEntidad) {
             var escuelaId = 0;
@@ -894,7 +939,7 @@
             .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
 
-            
+
 
 
         };
@@ -930,18 +975,17 @@
 
             var escId = 0;
 
-            if (ddl.val() != null)
-            {
+            if (ddl.val() != null) {
                 escId = ddl.val();
             }
-            
+
             $.getJSON("CargarDatosEscuelaAsync", { EscId: escId }, actualizarCamposEscuela)
             .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
         };
 
         actualizarCamposEscuela = function (data) {
-            
+
             if (data.Director != "") {
                 $("#lblDirector").text(data.Director);
                 $("#divDirector").show();
@@ -1223,7 +1267,7 @@
 
 
 
-            
+
             $('div#pop-up').show()
                     .css('top', document.getElementById("info").offsetTop + moveDown)
                     .css('left', document.getElementById("info").offsetLeft + moveLeft)
