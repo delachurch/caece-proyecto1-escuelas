@@ -2,26 +2,28 @@
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
     <siteMapNode url="" title="Root"  description="The Root for the site map" roles="*">
         <siteMapNode url="~/Home/Index" title="Home"  description="Home page"/>
-      <siteMapNode url="" title="Escuelas"  description="Escuelas">
-        <siteMapNode url="~/Escuela/EscuelaIndex" title="Ver Escuelas"  description="Ver Escuela" roles="Admin,ReadOnly,Colaborador"/>
-      <siteMapNode url="~/Escuela/EditarEscuela?escuelaId=0" title="Agregar Escuela"  description="Agregar Escuela" roles="Admin" />
-      </siteMapNode>
-     <siteMapNode url="" title="Relevamientos"  description="Relevamientos">
-        <siteMapNode url="~/Relevamiento/RelevamientoIndex?distId=0&amp;escId=0" title="Ver Relevamientos"  description="Ver Relevamientos" roles="Admin,ReadOnly,Colaborador" />
-      <siteMapNode url="~/Relevamiento/EditarRelevamiento?relevamientoId=0&amp;tActivo=0&amp;mensaje=" title="Agregar Relevamiento"  description="Agregar Relevamiento" roles="Admin,Colaborador" />
-      </siteMapNode>
-      <siteMapNode url="" title="Admin"  description="Admin" roles="Admin">
-     <siteMapNode url="" title="Roles"  description="Roles" roles="Admin" hola="hola123">
-        <siteMapNode url="~/Account/RoleIndex" title="Ver Roles &amp;nbsp;&amp;nbsp;&amp;nbsp;"  description="Ver Roles"/>
-      <siteMapNode url="~/Account/RoleAddToUser" title="Asignar Roles"  description="Asignar Roles"/>
-     <siteMapNode url="~/Account/RoleCreate" title="Crear Rol &amp;nbsp;&amp;nbsp;&amp;nbsp;"  description="Crear Rol"/>
-      </siteMapNode>
-      <siteMapNode url="" title="Distritos"  description="Distritos" roles="Admin">
-        <siteMapNode url="~/Distrito/DistritoIndex" title="Ver Distritos"  description="Ver Distritos" />
-        <siteMapNode url="~/Distrito/EditarDistrito?distritoId=0" title="Agregar Distrito"  description="Agregar Distrito" />
-      </siteMapNode>
-      </siteMapNode>
-      
-    <siteMapNode url="~/Home/About" title="Sobre Nosotros"  description="Sobre Nosotros"/>
+        <siteMapNode url="" title="Escuelas"  description="Escuelas">
+            <siteMapNode url="~/Escuela/EscuelaIndex" title="Ver Escuelas"  description="Ver Escuela" roles="Admin,ReadOnly,Colaborador"/>
+            <siteMapNode url="~/Escuela/EditarEscuela?escuelaId=0" title="Agregar Escuela"  description="Agregar Escuela" roles="Admin" />
+        </siteMapNode>
+        <siteMapNode url="" title="Relevamientos"  description="Relevamientos">
+            <siteMapNode url="~/Relevamiento/RelevamientoIndex?distId=0&amp;escId=0" title="Ver Relevamientos"  description="Ver Relevamientos" roles="Admin,ReadOnly,Colaborador" />
+            <siteMapNode url="~/Relevamiento/EditarRelevamiento?relevamientoId=0&amp;tActivo=0&amp;mensaje=" title="Agregar Relevamiento"  description="Agregar Relevamiento" roles="Admin,Colaborador" />
+        </siteMapNode>
+        <siteMapNode url="" title="Admin"  description="Admin" roles="Admin">
+            <siteMapNode url="" title="Roles"  description="Roles" roles="Admin" hola="hola123">
+                <siteMapNode url="~/Account/RoleIndex" title="Ver Roles &amp;nbsp;&amp;nbsp;&amp;nbsp;"  description="Ver Roles"/>
+                <siteMapNode url="~/Account/RoleAddToUser" title="Asignar Roles"  description="Asignar Roles"/>
+                <siteMapNode url="~/Account/RoleCreate" title="Crear Rol &amp;nbsp;&amp;nbsp;&amp;nbsp;"  description="Crear Rol"/>
+            </siteMapNode>
+            <siteMapNode url="" title="Distritos"  description="Distritos" roles="Admin">
+                <siteMapNode url="~/Distrito/DistritoIndex" title="Ver Distritos"  description="Ver Distritos" />
+                <siteMapNode url="~/Distrito/EditarDistrito?distritoId=0" title="Agregar Distrito"  description="Agregar Distrito" />
+            </siteMapNode>
+            <siteMapNode url="" title="Reportes &amp;nbsp;&amp;nbsp;&amp;nbsp;" description="Reportes" roles="Admin">
+                <siteMapNode url="~/Reporte/RelevamientoporEscuela" title="Ver Relevamientos por Escuela"  description="Ver Relevamiento por Escuela" />
+            </siteMapNode>
+        </siteMapNode>
+        <siteMapNode url="~/Home/About" title="Sobre Nosotros"  description="Sobre Nosotros"/>
     </siteMapNode>
 </siteMap>

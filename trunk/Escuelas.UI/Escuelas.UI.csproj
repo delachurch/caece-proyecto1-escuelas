@@ -63,6 +63,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DataVisualization.Design" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -185,12 +187,14 @@
     <Compile Include="Controllers\EscuelaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RelevamientoController.cs" />
+    <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\RelevamientoBusqueda.cs" />
     <Compile Include="Models\RelevamientoModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -370,6 +374,7 @@
     </Content>
     <Content Include="Views\Distrito\DistritoIndex.cshtml" />
     <Content Include="Views\Distrito\EditarDistrito.cshtml" />
+    <Content Include="Views\Reporte\RelevamientoporEscuela.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
