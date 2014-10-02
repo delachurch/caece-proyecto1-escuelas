@@ -41,31 +41,25 @@ namespace relevamientos.UI.Controllers
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
+            List<Escuela> listaEscuelas;
+
             if (distId.Value > 0)
             {
                 relevamientoBusqueda.DistritoId = distId.Value;
+                listaEscuelas = CargarEscuelasPorDistrito(relevamientoBusqueda.DistritoId);
             }
             else
             {
-                
-                relevamientoBusqueda.DistritoId = listaDistritos.First().ID;
+                listaEscuelas = CargarEscuelasPorDistrito(listaDistritos.First().ID);
             }
 
-            List<Escuela> listaEscuelas = CargarEscuelasPorDistrito(relevamientoBusqueda.DistritoId);
+            
 
             ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
             if (escId.Value > 0)
             {
                 relevamientoBusqueda.EscuelaId = escId.Value;
-            }
-            else
-            {
-                if (listaEscuelas.Count() > 0)
-                {
-                    relevamientoBusqueda.EscuelaId = listaEscuelas.First().ID;
-                }
-                
             }
 
             relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(relevamientoBusqueda.EscuelaId);
@@ -151,9 +145,13 @@ namespace relevamientos.UI.Controllers
 
             if (relevamientoId > 0)
             {
-                
+             
                 relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
 
+                relevamientoModelo.Relevamiento.Maquinas = relevamientoModelo.Relevamiento.Maquinas.OrderBy(m => m.Nombre).ToList();
+
+                relevamientoModelo.Relevamiento.Servicios = relevamientoModelo.Relevamiento.Servicios.OrderBy(s => s.Compañia).ToList();
+ 
                 listaEscuelas = CargarEscuelasPorDistrito(relevamientoModelo.Relevamiento.Escuela.Distrito.ID);
 
                 ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));

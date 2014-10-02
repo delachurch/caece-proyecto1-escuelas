@@ -25,7 +25,15 @@ namespace Escuelas.NegocioComponentes
 
         public List<Escuela> ObtenerEscuelasPorDistrito(int distritoId)
         {
-            return escuelaDA.ObtenerEscuelasPorDistrito(distritoId);
+            if (distritoId != 0)
+            {
+                return escuelaDA.ObtenerEscuelas();
+            }
+            else
+            {
+                return escuelaDA.ObtenerEscuelasPorDistrito(distritoId);
+            }
+            
         }
 
         public void GuardarEscuela(Escuela escuela)

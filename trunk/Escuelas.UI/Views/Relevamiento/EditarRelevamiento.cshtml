@@ -11,7 +11,8 @@
     {
         ViewBag.Title = "Agregar Relevamiento";
     }
-    
+
+       
 }
 @section featured {
 
@@ -123,7 +124,15 @@
         </div>
         <div id="tabs-2" class="TabClase">
 
-            <table>
+            <script type="text/javascript">
+                $(function () {
+                    $("#tblMaquina").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                    .tablesorterPager({ container: $("#pagerMaquina"), size: $(".pagesize option:selected").val() });
+                });
+        </script>
+
+            <table id="tblMaquina" class="tablesorter">
+                <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
@@ -141,9 +150,10 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
                     </th>
                     <th></th>
-                    <th></th>
-                    <th></th>
+                
                 </tr>
+                    </thead>
+                <tbody>
                 @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
                 {
                     foreach (var item in Model.Relevamiento.Maquinas)
@@ -166,11 +176,7 @@
                         </td>
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
-                        </td>
-                        @*                        <td style="text-align: center; width: 50px" id="info">
-                            <img src="~/Images/ico/info24.ico" id="info" onmouseover="VerMaquina(@item.ID);" onmouseout="CerrarMaquina()"/>
-                        </td>*@
-                        <td style="text-align: center; width: 50px">
+
                             @Html.ActionImage("BorrarMaquina", new { maqId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Maquina")
                         </td>
                     </tr>
@@ -179,12 +185,29 @@
                 else
                 {
                     <tr>
-                        <td colspan="8">No hay máquinas cargadas
+                        <td colspan="6">No hay máquinas cargadas
                         </td>
                     </tr>
                 }
+                    </tbody>
             </table>
-            <br />
+            <div id="pagerMaquina" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>
+              <br />
             <br />
             <h4><u>Cargar Máquina:</u></h4>
             @using (Html.BeginForm("EditarMaquina", "Relevamiento"))
@@ -211,7 +234,7 @@
                     </div>
                     <div class="clear" />
                     <div id="collapseCPU" style="display: none">
-                        <table style="width: 100%; border: hidden">
+                        <table class="GroupTable" style="width: 100%; border: hidden">
                             <tr>
                                 <td valign="top">
                                     <div class="editor-label">
@@ -234,14 +257,6 @@
                                     <div class="editor-field">
                                         @Html.EditorFor(model => model.Maquina.SistemaOperativo)
                                         @Html.ValidationMessageFor(model => model.Maquina.SistemaOperativo)
-                                    </div>
-                                    <div class="editor-label">
-                                        @Html.LabelFor(model => model.Maquina.Disquetera)
-                                    </div>
-                                    <div class="editor-field">
-                                        @Html.RadioButtonFor(model => model.Maquina.Disquetera, "No")&nbsp;No Tiene
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "3 1/2")&nbsp;3 1/2
-                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "5 1/4")&nbsp;5 1/4
                                     </div>
                                 </td>
                                 <td valign="top">
@@ -280,7 +295,7 @@
                     </div>
                     <div class="clear" />
                     <div id="collapseMultimedia" style="display: none">
-                        <table style="width: 100%; border: hidden">
+                        <table class="GroupTable" style="width: 100%; border: hidden">
                             <tr>
                                 <td valign="top">
                                     <div class="editor-label">
@@ -313,29 +328,37 @@
                                     </div>
                                 </td>
                                 <td valign="top">
-                                    <div class="editor-label">
+                                    <div class="editor-label" >
                                         @Html.LabelFor(model => model.Maquina.TieneMicrofono)
                                     </div>
-                                    <div class="editor-field">
+                                    <div class="editor-field"  style="padding-top:8px;height:46px">
                                         @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "No")&nbsp;No
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "Si")&nbsp;Si
                                     </div>
-                                    &nbsp;
+                                    
                                     <div class="editor-label">
                                         @Html.LabelFor(model => model.Maquina.LectoraCDDVD)
                                     </div>
-                                    <div class="editor-field">
+                                    <div class="editor-field" style="padding-top:8px;height:46px">
                                         @Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "No")&nbsp;No Tiene
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "CD")&nbsp;CD
                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "DVD")&nbsp;DVD
                                     </div>
-                                    &nbsp;
-                                    <div class="editor-label">
+                                    
+                                    <div class="editor-label" >
                                         @Html.LabelFor(model => model.Maquina.Webcam)
                                     </div>
-                                    <div class="editor-field">
+                                    <div class="editor-field" style="padding-top:8px;height:46px">
                                         @Html.RadioButtonFor(model => model.Maquina.Webcam, "No")&nbsp;No
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Webcam, "Si")&nbsp;Si
+                                    </div>
+                                    <div class="editor-label">
+                                        @Html.LabelFor(model => model.Maquina.Disquetera)
+                                    </div>
+                                    <div class="editor-field" style="padding-top:8px;height:46px">
+                                        @Html.RadioButtonFor(model => model.Maquina.Disquetera, "No")&nbsp;No Tiene
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "3 1/2")&nbsp;3 1/2
+                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "5 1/4")&nbsp;5 1/4
                                     </div>
                                 </td>
                             </tr>
@@ -390,7 +413,14 @@
             }
         </div>
         <div id="tabs-3" class="TabClase">
-            <table>
+        <script type="text/javascript">
+            $(function () {
+                $("#tblDispositivoRed").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                .tablesorterPager({ container: $("#pagerDispositivoRed"), size: $(".pagesize option:selected").val() });
+            });
+        </script>
+            <table id="tblDispositivoRed" class="tablesorter">
+                <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].TipoDispositivoRed)
@@ -411,8 +441,9 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Protocolo)
                     </th>
                     <th></th>
-                    <th></th>
                 </tr>
+                </thead>
+                <tbody>
                 @if (Model.Relevamiento.DispositivosRed != null && Model.Relevamiento.DispositivosRed.Count() > 0)
                 {
                     foreach (var item in Model.Relevamiento.DispositivosRed)
@@ -438,8 +469,6 @@
                         </td>
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarDispositivoRed(@item.ID);" class="EditImage" />
-                        </td>
-                        <td style="text-align: center; width: 50px">
                             @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo de Rsed")
                         </td>
                     </tr>
@@ -448,11 +477,28 @@
                 else
                 {
                     <tr>
-                        <td colspan="8">No hay dispositivos de red cargados
+                        <td colspan="7">No hay dispositivos de red cargados
                         </td>
                     </tr>
                 }
+                </tbody>
             </table>
+            <div id="pagerDispositivoRed" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Dispositivo de Red: </u></h4>
@@ -472,7 +518,7 @@
                     @Html.DropDownListFor(model => model.DispositivoRed.TipoDispositivoRed.ID, new SelectList(ViewBag.ListaTipoDispositivosRed, "Value", "Text", Model.DispositivoRed.TipoDispositivoRed.ID))
                     @Html.ValidationMessageFor(model => model.DispositivoRed.TipoDispositivoRed.ID)
                 </div>
-                <table style="width: 100%; border: hidden">
+                <table class="GroupTable" style="width: 100%; border: hidden">
                     <tr>
                         <td valign="top">
                             <div class="editor-label">
@@ -538,8 +584,14 @@
         </div>
 
         <div id="tabs-4" class="TabClase">
-
-            <table>
+             <script type="text/javascript">
+                 $(function () {
+                     $("#tblDispositivo").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                     .tablesorterPager({ container: $("#pagerDispositivo"), size: $(".pagesize option:selected").val() });
+                 });
+        </script>
+            <table id="tblDispositivo" class="tablesorter">
+                <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].TipoDispositivo)
@@ -554,8 +606,9 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Ubicacion)
                     </th>
                     <th></th>
-                    <th></th>
                 </tr>
+                </thead>
+                <tbody>
                 @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
                 {
                     foreach (var item in Model.Relevamiento.Dispositivos)
@@ -575,8 +628,6 @@
                         </td>
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarOtroDispositivo(@item.ID);" class="EditImage" />
-                        </td>
-                        <td style="text-align: center; width: 50px">
                             @Html.ActionImage("BorrarDispositivo", new { disId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo")
                         </td>
                     </tr>
@@ -585,11 +636,28 @@
                 else
                 {
                     <tr>
-                        <td colspan="3">No hay dispositivos cargados
+                        <td colspan="5">No hay dispositivos cargados
                         </td>
                     </tr>
                 }
+                </tbody>
             </table>
+             <div id="pagerDispositivo" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Dispositivo: </u></h4>
@@ -647,7 +715,15 @@
 
         <div id="tabs-5" class="TabClase">
 
-            <table>
+             <script type="text/javascript">
+                 $(function () {
+                     $("#tblServicio").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                     .tablesorterPager({ container: $("#pagerServicio"), size: $(".pagesize option:selected").val() });
+                 });
+        </script>
+
+            <table id="tblServicio" class="tablesorter">
+                <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
@@ -659,8 +735,9 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
                     </th>
                     <th></th>
-                    <th></th>
                 </tr>
+                </thead>
+                <tbody>
                 @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
                 {
                     foreach (var item in Model.Relevamiento.Servicios)
@@ -677,8 +754,6 @@
                         </td>
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarServicio(@item.ID);" class="EditImage" />
-                        </td>
-                        <td style="text-align: center; width: 50px">
                             @Html.ActionImage("BorrarServicio", new { serId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Servicio")
                         </td>
                     </tr>
@@ -687,11 +762,28 @@
                 else
                 {
                     <tr>
-                        <td colspan="3">No hay servicios cargados
+                        <td colspan="4">No hay servicios cargados
                         </td>
                     </tr>
                 }
+                </tbody>
             </table>
+             <div id="pagerServicio" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Servicio: </u></h4>
@@ -742,8 +834,14 @@
             }
         </div>
         <div id="tabs-6" class="TabClase">
-
-            <table>
+            <script type="text/javascript">
+                $(function () {
+                    $("#tblSoftware").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                    .tablesorterPager({ container: $("#pagerSoftware"), size: $(".pagesize option:selected").val() });
+                });
+        </script>
+            <table id="tblSoftware" class="tablesorter">
+                <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].TipoSoftware)
@@ -755,8 +853,10 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Descripcion)
                     </th>
                     <th></th>
-                    <th></th>
+                    
                 </tr>
+                    </thead>
+                <tbody>
                 @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
                 {
                     foreach (var item in Model.Relevamiento.Softwares)
@@ -773,8 +873,6 @@
                         </td>
                         <td style="text-align: center; width: 50px">
                             <img src="~/Images/ico/editar22.png" onclick="EditarSoftware(@item.ID);" class="EditImage" />
-                        </td>
-                        <td style="text-align: center; width: 50px">
                             @Html.ActionImage("BorrarSoftware", new { softId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Software")
                         </td>
                     </tr>
@@ -783,11 +881,28 @@
                 else
                 {
                     <tr>
-                        <td colspan="3">No hay herramientas de software cargadas
+                        <td colspan="4">No hay herramientas de software cargadas
                         </td>
                     </tr>
                 }
+                    </tbody>
             </table>
+             <div id="pagerSoftware" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Software: </u></h4>
@@ -885,6 +1000,9 @@
 
             $("#tabs").tabs();
         });
+
+    
+
     </script>
     <script type="text/javascript">
         $(document).ready(function () {

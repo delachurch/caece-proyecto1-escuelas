@@ -20,8 +20,14 @@
         </div>
     </section>
 }
-
-<table>
+ <script type="text/javascript">
+                $(function () {
+                    $("#tblEscuela").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                    .tablesorterPager({ container: $("#pagerEscuela"), size: $(".pagesize option:selected").val() });
+                });
+        </script>
+<table id="tblEscuela" class="tablesorter">
+    <thead>
     <tr>
          <th>
             @Html.DisplayNameFor(model => model.Numero)
@@ -40,8 +46,10 @@
         </th>
         
         <th></th>
+    
     </tr>
-
+        </thead>
+    <tbody>
 @foreach (var item in Model) {
     <tr>
         <td style="text-align: center;width:200px">
@@ -66,5 +74,20 @@
         </td>
     </tr>
 }
-
+        </tbody>
 </table>
+<div id="pagerEscuela" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>
