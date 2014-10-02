@@ -21,6 +21,7 @@
 }
 @using (Html.BeginForm())
                 {
+    
             <table class="Busqueda" style="border: dashed 2px lightgray;width: 490px;height:40px">
                 <tr>
                     <td> @Html.LabelFor(model => model.DistritoId)</td>
@@ -32,8 +33,18 @@
             </table>
     
 }
-<table>
-    <tr>
+   
+     <script type="text/javascript">
+         $(function () {
+             $("#tblRelevamiento").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+             .tablesorterPager({ container: $("#pagerRelevamiento"), size: $(".pagesize option:selected").val() });
+         });
+        </script>
+
+ 
+<table id="tblRelevamiento" class="tablesorter">
+    <thead>
+                <tr>
         <th>
             @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela)
         </th>
@@ -50,7 +61,10 @@
             @Html.DisplayNameFor(model => model.Relevamientos[0].ModificadoPor)
         </th>
         <th></th>
-    </tr>
+      </tr>
+            </thead>
+    <tbody>
+       
  @if (Model.Relevamientos != null && Model.Relevamientos.Count() > 0)
  {            
 foreach (var item in Model.Relevamientos) {
@@ -82,8 +96,8 @@ foreach (var item in Model.Relevamientos) {
             @Html.ActionImage("ExportPDF", new { relevamientoId=item.ID },"~/Images/ico/pdf24.ico","Exportar a PDF")
         </td>
     </tr>
-    }
- }
+        }
+     }
 else
 {
     <tr>
@@ -92,12 +106,30 @@ else
     </td>
     </tr>
 }
+        </tbody>
 </table>
+ <div id="pagerRelevamiento" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>
+
 <br /><br /><br />
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    
     <script type="text/javascript">
-       
+
+
         function CargarEscuelas(dropdown) {
             
             var distId = dropdown.value;
@@ -125,5 +157,7 @@ else
             hideProgress();
             $('#ddlEscuela').removeAttr("disabled");
         };
+
+        
         </script>
 }

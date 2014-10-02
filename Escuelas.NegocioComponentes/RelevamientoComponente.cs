@@ -36,7 +36,15 @@ namespace Escuelas.NegocioComponentes
         }
         public List<Relevamiento> ObtenerRelevamientosPorEscuela(int escId)
         {
-            return relevamientoDA.ObtenerRelevamientosPorEscuela(escId);
+            if (escId != 0)
+            {
+                return relevamientoDA.ObtenerRelevamientosPorEscuela(escId);
+            }
+            else
+            {
+                return relevamientoDA.ObtenerRelevamientos();
+            }
+         
         }
 
         public void CopiarRelevamiento(Relevamiento relevamiento)
