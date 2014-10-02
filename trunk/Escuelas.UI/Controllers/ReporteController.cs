@@ -32,7 +32,7 @@ namespace Escuelas.UI.Controllers
             return View();
         }
 
-        public ChartArea CreateChartArea()
+        public ChartArea CreateChartArea(string EjeX, string EjeY)
         {
             ChartArea chartArea = new ChartArea();
             chartArea.Name = "Resultado";
@@ -47,10 +47,24 @@ namespace Escuelas.UI.Controllers
             chartArea.AxisX.MajorGrid.LineColor = Color.FromArgb(64, 64, 64, 64);
             chartArea.AxisX.Interval = 1;
             chartArea.AxisY.Interval = 1;
-
+            chartArea.AxisX.Title = EjeX;
+            chartArea.AxisY.Title = EjeY;
+            chartArea.AxisX.TitleFont = new Font("Verdana,Arial,Helvetica,sans-serif", 9F, FontStyle.Regular);
+            chartArea.AxisY.TitleFont = new Font("Verdana,Arial,Helvetica,sans-serif", 9F, FontStyle.Regular);
+            
             return chartArea;
         }
 
+        public Title CreateTitle(string titulo)
+        {
+            Title title = new Title();
+            title.Text = titulo;
+            title.ShadowColor = Color.FromArgb(32, 0, 0, 0);
+            title.Font = new Font("Trebuchet MS", 14F, FontStyle.Bold);
+            title.ShadowOffset = 3;
+            title.ForeColor = Color.FromArgb(26, 59, 105);
+            return title;
+        }
 
 
 #region RelevamientoporEscuela
@@ -76,8 +90,8 @@ namespace Escuelas.UI.Controllers
             Chart chart = new Chart();
             chart.BorderSkin.BackColor = Color.Transparent;
             chart.BorderSkin.PageColor = Color.Transparent;
-            chart.Width = 700;
-            chart.Height = 300;
+            chart.Width = 900;
+            chart.Height = 400;
             chart.BackColor = Color.FromArgb(211, 223, 240);
             chart.BorderlineDashStyle = ChartDashStyle.Solid;
             chart.BackSecondaryColor = Color.White;
@@ -91,26 +105,15 @@ namespace Escuelas.UI.Controllers
             chart.TextAntiAliasingQuality = TextAntiAliasingQuality.Normal;
             chart.Titles.Add(CreateTitle("Relevamiento por Escuela"));
             //chart.Legends.Add(CreateLegend());
-            chart.Series.Add(CrearSerieRelevamientoporEscuela(escuelas, SeriesChartType.Column));
-            chart.ChartAreas.Add(CreateChartArea());
+            chart.Series.Add(CrearSerieRelevamientoporEscuela(escuelas, SeriesChartType.Bar));
+            chart.ChartAreas.Add(CreateChartArea("Escuelas", "Nro de Relevamientos"));
 
             MemoryStream ms = new MemoryStream();
             chart.SaveImage(ms);
             return File(ms.GetBuffer(), @"image/png");
         }
 
-        public Title CreateTitle(string titulo)
-        {
-            Title title = new Title();
-            title.Text = titulo;
-            title.ShadowColor = Color.FromArgb(32, 0, 0, 0);
-            title.Font = new Font("Trebuchet MS", 14F, FontStyle.Bold);
-            title.ShadowOffset = 3;
-            title.ForeColor = Color.FromArgb(26, 59, 105);
-            return title;
-        }
-
-        public Series CrearSerieRelevamientoporEscuela(IList<RelevamientoporEscuela> results, SeriesChartType chartType)
+       public Series CrearSerieRelevamientoporEscuela(IList<RelevamientoporEscuela> results, SeriesChartType chartType)
         {
             Series seriesDetail = new Series();
             seriesDetail.Name = "Numero de Relevamientos";
