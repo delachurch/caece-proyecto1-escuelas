@@ -29,6 +29,7 @@ namespace relevamientos.UI.Controllers
         SoftwareComponente softwareComponente = new SoftwareComponente();
         DispositivoRedComponente dispositivoRedComponente = new DispositivoRedComponente();
         ServicioComponente servicioComponente = new ServicioComponente();
+        CapacitacionComponente capacitacionComponente = new CapacitacionComponente();
         DistritoComponente distritoComponente = new DistritoComponente();
         CategoriaValorComponente categoriaValorComponente = new CategoriaValorComponente();
 
@@ -101,7 +102,7 @@ namespace relevamientos.UI.Controllers
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 0, mensaje = "Relevamiento copiado exitosamente" });
         }
-
+      
         [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult EditarRelevamiento(int relevamientoId, int tActivo, string mensaje)
         {  
@@ -117,6 +118,8 @@ namespace relevamientos.UI.Controllers
 
             ViewBag.ListaTipoServicios = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoServicio.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
+            ViewBag.ListaGrados = ObtenerGrados();
+            
             ViewBag.Mensaje = mensaje;
 
             List<Escuela> listaEscuelas;
@@ -132,6 +135,8 @@ namespace relevamientos.UI.Controllers
             relevamientoModelo.Software= new Software();
 
             relevamientoModelo.Software.TipoSoftware = new CategoriaValor();
+
+            relevamientoModelo.Capacitacion = new Capacitacion();
 
             relevamientoModelo.Servicio= new Servicio();
 
@@ -278,6 +283,15 @@ namespace relevamientos.UI.Controllers
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
+        public ActionResult BorrarCapacitacion(int capId, int relId)
+        {
+
+            capacitacionComponente.BorrarCapacitacion(capId);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 6, mensaje = "Capacitacion borrada" });
+        }
+
+        [Authorize(Roles = "Admin,Colaborador")]
         [HttpPost]
         public ActionResult EditarDispositivo(RelevamientoModelo relevamientoModelo)
         {
@@ -343,6 +357,18 @@ namespace relevamientos.UI.Controllers
             servicioComponente.GuardarServicio(relevamientoModelo.Servicio);
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Servicio.Relevamiento.ID, tActivo = 4, mensaje = "Servicio guardado" });
+        }
+
+        [HttpPost]
+        public ActionResult EditarCapacitacion(RelevamientoModelo relevamientoModelo)
+        {
+
+
+            relevamientoModelo.Capacitacion.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
+
+            capacitacionComponente.GuardarCapacitacion(relevamientoModelo.Capacitacion);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Capacitacion.Relevamiento.ID, tActivo = 6, mensaje = "Capacitacion guardada" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -440,11 +466,33 @@ namespace relevamientos.UI.Controllers
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
+        public ActionResult ObtenerCapacitacionAsync(int CapId)
+        {
+            Capacitacion cap = capacitacionComponente.ObtenerCapacitacionPorId(CapId);
+
+            return Json(new { ID = cap.ID, Curso= cap.Curso, Descripcion = cap.Descripcion, Grado = cap.Grado }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult ObtenerDispositivoRedAsync(int DisRedId)
         {
             DispositivoRed dis = dispositivoRedComponente.ObtenerDispositivoRedPorId(DisRedId);
 
             return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion, PuertosUtilizados = dis.PuertosUtilizados, PuertosTotales = dis.PuertosTotales, Protocolo = dis.Protocolo, TipoDispositivoRedId = dis.TipoDispositivoRed.ID }, JsonRequestBehavior.AllowGet);
+        }
+
+        private List<SelectListItem> ObtenerGrados()
+        {
+            List<SelectListItem> listaGrados = new List<SelectListItem>();
+
+            listaGrados.Add(new SelectListItem() { Value = "1", Text = "1° Grado" });
+            listaGrados.Add(new SelectListItem() { Value = "2", Text = "2° Grado" });
+            listaGrados.Add(new SelectListItem() { Value = "3", Text = "3° Grado" });
+            listaGrados.Add(new SelectListItem() { Value = "4", Text = "4° Grado" });
+            listaGrados.Add(new SelectListItem() { Value = "5", Text = "5° Grado" });
+            listaGrados.Add(new SelectListItem() { Value = "6", Text = "6° Grado" });
+
+            return listaGrados;
         }
     }
 }
