@@ -25,7 +25,7 @@ namespace Escuelas.NegocioComponentes
 
         public List<Escuela> ObtenerEscuelasPorDistrito(int distritoId)
         {
-            if (distritoId != 0)
+            if (distritoId == 0)
             {
                 return escuelaDA.ObtenerEscuelas();
             }
