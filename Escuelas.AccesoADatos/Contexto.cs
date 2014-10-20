@@ -26,6 +26,7 @@ namespace Escuelas.AccesoADatos
         public DbSet<Maquina> Maquinas { get; set; }
         public DbSet<Dispositivo> Dispositivos { get; set; }
         public DbSet<Software> Softwares{ get; set; }
+        public DbSet<Capacitacion> Capacitaciones { get; set; }
         public DbSet<DispositivoRed> DispositivosRed { get; set; }
         public DbSet<Servicio> Servicios { get; set; }
         public DbSet<Distrito> Distritos { get; set; }
@@ -60,6 +61,8 @@ namespace Escuelas.AccesoADatos
 
             modelBuilder.Entity<Software>().HasRequired(s => s.TipoSoftware).WithMany(ts => ts.Softwares).Map(x => x.MapKey("TipoSoftwareId"));
             modelBuilder.Entity<Software>().HasRequired(s => s.Relevamiento).WithMany(r => r.Softwares).Map(x => x.MapKey("RelevamientoId"));
+
+            modelBuilder.Entity<Capacitacion>().HasRequired(c => c.Relevamiento).WithMany(c => c.Capacitaciones).Map(x => x.MapKey("RelevamientoId"));
             
             modelBuilder.Entity<Usuario>().HasRequired(u => u.Distrito).WithMany(d => d.Usuarios).Map(x => x.MapKey("DistritoId"));
             modelBuilder.Entity<Usuario>().HasRequired(u => u.Rol).WithMany(r => r.Usuarios).Map(x => x.MapKey("RolId"));

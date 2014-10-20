@@ -49,8 +49,9 @@
             <li><a href="#tabs-4">Otros Dispositivos</a></li>
             <li><a href="#tabs-5">Servicios</a></li>
             <li><a href="#tabs-6">Herr. Software</a></li>
-            <li><a href="#tabs-7">Comentarios</a></li>
-            <li><a href="#tabs-8">Seg. Pedagógico</a></li>
+            <li><a href="#tabs-7">Capacitación</a></li>
+            <li><a href="#tabs-8">Comentarios</a></li>
+            <li><a href="#tabs-9">Seg. Pedagógico</a></li>
         </ul>
 
         <div id="tabs-1" class="TabClase">
@@ -944,6 +945,116 @@
             }
         </div>
         <div id="tabs-7" class="TabClase">
+            <script type="text/javascript">
+                $(function () {
+                    $("#tblCapacitacion").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                    .tablesorterPager({ container: $("#pagerCapacitacion"), size: $(".pagesize option:selected").val() });
+                });
+        </script>
+            <table id="tblCapacitacion" class="tablesorter">
+                <thead>
+                <tr>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Grado)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Curso)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Descripcion)
+                    </th>
+                    <th></th>
+                    
+                </tr>
+                    </thead>
+                <tbody>
+                @if (Model.Relevamiento.Capacitaciones != null && Model.Relevamiento.Capacitaciones.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.Capacitaciones)
+                    {
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Grado)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Curso)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarCapacitacion(@item.ID);" class="EditImage" />
+                            @Html.ActionImage("BorrarCapacitacion", new { capId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Capacitacion")
+                        </td>
+                    </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No hay Capacitaciones cargadas
+                        </td>
+                    </tr>
+                }
+                    </tbody>
+            </table>
+             <div id="pagerCapacitacion" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
+            <br />
+            <br />
+            <h4><u>Cargar Capacitacion: </u></h4>
+            <br />
+            @using (Html.BeginForm("EditarCapacitacion", "Relevamiento"))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.Relevamiento.ID)
+                @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id = "hdn_Capacitacion_EscuelaId" })
+                @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id = "hdn_Capacitacion_TieneADM" })
+                @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_Capacitacion_AtendidoPor" })
+                @Html.HiddenFor(model => model.Capacitacion.ID)
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Capacitacion.Grado)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Capacitacion.Grado, new SelectList(ViewBag.ListaGrados, "Value", "Text", Model.Capacitacion.Grado))
+                    @Html.ValidationMessageFor(model => model.Capacitacion.Grado)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Capacitacion.Curso)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Capacitacion.Curso)
+                    @Html.ValidationMessageFor(model => model.Capacitacion.Curso)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Capacitacion.Descripcion)
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Capacitacion.Descripcion)
+                    @Html.ValidationMessageFor(model => model.Capacitacion.Descripcion)
+                </div>
+                <p>
+                    <input type="submit" value="Agregar Capacitacion" id="btnAgregarCapacitacion" onclick="ActualizarHiddens('Capacitacion');" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <input type="submit" value="Cancelar" onclick="javascript: return ResetCamposCapacitacion();" />
+                </p>
+            }
+        </div>
+        <div id="tabs-8" class="TabClase">
             <div class="editor-label">
                 Comentarios
             </div>
@@ -970,7 +1081,7 @@
             
             }
         </div>
-        <div id="tabs-8" class="TabClase">
+        <div id="tabs-9" class="TabClase">
             <div class="editor-label">
                 Seg. Pedagógico
             </div>
@@ -995,18 +1106,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(function () {
-
-            $("#tabs").tabs();
-        });
-
-    
-
-    </script>
     <script type="text/javascript">
         $(document).ready(function () {
-
             var tabAct = parseInt($("#TabActivo").val())
 
             $("#tabs").tabs({ active: tabAct });
@@ -1175,7 +1276,15 @@
 
 
         };
+        function EditarCapacitacion(capId) {
 
+            showProgress();
+            $.getJSON("ObtenerCapacitacionAsync", { CapId: capId }, actualizarCamposCapacitacion)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+
+        };
+        
         function EditarDispositivoRed(disRedId) {
 
             showProgress();
@@ -1282,7 +1391,19 @@
             hideProgress();
 
         };
+        actualizarCamposCapacitacion = function (data) {
 
+
+            $('#Capacitacion_ID').val(data.ID);
+            $("#Capacitacion_Curso").val(data.Curso);
+            $("#Capacitacion_Descripcion").val(data.Descripcion);
+            $("#Capacitacion_Grado").val(data.Grado);
+
+
+            document.getElementById("btnAgregarCapacitacion").value = "Actualizar Capacitacion";
+
+            hideProgress();
+        };
         actualizarCamposDispositivoRed = function (data) {
 
 
@@ -1338,6 +1459,19 @@
             $("#Servicio_TipoServicio_ID").val($("#Servicio_TipoServicio_ID option:first").val());
 
             document.getElementById("btnAgregarServicio").value = "Agregar Servicio";
+
+            return false;
+        }
+
+        function ResetCamposServicio() {
+
+            $('#Capacitacion_ID').val("");
+            $("#Capacitacion_Curso").val("");
+            $("#Capacitacion_Descripcion").val("");
+
+            $("#Capacitacion_Grado").val($("#Capacitacion_Grado option:first").val());
+
+            document.getElementById("btnAgregarCapacitacion").value = "Agregar Capacitacion";
 
             return false;
         }

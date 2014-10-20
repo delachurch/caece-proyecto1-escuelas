@@ -21,14 +21,14 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Include("Softwares.TipoSoftware").Where(r => r.ID == relevamientoId).SingleOrDefault();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Include("Softwares.TipoSoftware").Include("Capacitaciones").Where(r => r.ID == relevamientoId).SingleOrDefault();
             }
         }
         public Relevamiento ObtenerUltimoRelevamiento(int escuelaId)
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Include("Capacitaciones").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
             }
         }
         public List<Relevamiento> ObtenerRelevamientosPorDistrito(int distId)
@@ -191,6 +191,16 @@ namespace Escuelas.AccesoADatos
                     }
 
                     nuevoRelevamiento.Softwares.Add(nuevoSoftware);
+                }
+
+                foreach (Capacitacion cap in relevamiento.Capacitaciones)
+                {
+                    Capacitacion nuevaCapacitacion = new Capacitacion();
+
+                    nuevaCapacitacion.Curso = cap.Curso;
+                    nuevaCapacitacion.Descripcion = cap.Descripcion;
+
+                    nuevoRelevamiento.Capacitaciones.Add(nuevaCapacitacion);
                 }
 
                 foreach (Servicio ser in relevamiento.Servicios)

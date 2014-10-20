@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CapacitacionComponente.cs" />
     <Compile Include="CategoriaValorComponente.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DispositivoComponente.cs" />
