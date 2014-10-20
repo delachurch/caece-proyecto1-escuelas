@@ -19,6 +19,7 @@ namespace Escuelas.NegocioEntidades
             Softwares = new List<Software>();
         }
         public int ID { get; set; }
+        [Display(Name = "Escuela")]
         public Escuela Escuela { get; set; }
         [Display(Name = "¿Tiene ADM?")]
         public string TieneADM { get; set; }

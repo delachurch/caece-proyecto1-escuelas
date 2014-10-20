@@ -36,17 +36,42 @@
    
      <script type="text/javascript">
          $(function () {
-             $("#tblRelevamiento").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
-             .tablesorterPager({ container: $("#pagerRelevamiento"), size: $(".pagesize option:selected").val() });
+             $.tablesorter.addParser({
+                 id: "dd/mm/yy",
+                 is: function (s) {
+                     return false;
+                 },
+                 format: function (s) {
+                     s = "" + s;
+                     var hit = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{2})/);
+                     if (hit && hit.length == 4) {
+                         return hit[3] + hit[2] + hit[1];
+                     } else {
+                         return s;
+                     }
+                 },
+                 type: "text"
+             });
+             $("#tblRelevamiento").tablesorter({
+                 widthFixed: true, 
+                 sortList: [[0, 0], [4, 1]],
+                 headers: { 
+                     2: { sorter: "dd/mm/yy" },
+                     4: { sorter: "dd/mm/yy" }
+                         }       
+             })
          });
         </script>
 
  
-<table id="tblRelevamiento" class="tablesorter">
+<table id="tblRelevamiento" class="tablesorter">    
     <thead>
                 <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela)
+            @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela) N°
+        </th>
+                    <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela.Nombre)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Relevamientos[0].FechaRelevo)
@@ -69,6 +94,9 @@
  {            
 foreach (var item in Model.Relevamientos) {
     <tr>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Escuela.Numero)
+        </td>
         <td style="text-align: center;width:200px">
             @Html.DisplayFor(modelItem => item.Escuela.Nombre)
         </td>

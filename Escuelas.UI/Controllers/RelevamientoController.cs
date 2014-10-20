@@ -55,7 +55,7 @@ namespace relevamientos.UI.Controllers
 
             
 
-            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
 
             if (escId.Value > 0)
             {
@@ -154,7 +154,7 @@ namespace relevamientos.UI.Controllers
  
                 listaEscuelas = CargarEscuelasPorDistrito(relevamientoModelo.Relevamiento.Escuela.Distrito.ID);
 
-                ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+                ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
 
             }
             else
@@ -181,7 +181,7 @@ namespace relevamientos.UI.Controllers
                 relevamientoModelo.Relevamiento.Escuela.ViceDirector = viceDirector;
             }
 
-            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
             
             relevamientoModelo.HistorialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
 
@@ -380,7 +380,8 @@ namespace relevamientos.UI.Controllers
         [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult CargarEscuelasPorDistritoAsync(int DistId)
         {
-            List<SelectListItem> listaEscuelas =  new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            
+            List<SelectListItem> listaEscuelas = new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
             return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
         }
 
