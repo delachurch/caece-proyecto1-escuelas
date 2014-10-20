@@ -59,7 +59,7 @@
                      2: { sorter: "dd/mm/yy" },
                      4: { sorter: "dd/mm/yy" }
                          }       
-             })
+             }).tablesorterPager({ container: $("#pagerRelevamiento"), size: $(".pagesize option:selected").val() });
          });
         </script>
 
@@ -144,7 +144,7 @@ else
     <img src="/Content/images/next.png" class="next"/>
     <img src="/Content/images/last.png" class="last"/>
     <select class="pagesize">
-      <option value="10">10</option>
+      <option value="5">10</option>
       <option value="20">20</option>
       <option value="30">30</option>
       <option value="40">40</option>
