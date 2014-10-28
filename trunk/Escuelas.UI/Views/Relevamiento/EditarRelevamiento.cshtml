@@ -835,12 +835,15 @@
             }
         </div>
         <div id="tabs-6" class="TabClase">
+            @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
+                {
             <script type="text/javascript">
                 $(function () {
-                    $("#tblSoftware").tablesorter({ widthFixed: true, sortList: [[0, 0],[2,0]] })
+                    $("#tblSoftware").tablesorter({ widthFixed: true, sortList: [[0, 0], [2, 0]] })
                     .tablesorterPager({ container: $("#pagerSoftware"), size: $(".pagesize option:selected").val() });
                 });
         </script>
+            }
             <table id="tblSoftware" class="tablesorter">
                 <thead>
                 <tr>
