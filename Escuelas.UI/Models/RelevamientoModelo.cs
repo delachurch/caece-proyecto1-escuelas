@@ -17,6 +17,8 @@ namespace Escuelas.UI.Models
         public DispositivoRed DispositivoRed { get; set; }
         public Servicio Servicio { get; set; }
         public string HistorialComentarios { get; set; }
+        public string HistorialSegPedagogico { get; set; }
+        public string SeguimientoPedagogico { get; set; }
         public string Comentarios { get; set; }
         public int TabActivo { get; set; }
     }

@@ -15,6 +15,7 @@ namespace Escuelas.NegocioEntidades
             Relevamientos = new List<Relevamiento>();
             ListaPersonal = new List<Personal>();
             HistorialComentarios = new List<HistorialComentario>();
+            SeguimientoPedagogicos = new List<SeguimientoPedagogico>();
         }
         public int ID { get; set; }
         public Distrito Distrito { get; set; }
@@ -36,6 +37,7 @@ namespace Escuelas.NegocioEntidades
         public List<Relevamiento> Relevamientos { get; set; }
         public List<Personal> ListaPersonal { get; set; }
         public List<HistorialComentario> HistorialComentarios { get; set; }
+        public List<SeguimientoPedagogico> SeguimientoPedagogicos { get; set; }
 
     }
 }

@@ -1,0 +1,191 @@
+﻿@using Escuelas.UI.Helpers;
+@model Escuelas.UI.Models.RelevamientoBusqueda
+
+@{
+    ViewBag.Title = "Listado Escuelas";
+}
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+                <br />
+                </hgroup>
+            <p>
+               
+            </p>
+        </div>
+    </section>
+}
+@using (Html.BeginForm())
+                {
+    
+            <table class="Busqueda" style="border: dashed 2px lightgray;width: 490px;height:40px">
+                <tr>
+                    <td> @Html.LabelFor(model => model.DistritoId)</td>
+                    <td>@Html.DropDownListFor(model => model.DistritoId, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.DistritoId), new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })</td>
+                    <td> @Html.LabelFor(model => model.EscuelaId)</td>
+                    <td>@Html.DropDownListFor(model => model.EscuelaId, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.EscuelaId), new { id = "ddlEscuela" })</td>
+                    <td> <input type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+    
+}
+   
+     <script type="text/javascript">
+         $(function () {
+             $.tablesorter.addParser({
+                 id: "dd/mm/yy",
+                 is: function (s) {
+                     return false;
+                 },
+                 format: function (s) {
+                     s = "" + s;
+                     var hit = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{2})/);
+                     if (hit && hit.length == 4) {
+                         return hit[3] + hit[2] + hit[1];
+                     } else {
+                         return s;
+                     }
+                 },
+                 type: "text"
+             });
+             $("#tblRelevamiento").tablesorter({
+                 widthFixed: true, 
+                 sortList: [[2, 1]],
+                 headers: { 
+                     2: { sorter: "dd/mm/yy" },
+                     4: { sorter: "dd/mm/yy" }
+                         }       
+             }).tablesorterPager({ container: $("#pagerRelevamiento"), size: $(".pagesize option:selected").val() });
+         });
+        </script>
+
+ 
+<table id="tblRelevamiento" class="tablesorter">    
+    <thead>
+                <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela) N°
+        </th>
+                    <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].Escuela.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].FechaRelevo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].CreadoPor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].FechaModificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Relevamientos[0].ModificadoPor)
+        </th>
+        <th></th>
+      </tr>
+            </thead>
+    <tbody>
+       
+ @if (Model.Relevamientos != null && Model.Relevamientos.Count() > 0)
+ {            
+foreach (var item in Model.Relevamientos) {
+    <tr>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Escuela.Numero)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Escuela.Nombre)
+        </td>
+        <td style="text-align: center;width:200px">
+           @item.FechaRelevo.ToShortDateString()
+        </td>
+         <td style="text-align: center;width:200px">
+           @item.CreadoPor.UserName
+        </td>
+        <td style="text-align: center;width:300px">
+            @if(item.FechaModificacion != null)
+            {
+               <span> @(((DateTime)item.FechaModificacion).ToShortDateString())</span>
+            }
+        </td>
+         <td style="text-align: center;width:300px">
+            @if(item.ModificadoPor != null)
+            {
+               <span> @item.ModificadoPor.UserName </span>
+            }   
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.ActionImage("EditarRelevamiento", new { relevamientoId=item.ID, tActivo = 0, mensaje = "" },"~/Images/ico/editar22.png","Editar Relevamiento")
+            @*@Html.ActionImage("DetalleRelevamiento", new { relevamientoId=item.ID },"~/Images/ico/ver24.ico","Ver Detalles")*@
+            @Html.ActionImage("ExportPDF", new { relevamientoId=item.ID },"~/Images/ico/pdf24.ico","Exportar a PDF")
+        </td>
+    </tr>
+        }
+     }
+else
+{
+    <tr>
+    <td colspan="3">
+        No hay relevamiento disponibles
+    </td>
+    </tr>
+}
+        </tbody>
+</table>
+ <div id="pagerRelevamiento" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>
+
+<br /><br /><br />
+@section Scripts {
+    
+    <script type="text/javascript">
+
+
+        function CargarEscuelas(dropdown) {
+            
+            var distId = dropdown.value;
+            showProgress();
+            $('#ddlEscuela').attr("disabled", "disabled");
+            var mivar;
+            $.getJSON("CargarEscuelasPorDistritoAsync", { DistId: distId }, actualizarEscuelas)
+            .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+            
+        
+        };
+
+        actualizarEscuelas = function (data) {
+            
+            var ddl = $('#ddlEscuela');
+            ddl.empty();
+            
+            $(data).each(function() {
+                $(document.createElement('option'))
+                    .attr('value', this.Value)
+                    .text(this.Text)
+                    .appendTo(ddl);
+            });
+            
+            hideProgress();
+            $('#ddlEscuela').removeAttr("disabled");
+        };
+
+        
+        </script>
+}

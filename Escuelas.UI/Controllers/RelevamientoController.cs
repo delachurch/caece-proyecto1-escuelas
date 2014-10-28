@@ -23,6 +23,7 @@ namespace relevamientos.UI.Controllers
         RelevamientoComponente relevamientoComponente = new RelevamientoComponente();
         EscuelaComponente escuelaComponente = new EscuelaComponente();
         HistorialComentarioComponente historialComentarioComponente = new HistorialComentarioComponente();
+        SeguimientoPedagogicoComponente SeguimientoPedagogicoComponente = new SeguimientoPedagogicoComponente();
         UsuarioComponente usuarioComponente = new UsuarioComponente();
         MaquinaComponente maquinaComponente = new MaquinaComponente();
         DispositivoComponente dispositivoComponente = new DispositivoComponente();
@@ -190,8 +191,33 @@ namespace relevamientos.UI.Controllers
             
             relevamientoModelo.HistorialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
 
+            relevamientoModelo.HistorialSegPedagogico = ConstruirHistorialSegPedagogico(SeguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
+
             return View(relevamientoModelo);
 
+        }
+
+        
+
+        [Authorize(Roles = "Admin,Colaborador")]
+        private string ConstruirHistorialSegPedagogico(List<SeguimientoPedagogico> SeguimientoPedagogicos)
+        {
+            
+            if (SeguimientoPedagogicos.Count() > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (SeguimientoPedagogico elem in SeguimientoPedagogicos)
+                {
+                    sb.AppendLine(elem.FechaAlta + " - " + elem.UserProfile.UserName);
+                    sb.AppendLine(elem.Comentarios + "\n\n");
+                }
+
+                return sb.ToString();
+        }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -329,6 +355,25 @@ namespace relevamientos.UI.Controllers
 
         [Authorize(Roles = "Admin,Colaborador")]
         [HttpPost]
+        public ActionResult EditarSegPedagogico(RelevamientoModelo relevamientoModelo)
+        {
+
+            Relevamiento relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
+
+            SeguimientoPedagogico SeguimientoPedagogico = new SeguimientoPedagogico();
+
+            SeguimientoPedagogico.Escuela = new Escuela { ID = relevamientoModelo.Relevamiento.Escuela.ID };
+            SeguimientoPedagogico.UserProfile = new Escuelas.NegocioEntidades.UserProfile { UserId = UsuarioActual.ObtenerUsuarioActual().UserId };
+            SeguimientoPedagogico.FechaAlta = DateTime.Now;
+            SeguimientoPedagogico.Comentarios = relevamientoModelo.SeguimientoPedagogico;
+
+            SeguimientoPedagogicoComponente.GuardarSegPedagogico(SeguimientoPedagogico);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 8, mensaje = "Comentario Guardado" });
+        }
+
+        [Authorize(Roles = "Admin,Colaborador")]
+        [HttpPost]
         public ActionResult EditarComentarios(RelevamientoModelo relevamientoModelo)
         {
 
@@ -343,7 +388,7 @@ namespace relevamientos.UI.Controllers
 
             historialComentarioComponente.GuardarComentario(historialComentario);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 5, mensaje = "Comentario Guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 7, mensaje = "Comentario Guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -431,7 +476,9 @@ namespace relevamientos.UI.Controllers
 
             string historialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(EscId));
 
-            return Json(new { Director = director, ViceDirector = viceDirector, HistorialComentarios = historialComentarios }, JsonRequestBehavior.AllowGet);
+            string historialSegPedagogico = ConstruirHistorialSegPedagogico(SeguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(EscId));
+
+            return Json(new { Director = director, ViceDirector = viceDirector, HistorialComentarios = historialComentarios, HistorialSegPedagogico = historialSegPedagogico }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
