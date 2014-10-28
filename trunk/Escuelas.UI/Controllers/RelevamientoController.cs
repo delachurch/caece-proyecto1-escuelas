@@ -115,6 +115,8 @@ namespace relevamientos.UI.Controllers
 
             ViewBag.ListaTipoSoftwares = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoSoftware.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
+            ViewBag.ListaPlataformaSoftwares = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.PlataformaSoftware.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+
             ViewBag.ListaTipoDispositivosRed = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivoRed.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
             ViewBag.ListaTipoServicios = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoServicio.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
@@ -136,6 +138,8 @@ namespace relevamientos.UI.Controllers
             relevamientoModelo.Software= new Software();
 
             relevamientoModelo.Software.TipoSoftware = new CategoriaValor();
+
+            relevamientoModelo.Software.PlataformaSoftware = new CategoriaValor();
 
             relevamientoModelo.Capacitacion = new Capacitacion();
 
@@ -501,7 +505,7 @@ namespace relevamientos.UI.Controllers
         {
             Software soft = softwareComponente.ObtenerSoftwarePorId(SoftId);
 
-            return Json(new { ID = soft.ID, Nombre = soft.Nombre, Descripcion = soft.Descripcion, TipoSoftwareId = soft.TipoSoftware.ID }, JsonRequestBehavior.AllowGet);
+            return Json(new { ID = soft.ID, Nombre = soft.Nombre, Descripcion = soft.Descripcion, TipoSoftwareId = soft.TipoSoftware.ID, PlataformaSoftwareId = soft.PlataformaSoftware.ID }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
