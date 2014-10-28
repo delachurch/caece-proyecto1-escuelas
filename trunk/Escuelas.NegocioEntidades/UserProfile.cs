@@ -13,6 +13,7 @@ namespace Escuelas.NegocioEntidades
         public UserProfile()
         {
             HistorialComentarios = new List<HistorialComentario>();
+            SeguimientoPedagogicos = new List<SeguimientoPedagogico>();
             RelevamientosCreados = new List<Relevamiento>();
             RelevamientosModificados = new List<Relevamiento>();
         }
@@ -20,6 +21,7 @@ namespace Escuelas.NegocioEntidades
         public int UserId { get; set; }
         public string UserName { get; set; }
         public List<HistorialComentario> HistorialComentarios { get; set; }
+        public List<SeguimientoPedagogico> SeguimientoPedagogicos { get; set; }
         public List<Relevamiento> RelevamientosCreados { get; set; }
         public List<Relevamiento> RelevamientosModificados { get; set; }
     }

@@ -183,6 +183,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\DistritoController.cs" />
     <Compile Include="Controllers\EscuelaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -388,6 +389,7 @@
     <Content Include="Views\Distrito\DistritoIndex.cshtml" />
     <Content Include="Views\Distrito\EditarDistrito.cshtml" />
     <Content Include="Views\Reporte\RelevamientoporEscuela.cshtml" />
+    <Content Include="Views\Busqueda\BusquedaIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

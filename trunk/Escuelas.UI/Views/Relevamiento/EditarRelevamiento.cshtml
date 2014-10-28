@@ -1083,8 +1083,30 @@
         </div>
         <div id="tabs-9" class="TabClase">
             <div class="editor-label">
-                Seg. Pedagógico
+                Seguimiento Pedagógico
             </div>
+             @using (Html.BeginForm("EditarSegPedagogico", "Relevamiento"))
+            {
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.SeguimientoPedagogico, new { style = "height:50px" })
+                    @Html.HiddenFor(model => model.Relevamiento.ID)
+                    @Html.HiddenFor(model => model.Relevamiento.Escuela.ID, new { id = "hdn_SegPedagogico_EscuelaId" })
+                    @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id = "hdn_SegPedagogico_TieneADM" })
+                    @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_SegPedagogico_AtendidoPor" })
+                </div>
+                <p>
+                    <input type="submit" value="Agregar Comentario" id="btnAgregarComentarioSP" onclick="ActualizarHiddens('SegPedagogico');" />
+
+                </p>
+                <div class="editor-label">
+                    Historial
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.HistorialSegPedagogico, new { @readonly = true, style = "height:500px" })
+
+                </div>
+            
+            }
         </div>
     </div>
 
@@ -1249,6 +1271,7 @@
             }
 
             $("#HistorialComentarios").val(data.HistorialComentarios);
+            $("#HistorialSegPedagogico").val(data.HistorialSegPedagogico);
 
             hideProgress();
         }
@@ -1436,14 +1459,28 @@
             $("#Maquina_DispositivoSonido").val("");
             $("#Maquina_Comentarios").val("");
             $("#Maquina_PlacaVideo").val("");
-            $("#Maquina_PuertosUSBFrontales").val("");
-            $("#Maquina_PuertosUSBTraseros").val("");
+            $("#Maquina_PuertosUSBFrontales").val("0");
+            $("#Maquina_PuertosUSBTraseros").val("0");
 
-            ActualizarRadio("Maquina.PerteneceARed", "False");
+            ActualizarRadio("Maquina.PerteneceARed", null);
 
-            ActualizarRadio("Maquina.TieneMicrofono", "False");
+            ActualizarRadio("Maquina.TieneMicrofono", null);
+
+            ActualizarRadio("Maquina.LectoraCDDVD", null)
+
+            ActualizarRadio("Maquina.Disquetera", null)
+
+            ActualizarRadio("Maquina.Webcam", null)
 
             document.getElementById("btnAgregarMaquina").value = "Agregar Maquina";
+
+            $("#Maquina_GrupoDeTrabajo").val("");
+
+            $("#Maquina_Monitor").val("");
+
+            $("#Maquina_IP").val("");
+
+            $("#Maquina_Ubicacion").val("");
 
             return false;
         }
@@ -1451,10 +1488,10 @@
         function ResetCamposServicio() {
 
             $('#Servicio_ID').val("");
-            $("#Servicio_Nombre").val("");
+            $("#Servicio_Compa_ia").val("");
             $("#Servicio_Descripcion").val("");
 
-            ActualizarRadio("Servicio.EsPago", "False");
+            ActualizarRadio("Servicio.EsPago", null);
 
             $("#Servicio_TipoServicio_ID").val($("#Servicio_TipoServicio_ID option:first").val());
 
@@ -1463,7 +1500,7 @@
             return false;
         }
 
-        function ResetCamposServicio() {
+        function ResetCamposCapacitacion() {
 
             $('#Capacitacion_ID').val("");
             $("#Capacitacion_Curso").val("");
@@ -1512,8 +1549,8 @@
             $("#DispositivoRed_Modelo").val("");
             $("#DispositivoRed_Ubicacion").val("");
             $("#DispositivoRed_Descripcion").val("");
-            $("#DispositivoRed_PuertosUtilizados").val("");
-            $("#DispositivoRed_PuertosTotales").val("");
+            $("#DispositivoRed_PuertosUtilizados").val("0");
+            $("#DispositivoRed_PuertosTotales").val("0");
             $("#DispositivoRed_Protocolo").val("");
 
             $("#DispositivoRed_TipoDispositivoRed_ID").val($("#DispositivoRed_TipoDispositivoRed_ID option:first").val());
@@ -1524,6 +1561,7 @@
         }
 
         function ActualizarRadio(prop, valor) {
+            
             var rdlControl = $("input:radio[name='" + prop + "']");
 
             if (valor != null) {
