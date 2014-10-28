@@ -21,14 +21,14 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Include("Softwares.TipoSoftware").Include("Capacitaciones").Where(r => r.ID == relevamientoId).SingleOrDefault();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Where(r => r.ID == relevamientoId).SingleOrDefault();
             }
         }
         public Relevamiento ObtenerUltimoRelevamiento(int escuelaId)
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Include("Capacitaciones").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
             }
         }
         public List<Relevamiento> ObtenerRelevamientosPorDistrito(int distId)
@@ -188,6 +188,21 @@ namespace Escuelas.AccesoADatos
                     else
                     {
                         nuevoSoftware.TipoSoftware = attacheado;
+                    }
+
+                    attacheado = listaAttacheados.Find(cv => cv.ID == soft.PlataformaSoftware.ID);
+
+                    if (attacheado == null)
+                    {
+                        nuevoSoftware.PlataformaSoftware = new CategoriaValor() { ID = soft.PlataformaSoftware.ID };
+
+                        contexto.CategoriaValores.Attach(nuevoSoftware.PlataformaSoftware);
+
+                        listaAttacheados.Add(nuevoSoftware.PlataformaSoftware);
+                    }
+                    else
+                    {
+                        nuevoSoftware.PlataformaSoftware = attacheado;
                     }
 
                     nuevoRelevamiento.Softwares.Add(nuevoSoftware);

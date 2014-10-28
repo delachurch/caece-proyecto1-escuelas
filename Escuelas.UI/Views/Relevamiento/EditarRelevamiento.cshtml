@@ -837,13 +837,16 @@
         <div id="tabs-6" class="TabClase">
             <script type="text/javascript">
                 $(function () {
-                    $("#tblSoftware").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                    $("#tblSoftware").tablesorter({ widthFixed: true, sortList: [[0, 0],[2,0]] })
                     .tablesorterPager({ container: $("#pagerSoftware"), size: $(".pagesize option:selected").val() });
                 });
         </script>
             <table id="tblSoftware" class="tablesorter">
                 <thead>
                 <tr>
+                     <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].PlataformaSoftware)
+                    </th>
                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].TipoSoftware)
                     </th>
@@ -864,6 +867,9 @@
                     {
                     <tr>
                         <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.PlataformaSoftware.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
                             @Html.DisplayFor(modelItem => item.TipoSoftware.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
@@ -882,7 +888,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="4">No hay herramientas de software cargadas
+                        <td colspan="5">No hay herramientas de software cargadas
                         </td>
                     </tr>
                 }
@@ -916,6 +922,15 @@
                 @Html.HiddenFor(model => model.Relevamiento.TieneADM, new { id = "hdn_Software_TieneADM" })
                 @Html.HiddenFor(model => model.Relevamiento.AtendidoPor, new { id = "hdn_Software_AtendidoPor" })
                 @Html.HiddenFor(model => model.Software.ID)
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Software.PlataformaSoftware)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Software.PlataformaSoftware.ID, new SelectList(ViewBag.ListaPlataformaSoftwares, "Value", "Text", Model.Software.PlataformaSoftware.ID))
+                    @Html.ValidationMessageFor(model => model.Software.PlataformaSoftware.ID)
+                </div>
+                
                 <div class="editor-label">
                     @Html.LabelFor(model => model.Software.TipoSoftware)
                 </div>
@@ -1390,6 +1405,7 @@
             $("#Software_Nombre").val(data.Nombre)
             $("#Software_Descripcion").val(data.Descripcion);
             $("#Software_TipoSoftware_ID").val(data.TipoSoftwareId);
+            $("#Software_PlataformaSoftware_ID").val(data.PlataformaSoftwareId);
 
 
             document.getElementById("btnAgregarSoftware").value = "Actualizar Software";
@@ -1535,6 +1551,8 @@
             $("#Software_Descripcion").val("");
 
             $("#Software_TipoSoftware_ID").val($("#Software_TipoSoftware_ID option:first").val());
+
+            $("#Software_PlataformaSoftware_ID").val($("#Software_PlataformaSoftware_ID option:first").val());
 
             document.getElementById("btnAgregarSoftware").value = "Agregar Software";
 

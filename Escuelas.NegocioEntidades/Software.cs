@@ -16,5 +16,7 @@ namespace Escuelas.NegocioEntidades
         public string Descripcion { get; set; }
         [Display(Name = "Tipo Software")]
         public CategoriaValor TipoSoftware { get; set; }
+        [Display(Name = "Ubicación")]
+        public CategoriaValor PlataformaSoftware { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Softwares.Include("TipoSoftware").Where(s => s.ID == softId).SingleOrDefault();
+                return contexto.Softwares.Include("TipoSoftware").Include("PlataformaSoftware").Where(s => s.ID == softId).SingleOrDefault();
             }
         }
 
@@ -26,6 +26,8 @@ namespace Escuelas.AccesoADatos
 
                 contexto.CategoriaValores.Attach(nuevoSoftware.TipoSoftware);
 
+                contexto.CategoriaValores.Attach(nuevoSoftware.PlataformaSoftware);
+
                 contexto.Softwares.Add(nuevoSoftware);
 
                 contexto.SaveChanges();
@@ -36,7 +38,7 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                Software Software = contexto.Softwares.Include("Relevamiento").Include("TipoSoftware").Where(d => d.ID == nuevoSoftware.ID).SingleOrDefault();
+                Software Software = contexto.Softwares.Include("Relevamiento").Include("TipoSoftware").Include("PlataformaSoftware").Where(d => d.ID == nuevoSoftware.ID).SingleOrDefault();
 
 
                 Software.Descripcion = nuevoSoftware.Descripcion;
@@ -46,6 +48,12 @@ namespace Escuelas.AccesoADatos
                 {
                     Software.TipoSoftware = nuevoSoftware.TipoSoftware;
                     contexto.CategoriaValores.Attach(Software.TipoSoftware);
+                }
+
+                if (Software.PlataformaSoftware.ID != nuevoSoftware.PlataformaSoftware.ID)
+                {
+                    Software.PlataformaSoftware = nuevoSoftware.PlataformaSoftware;
+                    contexto.CategoriaValores.Attach(Software.PlataformaSoftware);
                 }
 
                 contexto.Entry(Software).State = System.Data.EntityState.Modified;

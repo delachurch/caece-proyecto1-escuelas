@@ -61,6 +61,7 @@ namespace Escuelas.AccesoADatos
             modelBuilder.Entity<DispositivoRed>().HasRequired(d => d.Relevamiento).WithMany(d => d.DispositivosRed).Map(x => x.MapKey("RelevamientoId"));
 
             modelBuilder.Entity<Software>().HasRequired(s => s.TipoSoftware).WithMany(ts => ts.Softwares).Map(x => x.MapKey("TipoSoftwareId"));
+            modelBuilder.Entity<Software>().HasRequired(s => s.PlataformaSoftware).WithMany(ts => ts.SoftwaresDePlataforma).Map(x => x.MapKey("PlataformaSoftwareId"));
             modelBuilder.Entity<Software>().HasRequired(s => s.Relevamiento).WithMany(r => r.Softwares).Map(x => x.MapKey("RelevamientoId"));
 
             modelBuilder.Entity<Capacitacion>().HasRequired(c => c.Relevamiento).WithMany(c => c.Capacitaciones).Map(x => x.MapKey("RelevamientoId"));
