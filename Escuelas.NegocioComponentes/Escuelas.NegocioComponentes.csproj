@@ -54,6 +54,7 @@
     <Compile Include="EscuelaComponente.cs" />
     <Compile Include="HistorialComentarioComponente.cs" />
     <Compile Include="HistorialSeguimientoPedagogicoComponente.cs" />
+    <Compile Include="ImagenComponente.cs" />
     <Compile Include="MaquinaComponente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelevamientoComponente.cs" />

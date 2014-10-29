@@ -21,14 +21,14 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Where(r => r.ID == relevamientoId).SingleOrDefault();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo").Include("Servicios.TipoServicio").Include("DispositivosRed.TipoDispositivoRed").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Include("Imagenes").Where(r => r.ID == relevamientoId).SingleOrDefault();
             }
         }
         public Relevamiento ObtenerUltimoRelevamiento(int escuelaId)
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Include("Imagenes").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
             }
         }
         public List<Relevamiento> ObtenerRelevamientosPorDistrito(int distId)
@@ -216,6 +216,18 @@ namespace Escuelas.AccesoADatos
                     nuevaCapacitacion.Descripcion = cap.Descripcion;
 
                     nuevoRelevamiento.Capacitaciones.Add(nuevaCapacitacion);
+                }
+
+                foreach (Imagen img in relevamiento.Imagenes)
+                {
+                    Imagen nuevaImagen = new Imagen();
+
+                    nuevaImagen.Titulo = img.Titulo;
+                    nuevaImagen.Descripcion = img.Descripcion;
+                    nuevaImagen.Contenido = img.Contenido;
+                    nuevaImagen.Foto = img.Foto;
+
+                    nuevoRelevamiento.Imagenes.Add(nuevaImagen);
                 }
 
                 foreach (Servicio ser in relevamiento.Servicios)

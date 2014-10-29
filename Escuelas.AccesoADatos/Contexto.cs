@@ -33,6 +33,7 @@ namespace Escuelas.AccesoADatos
         public DbSet<HistorialComentario> HistorialComentarios { get; set; }
         public DbSet<SeguimientoPedagogico> SeguimientoPedagogicos { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Imagen> Imagenes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -65,6 +66,8 @@ namespace Escuelas.AccesoADatos
             modelBuilder.Entity<Software>().HasRequired(s => s.Relevamiento).WithMany(r => r.Softwares).Map(x => x.MapKey("RelevamientoId"));
 
             modelBuilder.Entity<Capacitacion>().HasRequired(c => c.Relevamiento).WithMany(c => c.Capacitaciones).Map(x => x.MapKey("RelevamientoId"));
+
+            modelBuilder.Entity<Imagen>().HasRequired(i => i.Relevamiento).WithMany(i => i.Imagenes).Map(x => x.MapKey("RelevamientoId"));
             
             modelBuilder.Entity<Usuario>().HasRequired(u => u.Distrito).WithMany(d => d.Usuarios).Map(x => x.MapKey("DistritoId"));
             modelBuilder.Entity<Usuario>().HasRequired(u => u.Rol).WithMany(r => r.Usuarios).Map(x => x.MapKey("RolId"));
