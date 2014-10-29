@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using Rotativa;
 using Newtonsoft.Json;
 using System.Text;
+using System.IO;
 
 namespace relevamientos.UI.Controllers
 {
@@ -31,6 +32,7 @@ namespace relevamientos.UI.Controllers
         DispositivoRedComponente dispositivoRedComponente = new DispositivoRedComponente();
         ServicioComponente servicioComponente = new ServicioComponente();
         CapacitacionComponente capacitacionComponente = new CapacitacionComponente();
+        ImagenComponente imagenComponente = new ImagenComponente();
         DistritoComponente distritoComponente = new DistritoComponente();
         CategoriaValorComponente categoriaValorComponente = new CategoriaValorComponente();
 
@@ -38,7 +40,7 @@ namespace relevamientos.UI.Controllers
         public ActionResult RelevamientoIndex(int? distId, int? escId)
         {
             RelevamientoBusqueda relevamientoBusqueda = new RelevamientoBusqueda();
-                    
+
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
@@ -55,7 +57,7 @@ namespace relevamientos.UI.Controllers
                 listaEscuelas = CargarEscuelasPorDistrito(listaDistritos.First().ID);
             }
 
-            
+
 
             ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
 
@@ -80,7 +82,7 @@ namespace relevamientos.UI.Controllers
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
         public ActionResult ExportPDF(int relevamientoId)
         {
-            return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relevamientoId }) {FileName = "Relevamiento.pdf" };
+            return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relevamientoId }) { FileName = "Relevamiento.pdf" };
         }
 
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
@@ -103,10 +105,10 @@ namespace relevamientos.UI.Controllers
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 0, mensaje = "Relevamiento copiado exitosamente" });
         }
-      
+
         [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult EditarRelevamiento(int relevamientoId, int tActivo, string mensaje)
-        {  
+        {
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
@@ -122,11 +124,11 @@ namespace relevamientos.UI.Controllers
             ViewBag.ListaTipoServicios = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoServicio.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
             ViewBag.ListaGrados = ObtenerGrados();
-            
+
             ViewBag.Mensaje = mensaje;
 
             List<Escuela> listaEscuelas;
-          
+
             RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
 
             relevamientoModelo.Maquina = new Maquina();
@@ -135,7 +137,7 @@ namespace relevamientos.UI.Controllers
 
             relevamientoModelo.Dispositivo.TipoDispositivo = new CategoriaValor();
 
-            relevamientoModelo.Software= new Software();
+            relevamientoModelo.Software = new Software();
 
             relevamientoModelo.Software.TipoSoftware = new CategoriaValor();
 
@@ -143,7 +145,9 @@ namespace relevamientos.UI.Controllers
 
             relevamientoModelo.Capacitacion = new Capacitacion();
 
-            relevamientoModelo.Servicio= new Servicio();
+            relevamientoModelo.Imagen = new Imagen();
+
+            relevamientoModelo.Servicio = new Servicio();
 
             relevamientoModelo.Servicio.TipoServicio = new CategoriaValor();
 
@@ -155,13 +159,13 @@ namespace relevamientos.UI.Controllers
 
             if (relevamientoId > 0)
             {
-             
+
                 relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
 
                 relevamientoModelo.Relevamiento.Maquinas = relevamientoModelo.Relevamiento.Maquinas.OrderBy(m => m.Nombre).ToList();
 
                 relevamientoModelo.Relevamiento.Servicios = relevamientoModelo.Relevamiento.Servicios.OrderBy(s => s.Compañia).ToList();
- 
+
                 listaEscuelas = CargarEscuelasPorDistrito(relevamientoModelo.Relevamiento.Escuela.Distrito.ID);
 
                 ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
@@ -185,14 +189,14 @@ namespace relevamientos.UI.Controllers
                 }
 
 
-                relevamientoModelo.Relevamiento.Escuela = new Escuela() { ID =  escuelaId } ;
+                relevamientoModelo.Relevamiento.Escuela = new Escuela() { ID = escuelaId };
                 relevamientoModelo.Relevamiento.Escuela.Distrito = new Distrito();
                 relevamientoModelo.Relevamiento.Escuela.Director = director;
                 relevamientoModelo.Relevamiento.Escuela.ViceDirector = viceDirector;
             }
 
             ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
-            
+
             relevamientoModelo.HistorialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
 
             relevamientoModelo.HistorialSegPedagogico = ConstruirHistorialSegPedagogico(SeguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
@@ -227,7 +231,7 @@ namespace relevamientos.UI.Controllers
         [Authorize(Roles = "Admin,Colaborador")]
         private string ConstruirHistorialComentarios(List<HistorialComentario> historialComentarios)
         {
-            
+
             if (historialComentarios.Count() > 0)
             {
                 StringBuilder sb = new StringBuilder();
@@ -238,7 +242,7 @@ namespace relevamientos.UI.Controllers
                 }
 
                 return sb.ToString();
-        }
+            }
             else
             {
                 return string.Empty;
@@ -252,7 +256,7 @@ namespace relevamientos.UI.Controllers
 
             relevamientoComponente.GuardarRelevamiento(relevamientoModelo.Relevamiento);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Relevamiento.ID, tActivo = 0, mensaje= "Relevamiento guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Relevamiento.ID, tActivo = 0, mensaje = "Relevamiento guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -268,12 +272,12 @@ namespace relevamientos.UI.Controllers
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarMaquina(int maqId,int relId)
+        public ActionResult BorrarMaquina(int maqId, int relId)
         {
 
             maquinaComponente.BorrarMaquina(maqId);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 1,  mensaje = "Maquina borrada" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 1, mensaje = "Maquina borrada" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -307,9 +311,9 @@ namespace relevamientos.UI.Controllers
         public ActionResult BorrarServicio(int serId, int relId)
         {
 
-           servicioComponente.BorrarServicio(serId);
+            servicioComponente.BorrarServicio(serId);
 
-           return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 4, mensaje = "Servicio borrado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 4, mensaje = "Servicio borrado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -320,6 +324,16 @@ namespace relevamientos.UI.Controllers
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 6, mensaje = "Capacitacion borrada" });
         }
+
+        [Authorize(Roles = "Admin,Colaborador")]
+        public ActionResult BorrarImagen(int imgId, int relId)
+        {
+
+            imagenComponente.BorrarImagen(imgId);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 9, mensaje = "Imagen borrada" });
+        }
+
 
         [Authorize(Roles = "Admin,Colaborador")]
         [HttpPost]
@@ -411,13 +425,47 @@ namespace relevamientos.UI.Controllers
         [HttpPost]
         public ActionResult EditarCapacitacion(RelevamientoModelo relevamientoModelo)
         {
-
-
             relevamientoModelo.Capacitacion.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
 
             capacitacionComponente.GuardarCapacitacion(relevamientoModelo.Capacitacion);
 
             return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Capacitacion.Relevamiento.ID, tActivo = 6, mensaje = "Capacitacion guardada" });
+        }
+
+        [HttpPost]
+        public ActionResult EditarImagen(RelevamientoModelo relevamientoModelo)
+        {
+            relevamientoModelo.Imagen.Relevamiento = ObtenerOInsertarRelevamiento(relevamientoModelo);
+
+            HttpPostedFileBase file = Request.Files["ImageData"];
+            relevamientoModelo.Imagen.Foto = ConvertToBytes(file);
+
+            imagenComponente.GuardarImagen(relevamientoModelo.Imagen);
+
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Imagen.Relevamiento.ID, tActivo = 9, mensaje = "Imagen guardada" });
+        }
+
+        public ActionResult RetrieveImage(int id)
+        {
+            Imagen imagen = imagenComponente.ObtenerImagenPorId(id);
+
+            if (imagen.Foto == null)
+            {
+                return null;
+            }
+            else
+            {
+                return File(imagen.Foto, "image/jpg");
+            }
+
+        }
+
+        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        {
+            byte[] imageBytes = null;
+            BinaryReader reader = new BinaryReader(image.InputStream);
+            imageBytes = reader.ReadBytes((int)image.ContentLength);
+            return imageBytes;
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -449,13 +497,13 @@ namespace relevamientos.UI.Controllers
         public List<Escuela> CargarEscuelasPorDistrito(int DistId)
         {
 
-           return escuelaComponente.ObtenerEscuelasPorDistrito(DistId);
+            return escuelaComponente.ObtenerEscuelasPorDistrito(DistId);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
         public ActionResult CargarEscuelasPorDistritoAsync(int DistId)
         {
-            
+
             List<SelectListItem> listaEscuelas = new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
             return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
         }
@@ -469,7 +517,7 @@ namespace relevamientos.UI.Controllers
             string director = "";
             string viceDirector = "";
 
-            if(escuela != null)
+            if (escuela != null)
             {
                 if (escuela.Director != null)
                     director = escuela.Director;
@@ -489,7 +537,7 @@ namespace relevamientos.UI.Controllers
         public ActionResult ObtenerMaquinaAsync(int MaqId)
         {
             Maquina maq = maquinaComponente.ObtenerMaquinaPorId(MaqId);
-            return Json(maq , JsonRequestBehavior.AllowGet);
+            return Json(maq, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -521,7 +569,15 @@ namespace relevamientos.UI.Controllers
         {
             Capacitacion cap = capacitacionComponente.ObtenerCapacitacionPorId(CapId);
 
-            return Json(new { ID = cap.ID, Curso= cap.Curso, Descripcion = cap.Descripcion, Grado = cap.Grado }, JsonRequestBehavior.AllowGet);
+            return Json(new { ID = cap.ID, Curso = cap.Curso, Descripcion = cap.Descripcion, Grado = cap.Grado }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Admin,Colaborador")]
+        public ActionResult ObtenerImagenAsync(int ImgId)
+        {
+            Imagen img = imagenComponente.ObtenerImagenPorId(ImgId);
+
+            return Json(new { ID = img.ID, Titulo = img.Titulo, Descripcion = img.Descripcion, Contenido = img.Contenido, Foto = img.Foto }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]

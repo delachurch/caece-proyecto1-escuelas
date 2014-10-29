@@ -14,6 +14,7 @@ namespace Escuelas.UI.Models
         public Dispositivo Dispositivo { get; set; }
         public Software Software{ get; set; }
         public Capacitacion Capacitacion { get; set; }
+        public Imagen Imagen { get; set; }
         public DispositivoRed DispositivoRed { get; set; }
         public Servicio Servicio { get; set; }
         public string HistorialComentarios { get; set; }
@@ -23,3 +24,4 @@ namespace Escuelas.UI.Models
         public int TabActivo { get; set; }
     }
 }
+

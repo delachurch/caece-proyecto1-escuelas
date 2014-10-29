@@ -18,6 +18,7 @@ namespace Escuelas.NegocioEntidades
             DispositivosRed = new List<DispositivoRed>();
             Softwares = new List<Software>();
             Capacitaciones = new List<Capacitacion>();
+            Imagenes = new List<Imagen>();
         }
         public int ID { get; set; }
         [Display(Name = "Escuela")]
@@ -38,6 +39,6 @@ namespace Escuelas.NegocioEntidades
         public List<Servicio> Servicios { get; set; }
         public List<Software> Softwares { get; set; }
         public List<Capacitacion> Capacitaciones { get; set; }
-
+        public List<Imagen> Imagenes { get; set; }
     }
 }
