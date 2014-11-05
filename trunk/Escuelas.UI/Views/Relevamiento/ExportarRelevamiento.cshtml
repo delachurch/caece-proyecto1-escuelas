@@ -19,34 +19,44 @@
 }
 <fieldset>
     <legend>Relevamiento</legend>
-    <h3>Información General</h3>
     @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
     {
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Relevamiento.ID)
         <div class="editor-label">
-            @Html.LabelFor(model => model.Relevamiento.Escuela.Distrito)
-        </div>@*
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.Relevamiento.Escuela.Distrito.ID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.Relevamiento.Escuela.Distrito.ID), new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
-            @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.Distrito.ID)
-        </div>*@
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Relevamiento.Escuela)
-        </div>@*
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.Relevamiento.Escuela.ID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.Relevamiento.Escuela.ID), new { id = "ddlEscuela" })
-            @Html.ValidationMessageFor(model => model.Relevamiento.Escuela.ID)
-        </div>*@
+            <h3>Informacion de Distrito</h3>
+            <div>
+                @Html.LabelFor(model => model.Relevamiento.Escuela.Distrito.Region, new { style = "display:inline" })
+                @Html.DisplayFor(model => model.Relevamiento.Escuela.Distrito.Region)
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Relevamiento.Escuela.Distrito.ID, new { style = "display:inline" })
+                @Html.DisplayFor(model => model.Relevamiento.Escuela.Distrito.ID)
+            </div>
+            <br />
+            <h3>Informacion de Escuela</h3>
+            <div>
+                @Html.LabelFor(model => model.Relevamiento.Escuela.Numero, new { style = "display:inline" })
+                @Html.DisplayFor(model => model.Relevamiento.Escuela.Numero)
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Relevamiento.Escuela.Nombre, new { style = "display:inline" })
+                @Html.DisplayFor(model => model.Relevamiento.Escuela.Nombre)
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Relevamiento.Escuela.Director, new { style = "display:inline" })
+                @Html.DisplayFor(model => model.Relevamiento.Escuela.Director)
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Relevamiento.Escuela.ViceDirector, new { style = "display:inline" })
+                @Html.DisplayFor(model => model.Relevamiento.Escuela.ViceDirector)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Relevamiento.TieneADM, new { style = "display:inline" })
+                @Html.DisplayFor(model => model.Relevamiento.TieneADM)
+            </div>
+        </div>
         
-        <div class="editor-label">
-            @Html.LabelFor(m => m.Relevamiento.TieneADM)
-        </div>
-        <div class="editor-field">
-            @Html.RadioButtonFor(model => model.Relevamiento.TieneADM, false)&nbsp;No
-            &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Relevamiento.TieneADM, true)&nbsp;Si
-        </div>
     }
     <br />
     <h3>Maquinas</h3>
@@ -56,9 +66,6 @@
                 @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
             </th>
             <th style="text-align: center; width: 200px">
-                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
-            </th>
-            <th style="text-align: center; width: 200px">
                 @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
             </th>
             <th style="text-align: center; width: 200px">
@@ -66,6 +73,9 @@
             </th>
             <th style="text-align: center; width: 200px">
                 @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Funciona)
             </th>
             <th style="text-align: center; width: 200px">
                 @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].PerteneceARed)
@@ -80,9 +90,6 @@
                     @Html.DisplayFor(modelItem => item.Nombre)
                 </td>
                 <td style="text-align: center; width: 200px">
-                    @Html.DisplayFor(modelItem => item.Marca)
-                </td>
-                <td style="text-align: center; width: 200px">
                     @Html.DisplayFor(modelItem => item.SistemaOperativo)
                 </td>
                 <td style="text-align: center; width: 200px">
@@ -90,6 +97,9 @@
                 </td>
                 <td style="text-align: center; width: 200px">
                     @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
+                </td>
+                <td style="text-align: center; width: 200px">
+                    @Html.DisplayFor(modelItem => item.Funciona)
                 </td>
                 <td style="text-align: center; width: 200px">
                     @Html.DisplayFor(modelItem => item.PerteneceARed)
@@ -157,8 +167,6 @@
             <th style="text-align: center; width: 200px">
                 @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
             </th>
-            <th></th>
-            <th></th>
         </tr>
         @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
         {
@@ -185,7 +193,176 @@
             </tr>
         }
     </table>
+    <br />
+    <h3>Software</h3>
+    <table>
+        <tr>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].PlataformaSoftware)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].TipoSoftware)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Nombre)
+            </th>
+            <th style="text-align: center; width: 200px">
+                @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Descripcion)
+            </th>
+        </tr>
+        </thead>
+                <tbody>
+                    @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
+                    {
+                        foreach (var item in Model.Relevamiento.Softwares)
+                        {
+                        <tr>
+                            <td style="text-align: center; width: 200px">
+                                @Html.DisplayFor(modelItem => item.PlataformaSoftware.Nombre)
+                            </td>
+                            <td style="text-align: center; width: 200px">
+                                @Html.DisplayFor(modelItem => item.TipoSoftware.Nombre)
+                            </td>
+                            <td style="text-align: center; width: 200px">
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td style="text-align: center; width: 200px">
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                        </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">No hay herramientas de software cargadas
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+    </table>
+    <br />
+    <h3>Capacitacion</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align: center; width: 200px">
+                    @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Grado)
+                </th>
+                <th style="text-align: center; width: 200px">
+                    @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Curso)
+                </th>
+                <th style="text-align: center; width: 200px">
+                    @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Descripcion)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Relevamiento.Capacitaciones != null && Model.Relevamiento.Capacitaciones.Count() > 0)
+            {
+                foreach (var item in Model.Relevamiento.Capacitaciones)
+                {
+                <tr>
+                    <td style="text-align: center; width: 200px">
+                        @Html.DisplayFor(modelItem => item.Grado)
+                    </td>
+                    <td style="text-align: center; width: 200px">
+                        @Html.DisplayFor(modelItem => item.Curso)
+                    </td>
+                    <td style="text-align: center; width: 200px">
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4">No hay Capacitaciones cargadas
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <h3>Historial Comentarios</h3>
+    <div style="white-space: pre-wrap;">
+         @if (Model.HistorialComentarios != null && Model.HistorialComentarios.Count() > 0)
+         {
+                @Html.DisplayFor(model => model.HistorialComentarios, new { })
+         }
+        else
+        {
+             <p>No hay Comentarios Cargados</p>
+         }
+    </div>
+
+    <h3>Seguimiento Pedagogico</h3>
+    <div style="white-space: pre-wrap;">
+         @if (Model.HistorialSegPedagogico != null && Model.HistorialSegPedagogico.Count() > 0)
+         {
+        @Html.DisplayFor(model => model.HistorialSegPedagogico)
+         }
+        else
+        {
+             <p>No hay Seguimientos Pedagogicos Cargados</p>
+         }
+    </div>
+
+    <h3>Imagenes</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align: center; width: 200px">
+                    @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Titulo)
+                </th>
+                <th style="text-align: center; width: 200px">
+                    @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Descripcion)
+                </th>
+                <th style="text-align: center; width: 200px">
+                    @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Contenido)
+                </th>
+                <th style="text-align: center; width: 200px">
+                    @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Foto)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Relevamiento.Imagenes != null && Model.Relevamiento.Imagenes.Count() > 0)
+            {
+                foreach (var item in Model.Relevamiento.Imagenes)
+                {
+                <tr>
+                    <td style="text-align: center; width: 200px">
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td style="text-align: center; width: 200px">
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td style="text-align: center; width: 200px">
+                        @Html.DisplayFor(modelItem => item.Contenido)
+                    </td>
+                    <td>
+                        <img src="/Relevamiento/RetrieveImage/@item.ID" alt="" height=100 width=200 />
+                    </td>
+                </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">No hay Imagenes cargadas</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </fieldset>
+
+
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
