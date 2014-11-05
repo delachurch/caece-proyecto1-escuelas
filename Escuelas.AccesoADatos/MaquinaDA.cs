@@ -46,7 +46,9 @@ namespace Escuelas.AccesoADatos
                 maquina.DispositivoSonido = nuevaMaquina.DispositivoSonido;
                 maquina.MemoriaRAM = nuevaMaquina.MemoriaRAM;
                 maquina.Comentarios = nuevaMaquina.Comentarios;
-                maquina.LectoraCDDVD = nuevaMaquina.LectoraCDDVD;
+                maquina.CDLectGrab = nuevaMaquina.CDLectGrab;
+                maquina.DVDLectGrab = nuevaMaquina.DVDLectGrab;
+                maquina.Funciona = nuevaMaquina.Funciona;
                 maquina.Disquetera = nuevaMaquina.Disquetera;
                 maquina.Monitor = nuevaMaquina.Monitor;
                 maquina.Webcam = nuevaMaquina.Webcam;

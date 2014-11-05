@@ -95,7 +95,9 @@ namespace Escuelas.AccesoADatos
                     nuevaMaquina.Disquetera = maq.Disquetera;
                     nuevaMaquina.GrupoDeTrabajo = maq.GrupoDeTrabajo;
                     nuevaMaquina.IP = maq.IP;
-                    nuevaMaquina.LectoraCDDVD = maq.LectoraCDDVD;
+                    nuevaMaquina.CDLectGrab = maq.CDLectGrab;
+                    nuevaMaquina.DVDLectGrab = maq.DVDLectGrab;
+                    nuevaMaquina.Funciona = maq.Funciona;
                     nuevaMaquina.MemoriaRAM = maq.MemoriaRAM;
                     nuevaMaquina.PerteneceARed = maq.PerteneceARed;
                     nuevaMaquina.PlacaVideo = maq.PlacaVideo;

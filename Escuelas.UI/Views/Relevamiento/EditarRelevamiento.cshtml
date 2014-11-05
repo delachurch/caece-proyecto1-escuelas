@@ -131,85 +131,85 @@
                     $("#tblMaquina").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
                     .tablesorterPager({ container: $("#pagerMaquina"), size: $(".pagesize option:selected").val() });
                 });
-            </script>
+        </script>
 
             <table id="tblMaquina" class="tablesorter">
                 <thead>
-                    <tr>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].MemoriaRAM)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
-                        </th>
-                        <th></th>
-
-                    </tr>
-                </thead>
+                <tr>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].MemoriaRAM)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
+                    </th>
+                    <th></th>
+                
+                </tr>
+                    </thead>
                 <tbody>
-                    @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
+                @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.Maquinas)
                     {
-                        foreach (var item in Model.Relevamiento.Maquinas)
-                        {
-                        <tr>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Marca)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.SistemaOperativo)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.MemoriaRAM)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
-                            </td>
-                            <td style="text-align: center; width: 50px">
-                                <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
-                                @Html.ActionImage("BorrarMaquina", new { maqId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Maquina")
-                            </td>
-                        </tr>
-                        }
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Marca)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.SistemaOperativo)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.MemoriaRAM)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
+                            @Html.ActionImage("BorrarMaquina", new { maqId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Maquina")
+                        </td>
+                    </tr>
                     }
-                    else
-                    {
-                        <tr>
-                            <td colspan="6">No hay máquinas cargadas
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">No hay máquinas cargadas
+                        </td>
+                    </tr>
+                }
+                    </tbody>
             </table>
             <div id="pagerMaquina" class="pager">
-                <form>
-                    <img src="/Content/images/first.png" class="first" />
-                    <img src="/Content/images/prev.png" class="prev" />
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
                     <span class="pagedisplay"></span>
                     <!-- this can be any element, including an input -->
-                    <img src="/Content/images/next.png" class="next" />
-                    <img src="/Content/images/last.png" class="last" />
-                    <select class="pagesize">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                    </select>
-                </form>
-            </div>
-            <br />
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>
+              <br />
             <br />
             <h4><u>Cargar Máquina:</u></h4>
             @using (Html.BeginForm("EditarMaquina", "Relevamiento"))
@@ -229,6 +229,7 @@
                     @Html.EditorFor(model => model.Maquina.Nombre)
                     @Html.ValidationMessageFor(model => model.Maquina.Nombre)
                 </div>
+                
                 <section class="round-border">
                     <h5 style="float: left;">CPU</h5>
                     <div href="#collapseCPU" class="nav-toggle">
@@ -330,34 +331,42 @@
                                     </div>
                                 </td>
                                 <td valign="top">
-                                    <div class="editor-label">
+                                    <div class="editor-label" >
                                         @Html.LabelFor(model => model.Maquina.TieneMicrofono)
                                     </div>
-                                    <div class="editor-field" style="padding-top: 8px; height: 46px">
+                                    <div class="editor-field"  style="padding-top:8px;height:46px">
                                         @Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "No")&nbsp;No
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.TieneMicrofono, "Si")&nbsp;Si
                                     </div>
-
+                                    
                                     <div class="editor-label">
-                                        @Html.LabelFor(model => model.Maquina.LectoraCDDVD)
+                                        @Html.LabelFor(model => model.Maquina.CDLectGrab)
                                     </div>
-                                    <div class="editor-field" style="padding-top: 8px; height: 46px">
-                                        @Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "No")&nbsp;No Tiene
-                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "CD")&nbsp;CD
-                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.LectoraCDDVD, "DVD")&nbsp;DVD
+                                    <div class="editor-field" style="padding-top:8px;height:46px">
+                                        @Html.RadioButtonFor(model => model.Maquina.CDLectGrab, "No Tiene")&nbsp;No Tiene
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.CDLectGrab, "Lectora")&nbsp;Lectora
+                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.CDLectGrab, "Lectora/Grabadora")&nbsp;Lectora/Grabadora
                                     </div>
-
+                                    
                                     <div class="editor-label">
+                                        @Html.LabelFor(model => model.Maquina.DVDLectGrab)
+                                    </div>
+                                    <div class="editor-field" style="padding-top:8px;height:46px">
+                                        @Html.RadioButtonFor(model => model.Maquina.DVDLectGrab, "No Tiene")&nbsp;No Tiene
+                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.DVDLectGrab, "Lectora")&nbsp;Lectora
+                        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.DVDLectGrab, "Lectora/Grabadora")&nbsp;Lectora/Grabadora
+                                    </div>
+                                    <div class="editor-label" >
                                         @Html.LabelFor(model => model.Maquina.Webcam)
                                     </div>
-                                    <div class="editor-field" style="padding-top: 8px; height: 46px">
+                                    <div class="editor-field" style="padding-top:8px;height:46px">
                                         @Html.RadioButtonFor(model => model.Maquina.Webcam, "No")&nbsp;No
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Webcam, "Si")&nbsp;Si
                                     </div>
                                     <div class="editor-label">
                                         @Html.LabelFor(model => model.Maquina.Disquetera)
                                     </div>
-                                    <div class="editor-field" style="padding-top: 8px; height: 46px">
+                                    <div class="editor-field" style="padding-top:8px;height:46px">
                                         @Html.RadioButtonFor(model => model.Maquina.Disquetera, "No")&nbsp;No Tiene
                          &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "3 1/2")&nbsp;3 1/2
                         &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Disquetera, "5 1/4")&nbsp;5 1/4
@@ -406,7 +415,15 @@
                         </div>
                     </div>
                 </section>
-
+                <br />
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Maquina.Funciona)
+                </div>
+                <div class="editor-field" style="padding-top:8px;height:46px">
+                    @Html.RadioButtonFor(model => model.Maquina.Funciona, "No")&nbsp;No
+        &nbsp;&nbsp;@Html.RadioButtonFor(model => model.Maquina.Funciona, "Si")&nbsp;Si
+                </div>
+                
                 <p>
                     <input type="submit" value="Agregar Máquina" id="btnAgregarMaquina" onclick="ActualizarHiddens('Maquina');" />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -415,93 +432,93 @@
             }
         </div>
         <div id="tabs-3" class="TabClase">
-            <script type="text/javascript">
-                $(function () {
-                    $("#tblDispositivoRed").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
-                    .tablesorterPager({ container: $("#pagerDispositivoRed"), size: $(".pagesize option:selected").val() });
-                });
-            </script>
+        <script type="text/javascript">
+            $(function () {
+                $("#tblDispositivoRed").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                .tablesorterPager({ container: $("#pagerDispositivoRed"), size: $(".pagesize option:selected").val() });
+            });
+        </script>
             <table id="tblDispositivoRed" class="tablesorter">
                 <thead>
-                    <tr>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].TipoDispositivoRed)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Marca)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Modelo)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosTotales)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosUtilizados)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Protocolo)
-                        </th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].TipoDispositivoRed)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Marca)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Modelo)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosTotales)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosUtilizados)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Protocolo)
+                    </th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Relevamiento.DispositivosRed != null && Model.Relevamiento.DispositivosRed.Count() > 0)
+                @if (Model.Relevamiento.DispositivosRed != null && Model.Relevamiento.DispositivosRed.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.DispositivosRed)
                     {
-                        foreach (var item in Model.Relevamiento.DispositivosRed)
-                        {
-                        <tr>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.TipoDispositivoRed.Nombre)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Marca)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Modelo)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.PuertosTotales)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.PuertosUtilizados)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Protocolo)
-                            </td>
-                            <td style="text-align: center; width: 50px">
-                                <img src="~/Images/ico/editar22.png" onclick="EditarDispositivoRed(@item.ID);" class="EditImage" />
-                                @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo de Rsed")
-                            </td>
-                        </tr>
-                        }
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.TipoDispositivoRed.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Marca)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Modelo)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.PuertosTotales)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.PuertosUtilizados)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Protocolo)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarDispositivoRed(@item.ID);" class="EditImage" />
+                            @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo de Rsed")
+                        </td>
+                    </tr>
                     }
-                    else
-                    {
-                        <tr>
-                            <td colspan="7">No hay dispositivos de red cargados
-                            </td>
-                        </tr>
-                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">No hay dispositivos de red cargados
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
             <div id="pagerDispositivoRed" class="pager">
-                <form>
-                    <img src="/Content/images/first.png" class="first" />
-                    <img src="/Content/images/prev.png" class="prev" />
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
                     <span class="pagedisplay"></span>
                     <!-- this can be any element, including an input -->
-                    <img src="/Content/images/next.png" class="next" />
-                    <img src="/Content/images/last.png" class="last" />
-                    <select class="pagesize">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                    </select>
-                </form>
-            </div>
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Dispositivo de Red: </u></h4>
@@ -587,81 +604,81 @@
         </div>
 
         <div id="tabs-4" class="TabClase">
-            <script type="text/javascript">
-                $(function () {
-                    $("#tblDispositivo").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
-                    .tablesorterPager({ container: $("#pagerDispositivo"), size: $(".pagesize option:selected").val() });
-                });
-            </script>
+             <script type="text/javascript">
+                 $(function () {
+                     $("#tblDispositivo").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                     .tablesorterPager({ container: $("#pagerDispositivo"), size: $(".pagesize option:selected").val() });
+                 });
+        </script>
             <table id="tblDispositivo" class="tablesorter">
                 <thead>
-                    <tr>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].TipoDispositivo)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Marca)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Modelo)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Ubicacion)
-                        </th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].TipoDispositivo)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Marca)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Modelo)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Ubicacion)
+                    </th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
+                @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.Dispositivos)
                     {
-                        foreach (var item in Model.Relevamiento.Dispositivos)
-                        {
-                        <tr>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.TipoDispositivo.Nombre)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Marca)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Modelo)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Ubicacion)
-                            </td>
-                            <td style="text-align: center; width: 50px">
-                                <img src="~/Images/ico/editar22.png" onclick="EditarOtroDispositivo(@item.ID);" class="EditImage" />
-                                @Html.ActionImage("BorrarDispositivo", new { disId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo")
-                            </td>
-                        </tr>
-                        }
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.TipoDispositivo.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Marca)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Modelo)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Ubicacion)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarOtroDispositivo(@item.ID);" class="EditImage" />
+                            @Html.ActionImage("BorrarDispositivo", new { disId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo")
+                        </td>
+                    </tr>
                     }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5">No hay dispositivos cargados
-                            </td>
-                        </tr>
-                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No hay dispositivos cargados
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
-            <div id="pagerDispositivo" class="pager">
-                <form>
-                    <img src="/Content/images/first.png" class="first" />
-                    <img src="/Content/images/prev.png" class="prev" />
+             <div id="pagerDispositivo" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
                     <span class="pagedisplay"></span>
                     <!-- this can be any element, including an input -->
-                    <img src="/Content/images/next.png" class="next" />
-                    <img src="/Content/images/last.png" class="last" />
-                    <select class="pagesize">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                    </select>
-                </form>
-            </div>
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Dispositivo: </u></h4>
@@ -719,76 +736,76 @@
 
         <div id="tabs-5" class="TabClase">
 
-            <script type="text/javascript">
-                $(function () {
-                    $("#tblServicio").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
-                    .tablesorterPager({ container: $("#pagerServicio"), size: $(".pagesize option:selected").val() });
-                });
-            </script>
+             <script type="text/javascript">
+                 $(function () {
+                     $("#tblServicio").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
+                     .tablesorterPager({ container: $("#pagerServicio"), size: $(".pagesize option:selected").val() });
+                 });
+        </script>
 
             <table id="tblServicio" class="tablesorter">
                 <thead>
-                    <tr>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Compañia)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
-                        </th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Compañia)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
+                    </th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
+                @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.Servicios)
                     {
-                        foreach (var item in Model.Relevamiento.Servicios)
-                        {
-                        <tr>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Compañia)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.EsPago)
-                            </td>
-                            <td style="text-align: center; width: 50px">
-                                <img src="~/Images/ico/editar22.png" onclick="EditarServicio(@item.ID);" class="EditImage" />
-                                @Html.ActionImage("BorrarServicio", new { serId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Servicio")
-                            </td>
-                        </tr>
-                        }
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Compañia)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.EsPago)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarServicio(@item.ID);" class="EditImage" />
+                            @Html.ActionImage("BorrarServicio", new { serId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Servicio")
+                        </td>
+                    </tr>
                     }
-                    else
-                    {
-                        <tr>
-                            <td colspan="4">No hay servicios cargados
-                            </td>
-                        </tr>
-                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No hay servicios cargados
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
-            <div id="pagerServicio" class="pager">
-                <form>
-                    <img src="/Content/images/first.png" class="first" />
-                    <img src="/Content/images/prev.png" class="prev" />
+             <div id="pagerServicio" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
                     <span class="pagedisplay"></span>
                     <!-- this can be any element, including an input -->
-                    <img src="/Content/images/next.png" class="next" />
-                    <img src="/Content/images/last.png" class="last" />
-                    <select class="pagesize">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                    </select>
-                </form>
-            </div>
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Servicio: </u></h4>
@@ -841,16 +858,16 @@
         <div id="tabs-6" class="TabClase">
             @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
             {
-                <script type="text/javascript">
-                    $(function () {
-                        $("#tblSoftware").tablesorter({ widthFixed: true, sortList: [[0, 0], [2, 0]] })
-                        .tablesorterPager({ container: $("#pagerSoftware"), size: $(".pagesize option:selected").val() });
-                    });
-                </script>
+            <script type="text/javascript">
+                $(function () {
+                    $("#tblSoftware").tablesorter({ widthFixed: true, sortList: [[0, 0], [2, 0]] })
+                    .tablesorterPager({ container: $("#pagerSoftware"), size: $(".pagesize option:selected").val() });
+                });
+        </script>
             }
             <table id="tblSoftware" class="tablesorter">
                 <tr>
-                    <th style="text-align: center; width: 200px">
+                     <th style="text-align: center; width: 200px">
                         @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].PlataformaSoftware)
                     </th>
                     <th style="text-align: center; width: 200px">
@@ -863,62 +880,62 @@
                         @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Descripcion)
                     </th>
                     <th>
-
+                    
                     </th>
 
                 </tr>
-                </thead>
+                    </thead>
                 <tbody>
-                    @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
+                @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.Softwares)
                     {
-                        foreach (var item in Model.Relevamiento.Softwares)
-                        {
-                        <tr>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.PlataformaSoftware.Nombre)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.TipoSoftware.Nombre)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Descripcion)
-                            </td>
-                            <td style="text-align: center; width: 50px">
-                                <img src="~/Images/ico/editar22.png" onclick="EditarSoftware(@item.ID);" class="EditImage" />
-                                @Html.ActionImage("BorrarSoftware", new { softId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Software")
-                            </td>
-                        </tr>
-                        }
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.PlataformaSoftware.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.TipoSoftware.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarSoftware(@item.ID);" class="EditImage" />
+                            @Html.ActionImage("BorrarSoftware", new { softId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Software")
+                        </td>
+                    </tr>
                     }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5">No hay herramientas de software cargadas
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No hay herramientas de software cargadas
+                        </td>
+                    </tr>
+                }
+                    </tbody>
             </table>
-            <div id="pagerSoftware" class="pager">
-                <form>
-                    <img src="/Content/images/first.png" class="first" />
-                    <img src="/Content/images/prev.png" class="prev" />
+             <div id="pagerSoftware" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
                     <span class="pagedisplay"></span>
                     <!-- this can be any element, including an input -->
-                    <img src="/Content/images/next.png" class="next" />
-                    <img src="/Content/images/last.png" class="last" />
-                    <select class="pagesize">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                    </select>
-                </form>
-            </div>
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Software: </u></h4>
@@ -974,71 +991,71 @@
                     $("#tblCapacitacion").tablesorter({ widthFixed: true, sortList: [[0, 0]] })
                     .tablesorterPager({ container: $("#pagerCapacitacion"), size: $(".pagesize option:selected").val() });
                 });
-            </script>
+        </script>
             <table id="tblCapacitacion" class="tablesorter">
                 <thead>
-                    <tr>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Grado)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Curso)
-                        </th>
-                        <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Descripcion)
-                        </th>
-                        <th></th>
-
-                    </tr>
-                </thead>
+                <tr>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Grado)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Curso)
+                    </th>
+                    <th style="text-align: center; width: 200px">
+                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Descripcion)
+                    </th>
+                    <th></th>
+                    
+                </tr>
+                    </thead>
                 <tbody>
-                    @if (Model.Relevamiento.Capacitaciones != null && Model.Relevamiento.Capacitaciones.Count() > 0)
+                @if (Model.Relevamiento.Capacitaciones != null && Model.Relevamiento.Capacitaciones.Count() > 0)
+                {
+                    foreach (var item in Model.Relevamiento.Capacitaciones)
                     {
-                        foreach (var item in Model.Relevamiento.Capacitaciones)
-                        {
-                        <tr>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Grado)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Curso)
-                            </td>
-                            <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Descripcion)
-                            </td>
-                            <td style="text-align: center; width: 50px">
-                                <img src="~/Images/ico/editar22.png" onclick="EditarCapacitacion(@item.ID);" class="EditImage" />
-                                @Html.ActionImage("BorrarCapacitacion", new { capId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Capacitacion")
-                            </td>
-                        </tr>
-                        }
+                    <tr>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Grado)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Curso)
+                        </td>
+                        <td style="text-align: center; width: 200px">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td style="text-align: center; width: 50px">
+                            <img src="~/Images/ico/editar22.png" onclick="EditarCapacitacion(@item.ID);" class="EditImage" />
+                            @Html.ActionImage("BorrarCapacitacion", new { capId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Capacitacion")
+                        </td>
+                    </tr>
                     }
-                    else
-                    {
-                        <tr>
-                            <td colspan="4">No hay Capacitaciones cargadas
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No hay Capacitaciones cargadas
+                        </td>
+                    </tr>
+                }
+                    </tbody>
             </table>
-            <div id="pagerCapacitacion" class="pager">
-                <form>
-                    <img src="/Content/images/first.png" class="first" />
-                    <img src="/Content/images/prev.png" class="prev" />
+             <div id="pagerCapacitacion" class="pager">
+  <form>
+    <img src="/Content/images/first.png" class="first"/>
+    <img src="/Content/images/prev.png" class="prev"/>
                     <span class="pagedisplay"></span>
                     <!-- this can be any element, including an input -->
-                    <img src="/Content/images/next.png" class="next" />
-                    <img src="/Content/images/last.png" class="last" />
-                    <select class="pagesize">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                    </select>
-                </form>
-            </div>
+    <img src="/Content/images/next.png" class="next"/>
+    <img src="/Content/images/last.png" class="last"/>
+    <select class="pagesize">
+        <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>        
             <br />
             <br />
             <h4><u>Cargar Capacitacion: </u></h4>
@@ -1112,8 +1129,8 @@
             <div class="editor-label">
                 Seguimiento Pedagógico
             </div>
-            @using (Html.BeginForm("EditarSegPedagogico", "Relevamiento"))
-            {
+             @using (Html.BeginForm("EditarSegPedagogico", "Relevamiento"))
+             {
                 <div class="editor-field">
                     @Html.TextAreaFor(model => model.SeguimientoPedagogico, new { style = "height:50px" })
                     @Html.HiddenFor(model => model.Relevamiento.ID)
@@ -1133,7 +1150,7 @@
 
                 </div>
             
-            }
+             }
         </div>
 
 
@@ -1212,8 +1229,8 @@
                         <option value="40">40</option>
                     </select>
                 </form>
-            </div>
-            
+    </div>
+
             <br />
             
             <h4><u>Cargar nuevo contenido de Imagen: </u></h4>
@@ -1483,7 +1500,7 @@
             .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
         };
-
+        
         function EditarDispositivoRed(disRedId) {
 
             showProgress();
@@ -1522,7 +1539,11 @@
 
             ActualizarRadio("Maquina.TieneMicrofono", data.TieneMicrofono);
 
-            ActualizarRadio("Maquina.LectoraCDDVD", data.LectoraCDDVD);
+            ActualizarRadio("Maquina.Funciona", data.Funciona);
+                
+            ActualizarRadio("Maquina.CDLectGrab", data.CDLectGrab);
+
+            ActualizarRadio("Maquina.DVDLectGrab", data.DVDLectGrab);
 
             ActualizarRadio("Maquina.Disquetera", data.Disquetera);
 
@@ -1657,7 +1678,11 @@
 
             ActualizarRadio("Maquina.TieneMicrofono", null);
 
-            ActualizarRadio("Maquina.LectoraCDDVD", null)
+            ActualizarRadio("Maquina.Funciona", null)
+
+            ActualizarRadio("Maquina.CDLectGrab", null)
+
+            ActualizarRadio("Maquina.DVDLectGrab", null)
 
             ActualizarRadio("Maquina.Disquetera", null)
 
@@ -1767,7 +1792,7 @@
         }
 
         function ActualizarRadio(prop, valor) {
-
+            
             var rdlControl = $("input:radio[name='" + prop + "']");
 
             if (valor != null) {

@@ -30,8 +30,12 @@ namespace Escuelas.NegocioEntidades
         public string PlacaVideo { get; set; }
         [Display(Name = "¿Pertenece a Red?")]
         public string PerteneceARed { get; set; }
-        [Display(Name = "Lectora CD/DVD")]
-        public string LectoraCDDVD { get; set; }
+        [Display(Name = "CD")]
+        public string CDLectGrab { get; set; }
+        [Display(Name = "¿Funciona?")]
+        public string Funciona { get; set; }
+        [Display(Name = "DVD")]
+        public string DVDLectGrab { get; set; }
         public string Disquetera{ get; set; }
         public string Monitor { get; set; }
         [Display(Name = "¿Tiene Webcam?")]
