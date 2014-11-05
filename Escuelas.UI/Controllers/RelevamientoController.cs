@@ -91,6 +91,8 @@ namespace relevamientos.UI.Controllers
 
             RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
             relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
+            relevamientoModelo.HistorialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
+            relevamientoModelo.HistorialSegPedagogico = ConstruirHistorialSegPedagogico(SeguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
             return View(relevamientoModelo);
         }
 
