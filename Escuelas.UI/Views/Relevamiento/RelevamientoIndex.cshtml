@@ -121,7 +121,7 @@ foreach (var item in Model.Relevamientos) {
         <td style="text-align: center;width:200px">
             @Html.ActionImage("EditarRelevamiento", new { relevamientoId=item.ID, tActivo = 0, mensaje = "" },"~/Images/ico/editar22.png","Editar Relevamiento")
             @*@Html.ActionImage("DetalleRelevamiento", new { relevamientoId=item.ID },"~/Images/ico/ver24.ico","Ver Detalles")*@
-            @Html.ActionImage("ExportPDF", new { relevamientoId=item.ID },"~/Images/ico/pdf24.ico","Exportar a PDF")
+            @Html.ActionImage("ExportPDF", new { relevamientoId=item.ID, seleccionlistado = 1},"~/Images/ico/pdf24.ico","Exportar a PDF")
         </td>
     </tr>
         }
