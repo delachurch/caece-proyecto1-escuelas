@@ -390,6 +390,10 @@
     <Content Include="Views\Distrito\EditarDistrito.cshtml" />
     <Content Include="Views\Reporte\RelevamientoporEscuela.cshtml" />
     <Content Include="Views\Busqueda\BusquedaIndex.cshtml" />
+    <Content Include="Views\Relevamiento\ExportarHerramientasSoft.cshtml">
+      <BrowseToURL>~/Relevamiento/ExportarHerramientasSoft</BrowseToURL>
+    </Content>
+    <Content Include="Views\Relevamiento\Listados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
