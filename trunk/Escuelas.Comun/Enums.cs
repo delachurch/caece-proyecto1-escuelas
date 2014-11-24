@@ -10,5 +10,6 @@ namespace Escuelas.Comun
     {
         public enum TipoEstablecimiento { Primario = 1, Secundario = 2,PreEscolar= 3,Otro = 4 };
         public enum Categoria { TipoEstablecimiento = 1, TipoDispositivo = 2, TipoServicio = 3,TipoDispositivoRed = 4, TipoSoftware = 5, PlataformaSoftware = 6};
+        public enum TipoInforme { EquipamientoDeEscuelasPorDistrito = 1, ListadoEscuelas = 2, InformeEscuelaCompleto = 3, InformeEscuelaSoftyCapac = 4  };
     }
 }

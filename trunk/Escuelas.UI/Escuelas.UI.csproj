@@ -195,6 +195,8 @@
     </Compile>
     <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\DistritoEscuelaModel.cs" />
+    <Compile Include="Models\InformeModel.cs" />
     <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\RelevamientoBusqueda.cs" />
     <Compile Include="Models\RelevamientoModelo.cs" />
@@ -394,6 +396,7 @@
       <BrowseToURL>~/Relevamiento/ExportarHerramientasSoft</BrowseToURL>
     </Content>
     <Content Include="Views\Relevamiento\Listados.cshtml" />
+    <Content Include="Views\Relevamiento\InformesIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

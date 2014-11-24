@@ -11,6 +11,8 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using Escuelas.UI.Filters;
 using Escuelas.UI.Models;
+using Escuelas.Comun;
+using Rotativa;
 
 namespace Escuelas.UI.Controllers
 {
@@ -20,7 +22,8 @@ namespace Escuelas.UI.Controllers
     {
         //
         // GET: /Escuela/
-        EscuelaComponente escuelaComponente = new EscuelaComponente(); 
+        EscuelaComponente escuelaComponente = new EscuelaComponente();
+        RelevamientoComponente relevamientoComponente = new RelevamientoComponente(); 
         DistritoComponente distritoComponente = new DistritoComponente();
 
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
@@ -72,6 +75,9 @@ namespace Escuelas.UI.Controllers
 
             return RedirectToAction("EscuelaIndex");
         }
+
+        
+
 
     }
 }
