@@ -17,6 +17,14 @@ namespace Escuelas.AccesoADatos
             }
         }
 
+        public List<Distrito> ObtenerDistritosPorRegion(int region)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+                return contexto.Distritos.Where(d => d.Inactivo == false && d.Region == region).OrderBy(d => d.Nombre).ToList();
+            }
+        }
+
         public Distrito ObtenerDistritoPorId(int distritoId)
         {
             using (Contexto contexto = new Contexto())
@@ -25,13 +33,6 @@ namespace Escuelas.AccesoADatos
             }
         }
 
-        public List<Distrito> ObtenerDistritosPorRegion(int regionId)
-        {
-            using (Contexto contexto = new Contexto())
-            {
-                return contexto.Distritos.Where(d => d.Inactivo == false).OrderBy(d => d.Nombre).ToList();
-            }
-        }
 
         public void InsertarDistrito(Distrito nuevoDistrito)
         {

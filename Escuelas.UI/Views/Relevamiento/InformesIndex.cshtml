@@ -1,0 +1,153 @@
+﻿@model Escuelas.UI.Models.InformeModel
+@{
+    ViewBag.Title = "Informes";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+                <br />
+                </hgroup>
+            <p>
+               
+            </p>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <div style="border: dashed 2px lightgray;width: 490px;height:80px;padding-top: 15px;padding-left: 10px;" >
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TipoInforme)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.TipoInforme, new SelectList(ViewBag.ListaInformes, "Value", "Text", Model.TipoInforme),new { id = "ddlTipoInforme", onchange = "MostrarEscuela();" })
+            @Html.ValidationMessageFor(model => model.TipoInforme)
+        </div>
+    </div>
+    <br />
+    <div style="border: dashed 2px lightgray;width: 490px;padding-top: 10px;padding-left: 10px;padding-bottom: 20px;" >
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Region)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Region, new SelectList(ViewBag.ListaRegiones, "Value", "Text", Model.Region),new { id = "ddlRegion", onchange = "CargarDistritos(this);" })
+            @Html.ValidationMessageFor(model => model.Region)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DistritoID)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.DistritoID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.DistritoID),new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
+            @Html.ValidationMessageFor(model => model.DistritoID)
+        </div>
+    <div id="divEscuela" style="display:none">
+     
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EscuelaID)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.EscuelaID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.EscuelaID),new { id = "ddlEscuela" })
+            @Html.ValidationMessageFor(model => model.EscuelaID)
+        </div>
+     </div>
+   
+    </div>
+      <p>
+            <input type="submit" value="Generar Informe" />
+        </p>
+}
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            MostrarEscuela();
+
+        });
+
+    function MostrarEscuela() {
+
+        if ($('#ddlTipoInforme').val() == "3" || $('#ddlTipoInforme').val() == "4") {
+                $('#divEscuela').show();
+            }
+            else {
+                $('#divEscuela').hide()
+            }
+    }
+    function CargarDistritos(dropdown)
+    {
+        var region = dropdown.value;
+
+        showProgress();
+
+        $('#ddlDistrito').attr("disabled", "disabled");
+        $('#ddlEscuela').attr("disabled", "disabled");
+
+        $.getJSON("CargarDistritosPorRegionAsync", { Region: region }, actualizarDistritos)
+        .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+    }
+    function CargarEscuelas(dropdown) {
+
+        var distrito = dropdown.value;
+
+        showProgress();
+
+        $('#ddlEscuela').attr("disabled", "disabled");
+
+        $.getJSON("CargarEscuelasPorDistritoAsync", { DistId: distrito}, actualizarEscuelas)
+        .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
+
+    }
+
+    actualizarDistritos  = function (data) {
+        var ddlDistrito = $('#ddlDistrito');
+        ddlDistrito.empty();
+        $(data.listaDistritos).each(function () {
+            $(document.createElement('option'))
+                .attr('value', this.Value)
+                .text(this.Text)
+                .appendTo(ddlDistrito);
+        });
+
+        var ddlEscuela= $('#ddlEscuela');
+        ddlEscuela.empty();
+        $(data.listaEscuelas).each(function () {
+            $(document.createElement('option'))
+                .attr('value', this.Value)
+                .text(this.Text)
+                .appendTo(ddlEscuela);
+        });
+
+        $('#ddlDistrito').removeAttr("disabled");
+        $('#ddlEscuela').removeAttr("disabled");
+
+        hideProgress();
+    };
+
+
+    actualizarEscuelas = function (data) {
+        var ddl = $('#ddlEscuela');
+        ddl.empty();
+        $(data).each(function () {
+            $(document.createElement('option'))
+                .attr('value', this.Value)
+                .text(this.Text)
+                .appendTo(ddl);
+        });
+
+        $('#ddlEscuela').removeAttr("disabled");
+
+        hideProgress();
+    };
+
+        </script>
+}
+  

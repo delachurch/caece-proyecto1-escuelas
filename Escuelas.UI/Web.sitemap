@@ -24,6 +24,6 @@
                 <siteMapNode url="~/Reporte/RelevamientoporEscuela" title="Ver Relevamientos por Escuela"  description="Ver Relevamiento por Escuela" />
             </siteMapNode>
         </siteMapNode>
-        <siteMapNode url="~/Home/About" title="Sobre Nosotros"  description="Sobre Nosotros"/>
-    </siteMapNode>
+        <siteMapNode url="~/Relevamiento/InformesIndex" title="Informes"  description="Informes" />
+      </siteMapNode>
 </siteMap>

@@ -15,7 +15,10 @@ namespace Escuelas.NegocioComponentes
         {
             return distritoDA.ObtenerDistritos();
         }
-
+        public List<Distrito> ObtenerDistritosPorRegion(int region)
+        {
+            return distritoDA.ObtenerDistritosPorRegion(region);
+        }
         public Distrito ObtenerDistritoPorId(int distritoId)
         {
             return distritoDA.ObtenerDistritoPorId(distritoId);
