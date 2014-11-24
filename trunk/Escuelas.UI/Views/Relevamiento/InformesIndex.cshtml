@@ -19,18 +19,23 @@
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-
-    <div style="border: dashed 2px lightgray;width: 490px;height:80px;padding-top: 15px;padding-left: 10px;" >
-        <div class="editor-label">
+    <div class="editor-label">
             @Html.LabelFor(model => model.TipoInforme)
         </div>
+    <br />
+    <div style="border: dashed 2px lightgray;width: 490px;padding-top: 15px;padding-left: 10px;padding-bottom: 15px;" >
+        
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.TipoInforme, new SelectList(ViewBag.ListaInformes, "Value", "Text", Model.TipoInforme),new { id = "ddlTipoInforme", onchange = "MostrarEscuela();" })
+            @Html.DropDownListFor(model => model.TipoInforme, new SelectList(ViewBag.ListaInformes, "Value", "Text", Model.TipoInforme),new { id = "ddlTipoInforme", onchange = "MostrarEscuela();",style="width:400px" })
             @Html.ValidationMessageFor(model => model.TipoInforme)
         </div>
     </div>
     <br />
-    <div style="border: dashed 2px lightgray;width: 490px;padding-top: 10px;padding-left: 10px;padding-bottom: 20px;" >
+     <div class="editor-label">
+         <label>Seleccione Parámetros</label>   
+        </div>
+   <br />
+     <div style="border: dashed 2px lightgray;width: 490px;padding-top: 10px;padding-left: 10px;padding-bottom: 20px;" >
         <div class="editor-label">
             @Html.LabelFor(model => model.Region)
         </div>
@@ -43,7 +48,7 @@
             @Html.LabelFor(model => model.DistritoID)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.DistritoID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.DistritoID),new { id = "ddlDistrito", onchange = "CargarEscuelas(this);" })
+            @Html.DropDownListFor(model => model.DistritoID, new SelectList(ViewBag.ListaDistritos, "Value", "Text", Model.DistritoID),new { id = "ddlDistrito", onchange = "CargarEscuelas(this);",style="width:400px" })
             @Html.ValidationMessageFor(model => model.DistritoID)
         </div>
     <div id="divEscuela" style="display:none">
@@ -52,7 +57,7 @@
             @Html.LabelFor(model => model.EscuelaID)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.EscuelaID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.EscuelaID),new { id = "ddlEscuela" })
+            @Html.DropDownListFor(model => model.EscuelaID, new SelectList(ViewBag.ListaEscuelas, "Value", "Text", Model.EscuelaID),new { id = "ddlEscuela",style="width:400px" })
             @Html.ValidationMessageFor(model => model.EscuelaID)
         </div>
      </div>
