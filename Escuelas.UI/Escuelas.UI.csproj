@@ -395,9 +395,6 @@
     <Content Include="Views\Distrito\EditarDistrito.cshtml" />
     <Content Include="Views\Reporte\RelevamientoporEscuela.cshtml" />
     <Content Include="Views\Busqueda\BusquedaIndex.cshtml" />
-    <Content Include="Views\Relevamiento\ExportarHerramientasSoft.cshtml">
-      <BrowseToURL>~/Relevamiento/ExportarHerramientasSoft</BrowseToURL>
-    </Content>
     <Content Include="Views\Relevamiento\Listados.cshtml" />
     <Content Include="Views\Informe\InformesIndex.cshtml" />
     <Content Include="Views\Informe\ExportarRelevamiento.cshtml" />
