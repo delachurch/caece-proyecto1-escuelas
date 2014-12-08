@@ -21,5 +21,26 @@ namespace Escuelas.NegocioComponentes
             SeguimientoPedagogicoDA.InsertarSegPedagogico(nuevoSeguimientoPedagogico);
         }
 
+        public string ConstruirHistorialSegPedagogico(List<SeguimientoPedagogico> SeguimientoPedagogicos)
+        {
+
+            if (SeguimientoPedagogicos.Count() > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (SeguimientoPedagogico elem in SeguimientoPedagogicos)
+                {
+                    sb.AppendLine(elem.FechaAlta + " - " + elem.UserProfile.UserName);
+                    sb.AppendLine(elem.Comentarios + "\n\n");
+                }
+
+                return sb.ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+
     }
 }

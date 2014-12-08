@@ -1,13 +1,13 @@
-﻿@model Escuelas.NegocioEntidades.Distrito
+﻿@model Escuelas.NegocioEntidades.CategoriaValor
 
 @{
     if (Model.ID != null && Model.ID > 0)
     {
-        ViewBag.Title = "Editar Distrito";
+        ViewBag.Title = "Editar Opción";
     }
     else
     {
-        ViewBag.Title = "Agregar Distrito";
+        ViewBag.Title = "Agregar Opción";
     }
     
 }
@@ -30,16 +30,16 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Distrito</legend>
+        <legend>Opción</legend>
 
         @Html.HiddenFor(model => model.ID)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Region)
+            @Html.LabelFor(model => model.Categoria.Nombre)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Region)
-            @Html.ValidationMessageFor(model => model.Region)
+            @Html.DropDownListFor(model => model.Categoria.ID, new SelectList(ViewBag.ListaCategorias, "Value", "Text", Model.Categoria.ID),(Model.ID != 0) ? (object)new { disabled = "disabled" } : new {  })
+            @Html.ValidationMessageFor(model => model.Categoria.ID)
         </div>
 
         <div class="editor-label">
@@ -57,7 +57,7 @@
 }
 
 <div>
-    @Html.ActionLink("Volver al listado de Distritos", "DistritoIndex")
+    @Html.ActionLink("Volver al listado de Opciones", "OpcionesIndex")
 </div>
 
 @section Scripts {

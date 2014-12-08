@@ -26,6 +26,7 @@ namespace Escuelas.NegocioEntidades
         public DateTime FechaAlta { get; set; }
         public DateTime? FechaModificacion { get; set; }
         [Required(ErrorMessage = "Debe Ingresar un número")]
+        [Display(Name = "Número")]
         public int Numero { get; set; }
         [Required(ErrorMessage = "Debe Ingresar un nombre")]
         public string Nombre { get; set; }
@@ -38,6 +39,7 @@ namespace Escuelas.NegocioEntidades
         public List<Personal> ListaPersonal { get; set; }
         public List<HistorialComentario> HistorialComentarios { get; set; }
         public List<SeguimientoPedagogico> SeguimientoPedagogicos { get; set; }
-
+        [Display(Name = "Teléfono")]
+        public string Telefono { get; set; }
     }
 }

@@ -9,10 +9,17 @@ namespace Escuelas.UI.Models
 {
     public class RelevamientoBusqueda
     {
-        public List<Relevamiento> Relevamientos { get; set; }
+        public List<RelevamientoEncID> Relevamientos { get; set; }
          [Display(Name = "Distrito")]
-        public int DistritoId { get; set; }
+        public string DistritoId { get; set; }
          [Display(Name = "Escuela")]
-        public int EscuelaId { get; set; }
+        public string EscuelaId { get; set; }
     }
+
+    public class RelevamientoEncID
+    {
+        public Relevamiento Relevamiento { get; set; }
+        public string EncId { get; set; }
+    }
+
 }

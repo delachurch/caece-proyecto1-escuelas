@@ -21,6 +21,7 @@ namespace Escuelas.NegocioEntidades
         public int ID { get; set; }
         public Categoria Categoria { get; set; }
         public string Nombre { get; set; }
+        public bool Inactivo { get; set; }
         public List<Escuela> Escuelas { get; set; }
         public List<Servicio> Servicios { get; set; }
         public List<Dispositivo> Dispositivos { get; set; }

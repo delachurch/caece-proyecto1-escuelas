@@ -184,9 +184,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
+    <Compile Include="Controllers\CategoriaValorController.cs" />
     <Compile Include="Controllers\DistritoController.cs" />
     <Compile Include="Controllers\EscuelaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InformeController.cs" />
     <Compile Include="Controllers\RelevamientoController.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -196,6 +198,7 @@
     <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DistritoEscuelaModel.cs" />
+    <Compile Include="Models\EscuelaModel.cs" />
     <Compile Include="Models\InformeModel.cs" />
     <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\RelevamientoBusqueda.cs" />
@@ -396,7 +399,13 @@
       <BrowseToURL>~/Relevamiento/ExportarHerramientasSoft</BrowseToURL>
     </Content>
     <Content Include="Views\Relevamiento\Listados.cshtml" />
-    <Content Include="Views\Relevamiento\InformesIndex.cshtml" />
+    <Content Include="Views\Informe\InformesIndex.cshtml" />
+    <Content Include="Views\Informe\ExportarRelevamiento.cshtml" />
+    <Content Include="Views\Informe\ExportarHerramientasSoft.cshtml" />
+    <Content Include="Views\Informe\ExportarListadoEscuelas.cshtml" />
+    <Content Include="Views\Informe\ExportarEquipamientoEscuelas.cshtml" />
+    <Content Include="Views\CategoriaValor\OpcionesIndex.cshtml" />
+    <Content Include="Views\CategoriaValor\EditarOpcion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

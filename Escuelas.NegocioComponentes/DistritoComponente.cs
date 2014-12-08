@@ -28,8 +28,6 @@ namespace Escuelas.NegocioComponentes
         {
             if (distrito.ID > 0)
             {
-                distrito.Inactivo = false;
-
                 distritoDA.ActualizarDistrito(distrito);
             }
             else

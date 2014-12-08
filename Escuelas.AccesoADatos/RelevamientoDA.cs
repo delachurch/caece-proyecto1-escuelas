@@ -28,14 +28,26 @@ namespace Escuelas.AccesoADatos
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Include("Imagenes").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).First();
+                List<Relevamiento> lista = contexto.Relevamientos.Include("Escuela.Distrito").Include("Maquinas").Include("Dispositivos.TipoDispositivo.Categoria").Include("Servicios.TipoServicio.Categoria").Include("DispositivosRed.TipoDispositivoRed.Categoria").Include("Softwares.TipoSoftware").Include("Softwares.PlataformaSoftware").Include("Capacitaciones").Include("Imagenes").Where(r => r.Escuela.ID == escuelaId).OrderByDescending(r => r.FechaRelevo).ToList();
+                if (lista != null && lista.Count() > 0)
+                {
+                    return lista.First();
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
         public List<Relevamiento> ObtenerRelevamientosPorDistrito(int distId)
         {
             using (Contexto contexto = new Contexto())
             {
-                return contexto.Relevamientos.Include("Escuela.Distrito").Where(r => r.Escuela.Distrito.ID == distId).ToList();
+                return contexto.Relevamientos.Include("Escuela.Distrito").Include("CreadoPor").Include("ModificadoPor")
+                        .Where(r => r.Escuela.Distrito.ID == distId)
+                        .OrderByDescending(r => r.FechaRelevo)
+                        .ToList();
             }
         }
 

@@ -1,0 +1,118 @@
+﻿@model List<Escuelas.NegocioEntidades.ReporteEquipamientoEscuelas>
+
+@{
+    ViewBag.Title = "Listado de Escuelas";
+    Layout = "~/Views/Shared/_PDF.cshtml";
+}
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+            </p>
+        </div>
+    </section>
+}
+
+<fieldset>
+    <legend>Listado de Escuelas</legend>
+    @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
+    {   
+        @Html.ValidationSummary(true)
+         if (Model != null && Model.Count() > 0)
+                    {
+        <div class="editor-label">
+            <h3>Informacion de Distrito</h3>
+            <div>
+                @Html.LabelFor(model => model[0].DistritoRegion, new { style = "display:inline" })
+                @Html.DisplayFor(model => model[0].DistritoRegion)
+            </div>
+            <div>
+                @Html.LabelFor(model => model[0].DistritoNombre, new { style = "display:inline" })
+                @Html.DisplayFor(model => model[0].DistritoNombre)
+            </div>
+        </div>
+         }
+        
+<table id="tblEscuela">
+    <thead>
+    <tr>
+         <th>
+            @Html.DisplayNameFor(model => model[0].EscuelaNumero)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].EscuelaNombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].TieneADM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].CantMaquinasFunc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].CantMaquinasNoFunc)
+        </th>
+        <th style="text-align: center">
+            @Html.DisplayNameFor(model => model[0].CantDispositivosRed)
+        </th>
+       <th>
+            @Html.DisplayNameFor(model => model[0].CantOtrosDispositivos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].CantServicios)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Internet)
+        </th>
+    </tr>
+        </thead>
+    <tbody>
+ @if (Model != null && Model.Count() > 0)
+                    {
+                    foreach (var item in Model) {
+    <tr>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.EscuelaNumero)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.EscuelaNombre)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.TieneADM)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.CantMaquinasFunc)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.CantMaquinasNoFunc)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.CantDispositivosRed)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.CantOtrosDispositivos)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.CantServicios)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Internet)
+        </td>
+    </tr>
+            }
+}
+        else
+        {
+            <tr>
+                <td colspan="9">No hay Escuelas Disponibles
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>
+  }
+  </fieldset>

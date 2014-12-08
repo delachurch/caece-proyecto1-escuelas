@@ -19,7 +19,7 @@ namespace Escuelas.UI.Controllers
         //
         // GET: /Busqueda/
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
-        public ActionResult BusquedaIndex(int? distId, int? escId)
+        public ActionResult BusquedaIndex(string distId, string escId)
         {
             RelevamientoBusqueda relevamientoBusqueda = new RelevamientoBusqueda();
 
@@ -29,10 +29,10 @@ namespace Escuelas.UI.Controllers
 
             List<Escuela> listaEscuelas;
 
-            if (distId.Value > 0)
+            if (!string.IsNullOrEmpty(distId))
             {
-                relevamientoBusqueda.DistritoId = distId.Value;
-                listaEscuelas = CargarEscuelasPorDistrito(relevamientoBusqueda.DistritoId);
+                relevamientoBusqueda.DistritoId = distId;
+                listaEscuelas = CargarEscuelasPorDistrito(int.Parse(relevamientoBusqueda.DistritoId));
             }
             else
             {
@@ -43,12 +43,12 @@ namespace Escuelas.UI.Controllers
 
             ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
 
-            if (escId.Value > 0)
+            if (!string.IsNullOrEmpty(escId))
             {
-                relevamientoBusqueda.EscuelaId = escId.Value;
+                relevamientoBusqueda.EscuelaId = escId;
             }
 
-            relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(relevamientoBusqueda.EscuelaId);
+            // relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(int.Parse(relevamientoBusqueda.EscuelaId));
 
             return View(relevamientoBusqueda);
 

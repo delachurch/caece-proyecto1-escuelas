@@ -18,8 +18,10 @@
 }
 
 @using (Html.BeginForm()) {
+    <div id="divErrors">
     @Html.ValidationSummary(true)
-    <div class="editor-label">
+    </div>
+        <div class="editor-label">
             @Html.LabelFor(model => model.TipoInforme)
         </div>
     <br />
@@ -64,7 +66,7 @@
    
     </div>
       <p>
-            <input type="submit" value="Generar Informe" />
+            <input type="submit" value="Generar Informe" onclick="OcultarMensajesDeError()" />
         </p>
 }
 
@@ -152,7 +154,9 @@
 
         hideProgress();
     };
-
+    function OcultarMensajesDeError() {
+        $('#divErrors').hide()
+    }
         </script>
 }
   

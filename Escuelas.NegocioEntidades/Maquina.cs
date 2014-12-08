@@ -12,6 +12,7 @@ namespace Escuelas.NegocioEntidades
     {
         public int ID { get; set; }
         public string Marca { get; set; }
+        [Required(ErrorMessage = "Debe Ingresar un nombre")]
         public string Nombre { get; set; }
         public string Procesador { get; set; }
         [Display(Name = "RAM")]

@@ -35,7 +35,12 @@ namespace Escuelas.NegocioComponentes
             }
             
         }
-
+        
+        public List<ReporteEquipamientoEscuelas> ObtenerReporteEquipamientoEscuela(int distritoId)
+        {
+            return escuelaDA.ObtenerReporteEquipamientoEscuela(distritoId);
+        }
+        
         public void GuardarEscuela(Escuela escuela)
         {
             if (escuela.ID > 0)

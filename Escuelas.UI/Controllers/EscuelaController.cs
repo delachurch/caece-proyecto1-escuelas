@@ -12,6 +12,7 @@ using WebMatrix.WebData;
 using Escuelas.UI.Filters;
 using Escuelas.UI.Models;
 using Escuelas.Comun;
+using Escuelas.Seguridad;
 using Rotativa;
 
 namespace Escuelas.UI.Controllers
@@ -31,21 +32,31 @@ namespace Escuelas.UI.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult EscuelaIndex()
         {
-            return View(escuelaComponente.ObtenerEscuelas());
+            EscuelaModel escModel;
+            List<EscuelaModel> listaEscuelaModel = new List<EscuelaModel>();
+
+            foreach (Escuela esc in escuelaComponente.ObtenerEscuelas())
+            {
+                escModel = new EscuelaModel();
+                escModel.Escuela = esc;
+                escModel.encId = Encriptacion.EncriptarID(esc.ID);
+                listaEscuelaModel.Add(escModel);
+            }
+            return View(listaEscuelaModel);
         }
 
         [Authorize(Roles = "Admin")]
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult EditarEscuela(int escuelaId)
+        public ActionResult EditarEscuela(string escuelaId)
         {
             ViewBag.ListaDistritos = new List<SelectListItem>(distritoComponente.ObtenerDistritos().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            Escuela escuela; 
+            Escuela escuela;
 
-            if(escuelaId > 0)
+            if(!string.IsNullOrEmpty(escuelaId))
             {
-                escuela = escuelaComponente.ObtenerEscuelaPorId(escuelaId);
+                escuela = escuelaComponente.ObtenerEscuelaPorId(Encriptacion.DesencriptarID(escuelaId));
             }
             else
             {
@@ -68,10 +79,13 @@ namespace Escuelas.UI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult BorrarEscuela(int escuelaId)
+        public ActionResult BorrarEscuela(string escuelaId)
         {
 
-            escuelaComponente.BorrarEscuela(escuelaId);
+            if (escuelaId != null && escuelaId != "")
+            {
+                escuelaComponente.BorrarEscuela(Encriptacion.DesencriptarID(escuelaId));
+            }
 
             return RedirectToAction("EscuelaIndex");
         }

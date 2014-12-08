@@ -21,6 +21,25 @@ namespace Escuelas.NegocioComponentes
         {
             historialComentarioDA.InsertarComentario(nuevoHistorialComentario);
         }
-     
+
+        public string ConstruirHistorialComentarios(List<HistorialComentario> historialComentarios)
+        {
+
+            if (historialComentarios.Count() > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (HistorialComentario elem in historialComentarios)
+                {
+                    sb.AppendLine(elem.FechaAlta + " - " + elem.UserProfile.UserName);
+                    sb.AppendLine(elem.Comentarios + "\n\n");
+                }
+
+                return sb.ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
     }
 }

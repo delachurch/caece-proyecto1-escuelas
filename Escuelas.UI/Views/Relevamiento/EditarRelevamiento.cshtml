@@ -137,48 +137,48 @@
                 <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Nombre)
+                        @Html.DisplayNameFor(model => model.ListaMaquinas[0].Maquina.Nombre)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].Marca)
+                        @Html.DisplayNameFor(model => model.ListaMaquinas[0].Maquina.Marca)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].SistemaOperativo)
+                        @Html.DisplayNameFor(model => model.ListaMaquinas[0].Maquina.SistemaOperativo)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].MemoriaRAM)
+                        @Html.DisplayNameFor(model => model.ListaMaquinas[0].Maquina.MemoriaRAM)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Maquinas[0].CapacidadDiscoDuro)
+                        @Html.DisplayNameFor(model => model.ListaMaquinas[0].Maquina.CapacidadDiscoDuro)
                     </th>
                     <th></th>
                 
                 </tr>
                     </thead>
                 <tbody>
-                @if (Model.Relevamiento.Maquinas != null && Model.Relevamiento.Maquinas.Count() > 0)
+                @if (Model.ListaMaquinas != null && Model.ListaMaquinas.Count() > 0)
                 {
-                    foreach (var item in Model.Relevamiento.Maquinas)
+                    foreach (var item in Model.ListaMaquinas)
                     {
                     <tr>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Nombre)
+                            @Html.DisplayFor(modelItem => item.Maquina.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Marca)
+                            @Html.DisplayFor(modelItem => item.Maquina.Marca)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.SistemaOperativo)
+                            @Html.DisplayFor(modelItem => item.Maquina.SistemaOperativo)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.MemoriaRAM)
+                            @Html.DisplayFor(modelItem => item.Maquina.MemoriaRAM)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.CapacidadDiscoDuro)
+                            @Html.DisplayFor(modelItem => item.Maquina.CapacidadDiscoDuro)
                         </td>
                         <td style="text-align: center; width: 50px">
-                            <img src="~/Images/ico/editar22.png" onclick="EditarMaquina(@item.ID);" class="EditImage" />
-                            @Html.ActionImage("BorrarMaquina", new { maqId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Maquina")
+                            <img src="~/Images/ico/editar22.png" onclick="EditarMaquina('@item.EncId');" class="EditImage" />
+                            @Html.ActionImage("BorrarMaquina", new { maqId = item.EncId, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Maquina")
                         </td>
                     </tr>
                     }
@@ -442,53 +442,53 @@
                 <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].TipoDispositivoRed)
+                        @Html.DisplayNameFor(model => model.ListaDispositivosRed[0].DispositivoRed.TipoDispositivoRed)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Marca)
+                        @Html.DisplayNameFor(model => model.ListaDispositivosRed[0].DispositivoRed.Marca)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Modelo)
+                        @Html.DisplayNameFor(model => model.ListaDispositivosRed[0].DispositivoRed.Modelo)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosTotales)
+                        @Html.DisplayNameFor(model => model.ListaDispositivosRed[0].DispositivoRed.PuertosTotales)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].PuertosUtilizados)
+                        @Html.DisplayNameFor(model => model.ListaDispositivosRed[0].DispositivoRed.PuertosUtilizados)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.DispositivosRed[0].Protocolo)
+                        @Html.DisplayNameFor(model => model.ListaDispositivosRed[0].DispositivoRed.Protocolo)
                     </th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                @if (Model.Relevamiento.DispositivosRed != null && Model.Relevamiento.DispositivosRed.Count() > 0)
+                @if (Model.ListaDispositivosRed != null && Model.ListaDispositivosRed.Count() > 0)
                 {
-                    foreach (var item in Model.Relevamiento.DispositivosRed)
+                    foreach (var item in Model.ListaDispositivosRed)
                     {
                     <tr>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.TipoDispositivoRed.Nombre)
+                            @Html.DisplayFor(modelItem => item.DispositivoRed.TipoDispositivoRed.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Marca)
+                            @Html.DisplayFor(modelItem => item.DispositivoRed.Marca)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Modelo)
+                            @Html.DisplayFor(modelItem => item.DispositivoRed.Modelo)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.PuertosTotales)
+                            @Html.DisplayFor(modelItem => item.DispositivoRed.PuertosTotales)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.PuertosUtilizados)
+                            @Html.DisplayFor(modelItem => item.DispositivoRed.PuertosUtilizados)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Protocolo)
+                            @Html.DisplayFor(modelItem => item.DispositivoRed.Protocolo)
                         </td>
                         <td style="text-align: center; width: 50px">
-                            <img src="~/Images/ico/editar22.png" onclick="EditarDispositivoRed(@item.ID);" class="EditImage" />
-                            @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo de Rsed")
+                            <img src="~/Images/ico/editar22.png" onclick="EditarDispositivoRed('@item.EncId');" class="EditImage" />
+                            @Html.ActionImage("BorrarDispositivoRed", new { disRedId = item.EncId, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo de Rsed")
                         </td>
                     </tr>
                     }
@@ -614,41 +614,41 @@
                 <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].TipoDispositivo)
+                        @Html.DisplayNameFor(model => model.ListaDispositivos[0].Dispositivo.TipoDispositivo)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Marca)
+                        @Html.DisplayNameFor(model => model.ListaDispositivos[0].Dispositivo.Marca)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Modelo)
+                        @Html.DisplayNameFor(model => model.ListaDispositivos[0].Dispositivo.Modelo)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Dispositivos[0].Ubicacion)
+                        @Html.DisplayNameFor(model => model.ListaDispositivos[0].Dispositivo.Ubicacion)
                     </th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                @if (Model.Relevamiento.Dispositivos != null && Model.Relevamiento.Dispositivos.Count() > 0)
+                @if (Model.ListaDispositivos != null && Model.ListaDispositivos.Count() > 0)
                 {
-                    foreach (var item in Model.Relevamiento.Dispositivos)
+                    foreach (var item in Model.ListaDispositivos)
                     {
                     <tr>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.TipoDispositivo.Nombre)
+                            @Html.DisplayFor(modelItem => item.Dispositivo.TipoDispositivo.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Marca)
+                            @Html.DisplayFor(modelItem => item.Dispositivo.Marca)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Modelo)
+                            @Html.DisplayFor(modelItem => item.Dispositivo.Modelo)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Ubicacion)
+                            @Html.DisplayFor(modelItem => item.Dispositivo.Ubicacion)
                         </td>
                         <td style="text-align: center; width: 50px">
-                            <img src="~/Images/ico/editar22.png" onclick="EditarOtroDispositivo(@item.ID);" class="EditImage" />
-                            @Html.ActionImage("BorrarDispositivo", new { disId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo")
+                            <img src="~/Images/ico/editar22.png" onclick="EditarOtroDispositivo('@item.EncId');" class="EditImage" />
+                            @Html.ActionImage("BorrarDispositivo", new { disId = item.EncId, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Dispositivo")
                         </td>
                     </tr>
                     }
@@ -747,35 +747,35 @@
                 <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].TipoServicio)
+                        @Html.DisplayNameFor(model => model.ListaServicios[0].Servicio.TipoServicio)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].Compañia)
+                        @Html.DisplayNameFor(model => model.ListaServicios[0].Servicio.Compañia)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Servicios[0].EsPago)
+                        @Html.DisplayNameFor(model => model.ListaServicios[0].Servicio.EsPago)
                     </th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                @if (Model.Relevamiento.Servicios != null && Model.Relevamiento.Servicios.Count() > 0)
+                @if (Model.ListaServicios != null && Model.ListaServicios.Count() > 0)
                 {
-                    foreach (var item in Model.Relevamiento.Servicios)
+                    foreach (var item in Model.ListaServicios)
                     {
                     <tr>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.TipoServicio.Nombre)
+                            @Html.DisplayFor(modelItem => item.Servicio.TipoServicio.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Compañia)
+                            @Html.DisplayFor(modelItem => item.Servicio.Compañia)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.EsPago)
+                            @Html.DisplayFor(modelItem => item.Servicio.EsPago)
                         </td>
                         <td style="text-align: center; width: 50px">
-                            <img src="~/Images/ico/editar22.png" onclick="EditarServicio(@item.ID);" class="EditImage" />
-                            @Html.ActionImage("BorrarServicio", new { serId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Servicio")
+                            <img src="~/Images/ico/editar22.png" onclick="EditarServicio('@item.EncId');" class="EditImage" />
+                            @Html.ActionImage("BorrarServicio", new { serId = item.EncId, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Servicio")
                         </td>
                     </tr>
                     }
@@ -856,7 +856,7 @@
             }
         </div>
         <div id="tabs-6" class="TabClase">
-            @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
+            @if (Model.ListaSoftwares != null && Model.ListaSoftwares.Count() > 0)
             {
             <script type="text/javascript">
                 $(function () {
@@ -868,16 +868,16 @@
             <table id="tblSoftware" class="tablesorter">
                 <tr>
                      <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].PlataformaSoftware)
+                        @Html.DisplayNameFor(model => model.ListaSoftwares[0].Software.PlataformaSoftware)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].TipoSoftware)
+                        @Html.DisplayNameFor(model => model.ListaSoftwares[0].Software.TipoSoftware)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Nombre)
+                        @Html.DisplayNameFor(model => model.ListaSoftwares[0].Software.Nombre)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Softwares[0].Descripcion)
+                        @Html.DisplayNameFor(model => model.ListaSoftwares[0].Software.Descripcion)
                     </th>
                     <th>
                     
@@ -886,26 +886,26 @@
                 </tr>
                     </thead>
                 <tbody>
-                @if (Model.Relevamiento.Softwares != null && Model.Relevamiento.Softwares.Count() > 0)
+                @if (Model.ListaSoftwares != null && Model.ListaSoftwares.Count() > 0)
                 {
-                    foreach (var item in Model.Relevamiento.Softwares)
+                    foreach (var item in Model.ListaSoftwares)
                     {
                     <tr>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.PlataformaSoftware.Nombre)
+                            @Html.DisplayFor(modelItem => item.Software.PlataformaSoftware.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.TipoSoftware.Nombre)
+                            @Html.DisplayFor(modelItem => item.Software.TipoSoftware.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Nombre)
+                            @Html.DisplayFor(modelItem => item.Software.Nombre)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Descripcion)
+                            @Html.DisplayFor(modelItem => item.Software.Descripcion)
                         </td>
                         <td style="text-align: center; width: 50px">
-                            <img src="~/Images/ico/editar22.png" onclick="EditarSoftware(@item.ID);" class="EditImage" />
-                            @Html.ActionImage("BorrarSoftware", new { softId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Software")
+                            <img src="~/Images/ico/editar22.png" onclick="EditarSoftware('@item.EncId');" class="EditImage" />
+                            @Html.ActionImage("BorrarSoftware", new { softId = item.EncId, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Software")
                         </td>
                     </tr>
                     }
@@ -996,36 +996,36 @@
                 <thead>
                 <tr>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Grado)
+                        @Html.DisplayNameFor(model => model.ListaCapacitaciones[0].Capacitacion.Grado)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Curso)
+                        @Html.DisplayNameFor(model => model.ListaCapacitaciones[0].Capacitacion.Curso)
                     </th>
                     <th style="text-align: center; width: 200px">
-                        @Html.DisplayNameFor(model => model.Relevamiento.Capacitaciones[0].Descripcion)
+                        @Html.DisplayNameFor(model => model.ListaCapacitaciones[0].Capacitacion.Descripcion)
                     </th>
                     <th></th>
                     
                 </tr>
                     </thead>
                 <tbody>
-                @if (Model.Relevamiento.Capacitaciones != null && Model.Relevamiento.Capacitaciones.Count() > 0)
+                @if (Model.ListaCapacitaciones != null && Model.ListaCapacitaciones.Count() > 0)
                 {
-                    foreach (var item in Model.Relevamiento.Capacitaciones)
+                    foreach (var item in Model.ListaCapacitaciones)
                     {
                     <tr>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Grado)
+                            @Html.DisplayFor(modelItem => item.Capacitacion.Grado)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Curso)
+                            @Html.DisplayFor(modelItem => item.Capacitacion.Curso)
                         </td>
                         <td style="text-align: center; width: 200px">
-                            @Html.DisplayFor(modelItem => item.Descripcion)
+                            @Html.DisplayFor(modelItem => item.Capacitacion.Descripcion)
                         </td>
                         <td style="text-align: center; width: 50px">
-                            <img src="~/Images/ico/editar22.png" onclick="EditarCapacitacion(@item.ID);" class="EditImage" />
-                            @Html.ActionImage("BorrarCapacitacion", new { capId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Capacitacion")
+                            <img src="~/Images/ico/editar22.png" onclick="EditarCapacitacion('@item.EncId');" class="EditImage" />
+                            @Html.ActionImage("BorrarCapacitacion", new { capId = item.EncId, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Capacitacion")
                         </td>
                     </tr>
                     }
@@ -1165,42 +1165,42 @@
                 <thead>
                     <tr>
                         <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Titulo)
+                            @Html.DisplayNameFor(model => model.ListaImagenes[0].Imagen.Titulo)
                         </th>
                         <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Descripcion)
+                            @Html.DisplayNameFor(model => model.ListaImagenes[0].Imagen.Descripcion)
                         </th>
                         <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Contenido)
+                            @Html.DisplayNameFor(model => model.ListaImagenes[0].Imagen.Contenido)
                         </th>
                         <th style="text-align: center; width: 200px">
-                            @Html.DisplayNameFor(model => model.Relevamiento.Imagenes[0].Foto)
+                            @Html.DisplayNameFor(model => model.ListaImagenes[0].Imagen.Foto)
                         </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Relevamiento.Imagenes != null && Model.Relevamiento.Imagenes.Count() > 0)
+                    @if (Model.ListaImagenes != null && Model.ListaImagenes.Count() > 0)
                     {
-                        foreach (var item in Model.Relevamiento.Imagenes)
+                        foreach (var item in Model.ListaImagenes)
                         {
                         <tr>
                             <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Titulo)
+                                @Html.DisplayFor(modelItem => item.Imagen.Titulo)
                             </td>
                             <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Descripcion)
+                                @Html.DisplayFor(modelItem => item.Imagen.Descripcion)
                             </td>
                             <td style="text-align: center; width: 200px">
-                                @Html.DisplayFor(modelItem => item.Contenido)
+                                @Html.DisplayFor(modelItem => item.Imagen.Contenido)
                             </td>
                             <td>
-                                <img src="/Relevamiento/RetrieveImage/@item.ID" alt="" height=100 width=200 />
+                                <img src="/Relevamiento/RetrieveImage/@item.Imagen.ID" alt="" height=100 width=200 />
                             </td>
                             <td style="text-align: center; width: 50px">
-                                @*<img src="~/Images/ico/editar22.png" onclick="EditarImagen(@item.ID);" class="EditImage" />*@ 
+                                @*<img src="~/Images/ico/editar22.png" onclick="EditarImagen(@item.Imagen.ID);" class="EditImage" />*@ 
                                 @*TODO: Editar esta dulicando registros en la base de datos, y no esta guardando la imagen que ya habia sido guardada en la carga anterior*@
-                                @Html.ActionImage("BorrarImagen", new { imgId = item.ID, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Imagen")
+                                @Html.ActionImage("BorrarImagen", new { imgId = item.EncId, relId = Model.Relevamiento.ID }, "~/Images/ico/eliminar24.ico", "Borrar Imagen")
                             </td>
                         </tr>
                         }
@@ -1313,7 +1313,9 @@
 </div>*@
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+        <script src="/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             var tabAct = parseInt($("#TabActivo").val())
@@ -1389,7 +1391,8 @@
             var distId = dropdown.value;
             showProgress();
             $('#ddlEscuela').attr("disabled", "disabled");
-            $.getJSON("CargarEscuelasPorDistritoAsync", { DistId: distId }, actualizarEscuelas)
+
+            $.getJSON("CargarEscuelasPorDistrito2Async", { DistrId: distId }, actualizarEscuelas)
             .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
 
 
@@ -1462,7 +1465,6 @@
             hideProgress();
         }
         function EditarMaquina(maqId) {
-
             showProgress();
             $.getJSON("ObtenerMaquinaAsync", { MaqId: maqId }, actualizarCamposMaquina)
             .error(function (request, textStatus, errorThrown) { alert(errorThrown); })
