@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Escuelas.NegocioEntidades.Escuela>
+﻿@using Escuelas.UI.Helpers;
+@model IEnumerable<Escuelas.UI.Models.EscuelaModel>
 
 @{
     ViewBag.Title = "Listado Escuelas";
@@ -11,7 +12,7 @@
                 <h2>@ViewBag.Message</h2>
                 <br />
                 <p>
-                @Html.ActionLink("Agregar Nueva Escuela", "EditarEscuela",new { escuelaId = 0 })
+                @Html.ActionLink("Agregar Nueva Escuela", "EditarEscuela",new { escuelaId = string.Empty })
                 </p>
             </hgroup>
             <p>
@@ -30,19 +31,19 @@
     <thead>
     <tr>
          <th>
-            @Html.DisplayNameFor(model => model.Numero)
+            @Html.DisplayNameFor(model => model.Escuela.Numero)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(model => model.Escuela.Nombre)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Distrito.Nombre)
+            @Html.DisplayNameFor(model => model.Escuela.Distrito.Nombre)
         </th>
         <th style="text-align: center">
-            @Html.DisplayNameFor(model => model.Direccion)
+            @Html.DisplayNameFor(model => model.Escuela.Direccion)
         </th>
        <th>
-            @Html.DisplayNameFor(model => model.TipoEstablecimiento)
+            @Html.DisplayNameFor(model => model.Escuela.TipoEstablecimiento)
         </th>
         
         <th></th>
@@ -53,24 +54,24 @@
 @foreach (var item in Model) {
     <tr>
         <td style="text-align: center;width:200px">
-            @Html.DisplayFor(modelItem => item.Numero)
+            @Html.DisplayFor(modelItem => item.Escuela.Numero)
         </td>
         <td style="text-align: center;width:200px">
-            @Html.DisplayFor(modelItem => item.Nombre)
+            @Html.DisplayFor(modelItem => item.Escuela.Nombre)
         </td>
         <td style="text-align: center;width:200px">
-            @Html.DisplayFor(modelItem => item.Distrito.Nombre)
+            @Html.DisplayFor(modelItem => item.Escuela.Distrito.Nombre)
         </td>
         <td style="text-align: center;width:200px">
-            @Html.DisplayFor(modelItem => item.Direccion)
+            @Html.DisplayFor(modelItem => item.Escuela.Direccion)
         </td>
         <td style="text-align: center;width:200px">
-            @Html.DisplayFor(modelItem => item.TipoEstablecimiento.Nombre)
+            @Html.DisplayFor(modelItem => item.Escuela.TipoEstablecimiento.Nombre)
         </td>
         <td style="text-align: center;width:300px">
-            @Html.ActionLink("Editar", "EditarEscuela", new { escuelaId=item.ID }) |
-            @*@Html.ActionLink("Ver Detalles", "DetalleEscuela", new { escuelaId=item.ID }) | *@
-            @Html.ActionLink("Borrar", "BorrarEscuela", new { escuelaId=item.ID },new { onclick = "return confirm('¿Está seguro que desea borrar esta escuela?');" })
+            @Html.ActionImage("EditarEscuela", new { escuelaId=item.encId },"~/Images/ico/editar22.png","Editar Opción")
+            
+            @Html.ActionImage("BorrarEscuela", new { escuelaId=item.encId }, "~/Images/ico/eliminar24.ico", "Borrar Opción")
         </td>
     </tr>
 }

@@ -10,6 +10,9 @@ namespace Escuelas.UI.Helpers
 {
     public static class CustomHelpers
     {
+
+        
+
         public static MvcHtmlString ActionImage(this HtmlHelper html, string action, object routeValues, string imagePath, string alt)
         {
             var url = new UrlHelper(html.ViewContext.RequestContext);

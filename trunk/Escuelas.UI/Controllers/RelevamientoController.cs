@@ -3,6 +3,7 @@ using Escuelas.NegocioComponentes;
 using Escuelas.NegocioEntidades;
 using Escuelas.Seguridad;
 using Escuelas.UI.Models;
+using Escuelas.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace relevamientos.UI.Controllers
         RelevamientoComponente relevamientoComponente = new RelevamientoComponente();
         EscuelaComponente escuelaComponente = new EscuelaComponente();
         HistorialComentarioComponente historialComentarioComponente = new HistorialComentarioComponente();
-        SeguimientoPedagogicoComponente SeguimientoPedagogicoComponente = new SeguimientoPedagogicoComponente();
+        SeguimientoPedagogicoComponente seguimientoPedagogicoComponente = new SeguimientoPedagogicoComponente();
         UsuarioComponente usuarioComponente = new UsuarioComponente();
         MaquinaComponente maquinaComponente = new MaquinaComponente();
         DispositivoComponente dispositivoComponente = new DispositivoComponente();
@@ -37,20 +38,20 @@ namespace relevamientos.UI.Controllers
         CategoriaValorComponente categoriaValorComponente = new CategoriaValorComponente();
 
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
-        public ActionResult RelevamientoIndex(int? distId, int? escId)
+        public ActionResult RelevamientoIndex(string distId, string escId)
         {
             RelevamientoBusqueda relevamientoBusqueda = new RelevamientoBusqueda();
 
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
-            ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = Encriptacion.EncriptarID(item.ID), Text = item.Nombre }));
 
             List<Escuela> listaEscuelas;
 
-            if (distId.Value > 0)
+            if (!string.IsNullOrEmpty(distId))
             {
-                relevamientoBusqueda.DistritoId = distId.Value;
-                listaEscuelas = CargarEscuelasPorDistrito(relevamientoBusqueda.DistritoId);
+                relevamientoBusqueda.DistritoId = distId;
+                listaEscuelas = CargarEscuelasPorDistrito(Encriptacion.DesencriptarID(distId));
             }
             else
             {
@@ -59,14 +60,42 @@ namespace relevamientos.UI.Controllers
 
 
 
-            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
+            ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = Encriptacion.EncriptarID(item.ID), Text = item.Numero + " - " + item.Nombre }));
 
-            if (escId.Value > 0)
+            relevamientoBusqueda.Relevamientos = new List<RelevamientoEncID>();
+
+            List<Relevamiento> resultadoBusqueda;
+
+            if (!string.IsNullOrEmpty(escId))
             {
-                relevamientoBusqueda.EscuelaId = escId.Value;
+                resultadoBusqueda = relevamientoComponente.ObtenerRelevamientosPorEscuela(Encriptacion.DesencriptarID(escId));
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(distId))
+                {
+                    resultadoBusqueda = relevamientoComponente.ObtenerRelevamientosPorDistrito(Encriptacion.DesencriptarID(distId));
+                }
+                else
+                {
+                    resultadoBusqueda = relevamientoComponente.ObtenerRelevamientosPorEscuela(0);
+                }
             }
 
-            relevamientoBusqueda.Relevamientos = relevamientoComponente.ObtenerRelevamientosPorEscuela(relevamientoBusqueda.EscuelaId);
+            relevamientoBusqueda.EscuelaId = escId;
+            RelevamientoEncID relenc;
+
+            foreach (Relevamiento rel in resultadoBusqueda)
+            {
+                relenc = new RelevamientoEncID();
+                relenc.Relevamiento = rel;
+                relenc.EncId = Encriptacion.EncriptarID(rel.ID);
+                    
+                relevamientoBusqueda.Relevamientos.Add(relenc);
+            }
+
+            
+            
 
             return View(relevamientoBusqueda);
 
@@ -103,19 +132,10 @@ namespace relevamientos.UI.Controllers
         {
             RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
             relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
-            relevamientoModelo.HistorialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
-            relevamientoModelo.HistorialSegPedagogico = ConstruirHistorialSegPedagogico(SeguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
+            relevamientoModelo.HistorialComentarios = historialComentarioComponente.ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
+            relevamientoModelo.HistorialSegPedagogico = seguimientoPedagogicoComponente.ConstruirHistorialSegPedagogico(seguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
             return View(relevamientoModelo);
         }
-
-        [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
-        public ActionResult ExportarHerramientasSoft(int relevamientoId)
-        {
-            RelevamientoModelo relevamientoModelo = new RelevamientoModelo();
-            relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
-            return View(relevamientoModelo);
-        }
-
 
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -127,25 +147,25 @@ namespace relevamientos.UI.Controllers
             relevamientoComponente.CopiarRelevamiento(relevamiento);
 
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 0, mensaje = "Relevamiento copiado exitosamente" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamiento.ID), tActivo = 0, mensaje = "Relevamiento copiado exitosamente" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult EditarRelevamiento(int relevamientoId, int tActivo, string mensaje)
+        public ActionResult EditarRelevamiento(string relevamientoId, int tActivo, string mensaje)
         {
             List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
 
             ViewBag.ListaDistritos = new List<SelectListItem>(listaDistritos.Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            ViewBag.ListaTipoDispositivos = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivo.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaTipoDispositivos = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValorPorCategoria(Enums.Categoria.TipoDispositivo.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            ViewBag.ListaTipoSoftwares = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoSoftware.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaTipoSoftwares = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValorPorCategoria(Enums.Categoria.TipoSoftware.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            ViewBag.ListaPlataformaSoftwares = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.PlataformaSoftware.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaPlataformaSoftwares = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValorPorCategoria(Enums.Categoria.PlataformaSoftware.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            ViewBag.ListaTipoDispositivosRed = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoDispositivoRed.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaTipoDispositivosRed = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValorPorCategoria(Enums.Categoria.TipoDispositivoRed.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
-            ViewBag.ListaTipoServicios = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValor(Enums.Categoria.TipoServicio.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
+            ViewBag.ListaTipoServicios = new List<SelectListItem>(categoriaValorComponente.ObtenerCategoriasValorPorCategoria(Enums.Categoria.TipoServicio.GetHashCode()).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
 
             ViewBag.ListaGrados = ObtenerGrados();
 
@@ -181,14 +201,10 @@ namespace relevamientos.UI.Controllers
 
             relevamientoModelo.TabActivo = tActivo;
 
-            if (relevamientoId > 0)
+            if (!string.IsNullOrEmpty(relevamientoId))
             {
 
-                relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(relevamientoId);
-
-                relevamientoModelo.Relevamiento.Maquinas = relevamientoModelo.Relevamiento.Maquinas.OrderBy(m => m.Nombre).ToList();
-
-                relevamientoModelo.Relevamiento.Servicios = relevamientoModelo.Relevamiento.Servicios.OrderBy(s => s.Compañia).ToList();
+                CargarModelo(relevamientoModelo, relevamientoId);
 
                 listaEscuelas = CargarEscuelasPorDistrito(relevamientoModelo.Relevamiento.Escuela.Distrito.ID);
 
@@ -221,58 +237,89 @@ namespace relevamientos.UI.Controllers
 
             ViewBag.ListaEscuelas = new List<SelectListItem>(listaEscuelas.OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
 
-            relevamientoModelo.HistorialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
+            relevamientoModelo.HistorialComentarios = historialComentarioComponente.ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
 
-            relevamientoModelo.HistorialSegPedagogico = ConstruirHistorialSegPedagogico(SeguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
+            relevamientoModelo.HistorialSegPedagogico = seguimientoPedagogicoComponente.ConstruirHistorialSegPedagogico(seguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(relevamientoModelo.Relevamiento.Escuela.ID));
 
             return View(relevamientoModelo);
 
         }
-
-        
-
-        [Authorize(Roles = "Admin,Colaborador")]
-        private string ConstruirHistorialSegPedagogico(List<SeguimientoPedagogico> SeguimientoPedagogicos)
-        {
-            
-            if (SeguimientoPedagogicos.Count() > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                foreach (SeguimientoPedagogico elem in SeguimientoPedagogicos)
-                {
-                    sb.AppendLine(elem.FechaAlta + " - " + elem.UserProfile.UserName);
-                    sb.AppendLine(elem.Comentarios + "\n\n");
-                }
-
-                return sb.ToString();
-        }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
-        [Authorize(Roles = "Admin,Colaborador")]
-        private string ConstruirHistorialComentarios(List<HistorialComentario> historialComentarios)
+        private void CargarModelo(RelevamientoModelo relevamientoModelo, string relevamientoId)
         {
 
-            if (historialComentarios.Count() > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                foreach (HistorialComentario elem in historialComentarios)
-                {
-                    sb.AppendLine(elem.FechaAlta + " - " + elem.UserProfile.UserName);
-                    sb.AppendLine(elem.Comentarios + "\n\n");
-                }
+            relevamientoModelo.Relevamiento = relevamientoComponente.ObtenerRelevamientoPorId(Encriptacion.DesencriptarID(relevamientoId));
 
-                return sb.ToString();
-            }
-            else
+            relevamientoModelo.ListaMaquinas = new List<MaquinaModel>();
+            MaquinaModel maqModel;
+            foreach (Maquina maq in relevamientoModelo.Relevamiento.Maquinas)
             {
-                return string.Empty;
+                maqModel = new MaquinaModel();
+                maqModel.Maquina = maq;
+                maqModel.EncId = Encriptacion.EncriptarID(maq.ID);
+                relevamientoModelo.ListaMaquinas.Add(maqModel);
             }
+
+            relevamientoModelo.ListaDispositivosRed = new List<DispositivoRedModel>();
+            DispositivoRedModel disredModel;
+            foreach (DispositivoRed disred in relevamientoModelo.Relevamiento.DispositivosRed)
+            {
+                disredModel = new DispositivoRedModel();
+                disredModel.DispositivoRed = disred;
+                disredModel.EncId = Encriptacion.EncriptarID(disred.ID);
+                relevamientoModelo.ListaDispositivosRed.Add(disredModel);
+            }
+
+            relevamientoModelo.ListaDispositivos = new List<DispositivoModel>();
+            DispositivoModel disModel;
+            foreach (Dispositivo dis in relevamientoModelo.Relevamiento.Dispositivos)
+            {
+                disModel = new DispositivoModel();
+                disModel.Dispositivo = dis;
+                disModel.EncId = Encriptacion.EncriptarID(dis.ID);
+                relevamientoModelo.ListaDispositivos.Add(disModel);
+            }
+
+            relevamientoModelo.ListaServicios = new List<ServicioModel>();
+            ServicioModel serModel;
+            foreach (Servicio ser in relevamientoModelo.Relevamiento.Servicios)
+            {
+                serModel = new ServicioModel();
+                serModel.Servicio = ser;
+                serModel.EncId = Encriptacion.EncriptarID(ser.ID);
+                relevamientoModelo.ListaServicios.Add(serModel);
+            }
+
+            relevamientoModelo.ListaCapacitaciones = new List<CapacitacionModel>();
+            CapacitacionModel capModel;
+            foreach (Capacitacion cap in relevamientoModelo.Relevamiento.Capacitaciones)
+            {
+                capModel = new CapacitacionModel();
+                capModel.Capacitacion = cap;
+                capModel.EncId = Encriptacion.EncriptarID(cap.ID);
+                relevamientoModelo.ListaCapacitaciones.Add(capModel);
+            }
+
+            relevamientoModelo.ListaSoftwares = new List<SoftwareModel>();
+            SoftwareModel sofModel;
+            foreach (Software sof in relevamientoModelo.Relevamiento.Softwares)
+            {
+                sofModel = new SoftwareModel();
+                sofModel.Software = sof;
+                sofModel.EncId = Encriptacion.EncriptarID(sof.ID);
+                relevamientoModelo.ListaSoftwares.Add(sofModel);
+            }
+
+            relevamientoModelo.ListaImagenes = new List<ImagenModel>();
+            ImagenModel imaModel;
+            foreach (Imagen ima in relevamientoModelo.Relevamiento.Imagenes)
+            {
+                imaModel = new ImagenModel();
+                imaModel.Imagen = ima;
+                imaModel.EncId = Encriptacion.EncriptarID(ima.ID);
+                relevamientoModelo.ListaImagenes.Add(imaModel);
+            }
+
         }
-
         [Authorize(Roles = "Admin,Colaborador")]
         [HttpPost]
         public ActionResult EditarRelevamiento(RelevamientoModelo relevamientoModelo)
@@ -280,7 +327,7 @@ namespace relevamientos.UI.Controllers
 
             relevamientoComponente.GuardarRelevamiento(relevamientoModelo.Relevamiento);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Relevamiento.ID, tActivo = 0, mensaje = "Relevamiento guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.Relevamiento.ID), tActivo = 0, mensaje = "Relevamiento guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -292,70 +339,70 @@ namespace relevamientos.UI.Controllers
 
             maquinaComponente.GuardarMaquina(relevamientoModelo.Maquina);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Maquina.Relevamiento.ID, tActivo = 1, mensaje = "Maquina guardada" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.Maquina.Relevamiento.ID), tActivo = 1, mensaje = "Maquina guardada" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarMaquina(int maqId, int relId)
+        public ActionResult BorrarMaquina(string maqId, int relId)
         {
 
-            maquinaComponente.BorrarMaquina(maqId);
+            maquinaComponente.BorrarMaquina(Encriptacion.DesencriptarID(maqId));
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 1, mensaje = "Maquina borrada" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relId), tActivo = 1, mensaje = "Maquina borrada" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarDispositivo(int disId, int relId)
+        public ActionResult BorrarDispositivo(string disId, int relId)
         {
 
-            dispositivoComponente.BorrarDispositivo(disId);
+            dispositivoComponente.BorrarDispositivo(Encriptacion.DesencriptarID(disId));
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 3, mensaje = "Dispositivo borrado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relId), tActivo = 3, mensaje = "Dispositivo borrado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarSoftware(int softId, int relId)
+        public ActionResult BorrarSoftware(string softId, int relId)
         {
 
-            softwareComponente.BorrarSoftware(softId);
+            softwareComponente.BorrarSoftware(Encriptacion.DesencriptarID(softId));
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 5, mensaje = "Software borrado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relId), tActivo = 5, mensaje = "Software borrado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarDispositivoRed(int disRedId, int relId)
+        public ActionResult BorrarDispositivoRed(string disRedId, int relId)
         {
 
-            dispositivoRedComponente.BorrarDispositivoRed(disRedId);
+            dispositivoRedComponente.BorrarDispositivoRed(Encriptacion.DesencriptarID(disRedId));
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 2, mensaje = "Dispositivo de Red borrado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relId), tActivo = 2, mensaje = "Dispositivo de Red borrado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarServicio(int serId, int relId)
+        public ActionResult BorrarServicio(string serId, int relId)
         {
 
-            servicioComponente.BorrarServicio(serId);
+            servicioComponente.BorrarServicio(Encriptacion.DesencriptarID(serId));
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 4, mensaje = "Servicio borrado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relId), tActivo = 4, mensaje = "Servicio borrado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarCapacitacion(int capId, int relId)
+        public ActionResult BorrarCapacitacion(string capId, int relId)
         {
 
-            capacitacionComponente.BorrarCapacitacion(capId);
+            capacitacionComponente.BorrarCapacitacion(Encriptacion.DesencriptarID(capId));
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 6, mensaje = "Capacitacion borrada" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relId), tActivo = 6, mensaje = "Capacitacion borrada" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult BorrarImagen(int imgId, int relId)
+        public ActionResult BorrarImagen(string imgId, int relId)
         {
 
-            imagenComponente.BorrarImagen(imgId);
+            imagenComponente.BorrarImagen(Encriptacion.DesencriptarID(imgId));
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relId, tActivo = 9, mensaje = "Imagen borrada" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relId), tActivo = 9, mensaje = "Imagen borrada" });
         }
 
 
@@ -368,7 +415,7 @@ namespace relevamientos.UI.Controllers
 
             dispositivoComponente.GuardarDispositivo(relevamientoModelo.Dispositivo);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Dispositivo.Relevamiento.ID, tActivo = 3, mensaje = "Dispositivo guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.Dispositivo.Relevamiento.ID), tActivo = 3, mensaje = "Dispositivo guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -380,7 +427,7 @@ namespace relevamientos.UI.Controllers
 
             softwareComponente.GuardarSoftware(relevamientoModelo.Software);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Software.Relevamiento.ID, tActivo = 5, mensaje = "Software guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.Software.Relevamiento.ID), tActivo = 5, mensaje = "Software guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -392,7 +439,7 @@ namespace relevamientos.UI.Controllers
 
             dispositivoRedComponente.GuardarDispositivoRed(relevamientoModelo.DispositivoRed);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.DispositivoRed.Relevamiento.ID, tActivo = 2, mensaje = "Dispositivo de Red guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.DispositivoRed.Relevamiento.ID), tActivo = 2, mensaje = "Dispositivo de Red guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -409,9 +456,9 @@ namespace relevamientos.UI.Controllers
             SeguimientoPedagogico.FechaAlta = DateTime.Now;
             SeguimientoPedagogico.Comentarios = relevamientoModelo.SeguimientoPedagogico;
 
-            SeguimientoPedagogicoComponente.GuardarSegPedagogico(SeguimientoPedagogico);
+            seguimientoPedagogicoComponente.GuardarSegPedagogico(SeguimientoPedagogico);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 8, mensaje = "Comentario Guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamiento.ID), tActivo = 8, mensaje = "Comentario Guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -430,7 +477,7 @@ namespace relevamientos.UI.Controllers
 
             historialComentarioComponente.GuardarComentario(historialComentario);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamiento.ID, tActivo = 7, mensaje = "Comentario Guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamiento.ID), tActivo = 7, mensaje = "Comentario Guardado" });
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
@@ -443,7 +490,7 @@ namespace relevamientos.UI.Controllers
 
             servicioComponente.GuardarServicio(relevamientoModelo.Servicio);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Servicio.Relevamiento.ID, tActivo = 4, mensaje = "Servicio guardado" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.Servicio.Relevamiento.ID), tActivo = 4, mensaje = "Servicio guardado" });
         }
 
         [HttpPost]
@@ -453,7 +500,7 @@ namespace relevamientos.UI.Controllers
 
             capacitacionComponente.GuardarCapacitacion(relevamientoModelo.Capacitacion);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Capacitacion.Relevamiento.ID, tActivo = 6, mensaje = "Capacitacion guardada" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.Capacitacion.Relevamiento.ID), tActivo = 6, mensaje = "Capacitacion guardada" });
         }
 
         [HttpPost]
@@ -466,7 +513,7 @@ namespace relevamientos.UI.Controllers
 
             imagenComponente.GuardarImagen(relevamientoModelo.Imagen);
 
-            return RedirectToAction("EditarRelevamiento", new { relevamientoId = relevamientoModelo.Imagen.Relevamiento.ID, tActivo = 9, mensaje = "Imagen guardada" });
+            return RedirectToAction("EditarRelevamiento", new { relevamientoId = Encriptacion.EncriptarID(relevamientoModelo.Imagen.Relevamiento.ID), tActivo = 9, mensaje = "Imagen guardada" });
         }
 
         public ActionResult RetrieveImage(int id)
@@ -540,83 +587,35 @@ namespace relevamientos.UI.Controllers
             return listaGrados;
         }
 
-        [Authorize(Roles = "Admin")]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult InformesIndex()
+        [Authorize(Roles = "Admin,Colaborador")]
+        public ActionResult CargarEscuelasPorDistrito2Async(int DistrId)
         {
-            List<SelectListItem> listaInformes = new List<SelectListItem>();
+            List<SelectListItem> listaEscuelas;
 
-            listaInformes.Add(new SelectListItem() { Text = "Equipamiento de Escuelas por Distrito", Value = Enums.TipoInforme.EquipamientoDeEscuelasPorDistrito.GetHashCode().ToString() });
-
-            listaInformes.Add(new SelectListItem() { Text = "Listado de Escuelas por Distrito", Value = Enums.TipoInforme.ListadoEscuelas.GetHashCode().ToString() });
-
-            listaInformes.Add(new SelectListItem() { Text = "Informe de Escuela Completo", Value = Enums.TipoInforme.InformeEscuelaCompleto.GetHashCode().ToString() });
-
-            listaInformes.Add(new SelectListItem() { Text = "Informe de Escuela Capacitación y Herr. de Software", Value = Enums.TipoInforme.InformeEscuelaSoftyCapac.GetHashCode().ToString() });
-
-            ViewBag.ListaInformes = listaInformes;
-
-            List<Distrito> listaDistritos = distritoComponente.ObtenerDistritos();
-
-            List<SelectListItem> listaRegiones = new List<SelectListItem>(listaDistritos.Select(d => new { region = d.Region }).Distinct().OrderBy(r => r.region).Select(item => new SelectListItem { Value = item.region.ToString(), Text = item.region.ToString() }));
-
-            ViewBag.ListaRegiones = listaRegiones;
-
-            List<SelectListItem> listaDistritosFitrados = new List<SelectListItem>(listaDistritos.Where(d => d.Region.ToString() == listaRegiones.First().Value).OrderBy(d => d.Nombre).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
-
-            ViewBag.ListaDistritos = listaDistritosFitrados;
-
-            ViewBag.ListaEscuelas = new List<SelectListItem>(escuelaComponente.ObtenerEscuelasPorDistrito(int.Parse(listaDistritosFitrados.First().Value)).OrderBy(e => e.Nombre).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
-
-            return View(new InformeModel());
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public ActionResult InformesIndex(InformeModel modelo)
-        {
-
-            Relevamiento ultimo;
-
-            switch (modelo.TipoInforme)
+            if (DistrId > 0)
             {
-                case (int)Enums.TipoInforme.EquipamientoDeEscuelasPorDistrito:
-                    return View();
-                case (int)Enums.TipoInforme.InformeEscuelaCompleto:
-
-                    ultimo = relevamientoComponente.ObtenerUltimoRelevamiento(modelo.EscuelaID);
-                    return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = ultimo.ID }) { FileName = "RelevamientoCompleto_" + ultimo.ID + ".pdf" };
-
-                case (int)Enums.TipoInforme.InformeEscuelaSoftyCapac:
-
-                    ultimo = relevamientoComponente.ObtenerUltimoRelevamiento(modelo.EscuelaID);
-                    return new ActionAsPdf("ExportarHerramientasSoft", new { relevamientoId = ultimo.ID }) { FileName = "RelevamientoHerramientasSoft_" + ultimo.ID + ".pdf" };
-
-                default:
-                    return View();
+                listaEscuelas = new List<SelectListItem>(CargarEscuelasPorDistrito(DistrId).OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
             }
-
-        }
-
-        public ActionResult CargarDistritosPorRegionAsync(int Region)
-        {
-            List<SelectListItem> listaDistritos = new List<SelectListItem>(distritoComponente.ObtenerDistritos().Where(d => d.Region == Region).OrderBy(d => d.Nombre).Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Nombre }));
-
-            DistritoEscuelaModel modelo = new DistritoEscuelaModel();
-
-            modelo.listaDistritos = listaDistritos;
-
-            modelo.listaEscuelas = new List<SelectListItem>(CargarEscuelasPorDistrito(int.Parse(listaDistritos.First().Value)).OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
-
-            return Json(modelo, JsonRequestBehavior.AllowGet);
+            else
+            {
+                listaEscuelas = new List<SelectListItem>();
+            }
+            return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult CargarEscuelasPorDistritoAsync(int DistId)
+        public ActionResult CargarEscuelasPorDistritoAsync(string DistId)
         {
+            List<SelectListItem> listaEscuelas;
 
-            List<SelectListItem> listaEscuelas = new List<SelectListItem>(CargarEscuelasPorDistrito(DistId).OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = item.ID.ToString(), Text = item.Numero + " - " + item.Nombre }));
+            if (!string.IsNullOrEmpty(DistId))
+            {
+                listaEscuelas = new List<SelectListItem>(CargarEscuelasPorDistrito(Encriptacion.DesencriptarID(DistId)).OrderBy(e => e.Numero).ToList().Select(item => new SelectListItem { Value = Encriptacion.EncriptarID(item.ID), Text = item.Numero + " - " + item.Nombre }));
+            }
+            else
+            {
+                listaEscuelas = new List<SelectListItem>();
+            }
             return Json(listaEscuelas, JsonRequestBehavior.AllowGet);
         }
 
@@ -638,64 +637,64 @@ namespace relevamientos.UI.Controllers
                     viceDirector = escuela.ViceDirector;
             }
 
-            string historialComentarios = ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(EscId));
+            string historialComentarios = historialComentarioComponente.ConstruirHistorialComentarios(historialComentarioComponente.ObtenerHistorialComentarioPorEscuela(EscId));
 
-            string historialSegPedagogico = ConstruirHistorialSegPedagogico(SeguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(EscId));
+            string historialSegPedagogico = seguimientoPedagogicoComponente.ConstruirHistorialSegPedagogico(seguimientoPedagogicoComponente.ObtenerSeguimientoPedagogicoPorEscuela(EscId));
 
             return Json(new { Director = director, ViceDirector = viceDirector, HistorialComentarios = historialComentarios, HistorialSegPedagogico = historialSegPedagogico }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult ObtenerMaquinaAsync(int MaqId)
+        public ActionResult ObtenerMaquinaAsync(string MaqId)
         {
-            Maquina maq = maquinaComponente.ObtenerMaquinaPorId(MaqId);
+            Maquina maq = maquinaComponente.ObtenerMaquinaPorId(Encriptacion.DesencriptarID(MaqId));
             return Json(maq, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult ObtenerDispositivoAsync(int DisId)
+        public ActionResult ObtenerDispositivoAsync(string DisId)
         {
-            Dispositivo dis = dispositivoComponente.ObtenerDispositivoPorId(DisId);
+            Dispositivo dis = dispositivoComponente.ObtenerDispositivoPorId(Encriptacion.DesencriptarID(DisId));
 
             return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion, TipoDispositivoId = dis.TipoDispositivo.ID }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult ObtenerSoftwareAsync(int SoftId)
+        public ActionResult ObtenerSoftwareAsync(string SoftId)
         {
-            Software soft = softwareComponente.ObtenerSoftwarePorId(SoftId);
+            Software soft = softwareComponente.ObtenerSoftwarePorId(Encriptacion.DesencriptarID(SoftId));
 
             return Json(new { ID = soft.ID, Nombre = soft.Nombre, Descripcion = soft.Descripcion, TipoSoftwareId = soft.TipoSoftware.ID, PlataformaSoftwareId = soft.PlataformaSoftware.ID }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult ObtenerServicioAsync(int SerId)
+        public ActionResult ObtenerServicioAsync(string SerId)
         {
-            Servicio ser = servicioComponente.ObtenerServicioPorId(SerId);
+            Servicio ser = servicioComponente.ObtenerServicioPorId(Encriptacion.DesencriptarID(SerId));
 
             return Json(new { ID = ser.ID, Compañia = ser.Compañia, EsPago = ser.EsPago, Descripcion = ser.Descripcion, TipoServicioId = ser.TipoServicio.ID }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult ObtenerCapacitacionAsync(int CapId)
+        public ActionResult ObtenerCapacitacionAsync(string CapId)
         {
-            Capacitacion cap = capacitacionComponente.ObtenerCapacitacionPorId(CapId);
+            Capacitacion cap = capacitacionComponente.ObtenerCapacitacionPorId(Encriptacion.DesencriptarID(CapId));
 
             return Json(new { ID = cap.ID, Curso = cap.Curso, Descripcion = cap.Descripcion, Grado = cap.Grado }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult ObtenerImagenAsync(int ImgId)
+        public ActionResult ObtenerImagenAsync(string ImgId)
         {
-            Imagen img = imagenComponente.ObtenerImagenPorId(ImgId);
+            Imagen img = imagenComponente.ObtenerImagenPorId(Encriptacion.DesencriptarID(ImgId));
 
             return Json(new { ID = img.ID, Titulo = img.Titulo, Descripcion = img.Descripcion, Contenido = img.Contenido, Foto = img.Foto }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Admin,Colaborador")]
-        public ActionResult ObtenerDispositivoRedAsync(int DisRedId)
+        public ActionResult ObtenerDispositivoRedAsync(string DisRedId)
         {
-            DispositivoRed dis = dispositivoRedComponente.ObtenerDispositivoRedPorId(DisRedId);
+            DispositivoRed dis = dispositivoRedComponente.ObtenerDispositivoRedPorId(Encriptacion.DesencriptarID(DisRedId));
 
             return Json(new { ID = dis.ID, Marca = dis.Marca, Modelo = dis.Modelo, Descripcion = dis.Descripcion, Ubicacion = dis.Ubicacion, PuertosUtilizados = dis.PuertosUtilizados, PuertosTotales = dis.PuertosTotales, Protocolo = dis.Protocolo, TipoDispositivoRedId = dis.TipoDispositivoRed.ID }, JsonRequestBehavior.AllowGet);
         }

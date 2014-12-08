@@ -4,11 +4,11 @@
         <siteMapNode url="~/Home/Index" title="Home"  description="Home page"/>
         <siteMapNode url="" title="Escuelas"  description="Escuelas">
             <siteMapNode url="~/Escuela/EscuelaIndex" title="Ver Escuelas"  description="Ver Escuela" roles="Admin,ReadOnly,Colaborador"/>
-            <siteMapNode url="~/Escuela/EditarEscuela?escuelaId=0" title="Agregar Escuela"  description="Agregar Escuela" roles="Admin" />
+            <siteMapNode url="~/Escuela/EditarEscuela?escuelaId=" title="Agregar Escuela"  description="Agregar Escuela" roles="Admin" />
         </siteMapNode>
         <siteMapNode url="" title="Relevamientos"  description="Relevamientos">
-            <siteMapNode url="~/Relevamiento/RelevamientoIndex?distId=0&amp;escId=0" title="Ver Relevamientos"  description="Ver Relevamientos" roles="Admin,ReadOnly,Colaborador" />
-            <siteMapNode url="~/Relevamiento/EditarRelevamiento?relevamientoId=0&amp;tActivo=0&amp;mensaje=" title="Agregar Relevamiento"  description="Agregar Relevamiento" roles="Admin,Colaborador" />
+            <siteMapNode url="~/Relevamiento/RelevamientoIndex?distId=&amp;escId=" title="Ver Relevamientos"  description="Ver Relevamientos" roles="Admin,ReadOnly,Colaborador" />
+            <siteMapNode url="~/Relevamiento/EditarRelevamiento?relevamientoId=&amp;tActivo=0&amp;mensaje=" title="Agregar Relevamiento"  description="Agregar Relevamiento" roles="Admin,Colaborador" />
         </siteMapNode>
         <siteMapNode url="" title="Admin"  description="Admin" roles="Admin">
             <siteMapNode url="" title="Roles"  description="Roles" roles="Admin" hola="hola123">
@@ -20,10 +20,14 @@
                 <siteMapNode url="~/Distrito/DistritoIndex" title="Ver Distritos"  description="Ver Distritos" />
                 <siteMapNode url="~/Distrito/EditarDistrito?distritoId=0" title="Agregar Distrito"  description="Agregar Distrito" />
             </siteMapNode>
+          <siteMapNode url="" title="Selecciones Multiples"  description="Selecciones Multiples" roles="Admin">
+            <siteMapNode url="~/CategoriaValor/OpcionesIndex" title="Ver Opciones"  description="Ver Opciones" />
+            <siteMapNode url="~/CategoriaValor/EditarOpcion?opcionId=0" title="Agregar Opción"  description="Agregar Opción" />
+          </siteMapNode>
             <siteMapNode url="" title="Reportes &amp;nbsp;&amp;nbsp;&amp;nbsp;" description="Reportes" roles="Admin">
                 <siteMapNode url="~/Reporte/RelevamientoporEscuela" title="Ver Relevamientos por Escuela"  description="Ver Relevamiento por Escuela" />
             </siteMapNode>
         </siteMapNode>
-        <siteMapNode url="~/Relevamiento/InformesIndex" title="Informes"  description="Informes" />
+        <siteMapNode url="~/Informe/InformesIndex" title="Informes"  description="Informes" />
       </siteMapNode>
 </siteMap>

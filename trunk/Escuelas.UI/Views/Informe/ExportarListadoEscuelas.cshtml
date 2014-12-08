@@ -1,0 +1,101 @@
+﻿@model List<Escuelas.NegocioEntidades.Escuela>
+
+@{
+    ViewBag.Title = "Listado de Escuelas";
+    Layout = "~/Views/Shared/_PDF.cshtml";
+}
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+            </p>
+        </div>
+    </section>
+}
+
+<fieldset>
+    <legend>Listado de Escuelas</legend>
+    @using (Html.BeginForm("EditarRelevamiento", "Relevamiento"))
+    {   
+        @Html.ValidationSummary(true)
+        if (Model != null && Model.Count() > 0)
+                    {
+        <div class="editor-label">
+            <h3>Informacion de Distrito</h3>
+            <div>
+                @Html.LabelFor(model => model[0].Distrito.Region, new { style = "display:inline" })
+                @Html.DisplayFor(model => model[0].Distrito.Region)
+            </div>
+            <div>
+                @Html.LabelFor(model => model[0].Distrito.Nombre, new { style = "display:inline" })
+                @Html.DisplayFor(model => model[0].Distrito.Nombre)
+            </div>
+        </div>
+        }
+<table id="tblEscuela">
+    <thead>
+    <tr>
+         <th>
+            @Html.DisplayNameFor(model => model[0].Numero)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Distrito.Nombre)
+        </th>
+        <th style="text-align: center">
+            @Html.DisplayNameFor(model => model[0].Direccion)
+        </th>
+       <th>
+            @Html.DisplayNameFor(model => model[0].TipoEstablecimiento)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model[0].Telefono)
+        </th>
+    
+    </tr>
+        </thead>
+    <tbody>
+ @if (Model != null && Model.Count() > 0)
+                    {
+                    foreach (var item in Model) {
+    <tr>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Numero)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Distrito.Nombre)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Direccion)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.TipoEstablecimiento.Nombre)
+        </td>
+        <td style="text-align: center;width:200px">
+            @Html.DisplayFor(modelItem => item.Telefono)
+        </td>
+    </tr>
+            }
+}
+        else
+        {
+            <tr>
+                <td colspan="6">No hay Escuelas Disponibles
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>
+  }
+  </fieldset>

@@ -12,9 +12,41 @@ namespace Escuelas.NegocioComponentes
     {
         CategoriaValorDA categoriaValorDA = new CategoriaValorDA();
 
-        public List<CategoriaValor> ObtenerCategoriasValor(int categoriaId)
+        public List<CategoriaValor> ObtenerCategoriasValorPorCategoria(int categoriaId)
         {
-            return categoriaValorDA.ObtenerCategoriasValor(categoriaId);
+            return categoriaValorDA.ObtenerCategoriasValorPorCategoria(categoriaId);
+        }
+
+        public List<CategoriaValor> ObtenerCategoriasValor()
+        {
+            return categoriaValorDA.ObtenerCategoriasValor();
+        }
+        public CategoriaValor ObtenerCategoriaValorPorId(int catValorId)
+        {
+            return categoriaValorDA.ObtenerCategoriaValorPorId(catValorId);
+        }
+
+        public List<Categoria> ObtenerCategorias()
+        {
+            return categoriaValorDA.ObtenerCategorias();
+        }
+
+        public void GuardarCategoriaValor(CategoriaValor categoriaValor)
+        {
+            if (categoriaValor.ID > 0)
+            {
+                categoriaValorDA.ActualizarCategoriaValor(categoriaValor);
+            }
+            else
+            {
+                categoriaValorDA.InsertarCategoriaValor(categoriaValor);
+            }
+
+        }
+
+        public void BorrarCategoriaValor(int categoriaValorId)
+        {
+            categoriaValorDA.BorrarCategoriaValor(categoriaValorId);
         }
     }
 }

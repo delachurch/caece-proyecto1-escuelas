@@ -17,6 +17,7 @@ namespace Escuelas.NegocioEntidades
             Usuarios = new List<Usuario>();
         }
         public int ID { get; set; }
+        [Display(Name = "Región")]
         public int Region { get; set; }
         [Display(Name = "Distrito")]
         public string Nombre { get; set; }

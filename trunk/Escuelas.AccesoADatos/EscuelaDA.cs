@@ -1,6 +1,7 @@
 ﻿using Escuelas.NegocioEntidades;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,5 +82,17 @@ namespace Escuelas.AccesoADatos
                 contexto.SaveChanges();
             }
         }
+        public List<ReporteEquipamientoEscuelas> ObtenerReporteEquipamientoEscuela(int distritoId)
+        {
+            using (Contexto contexto = new Contexto())
+            {
+
+                string query = "EXEC dbo.sp_EscuelasEquipamiento @DistritoID";
+
+                List<ReporteEquipamientoEscuelas> listaEscuelas = contexto.Database.SqlQuery<ReporteEquipamientoEscuelas>(query,new SqlParameter("DistritoID",distritoId)).ToList();
+                return  listaEscuelas;
+            }
+        }
+         
     }
 }
