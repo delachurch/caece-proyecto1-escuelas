@@ -109,10 +109,10 @@ namespace relevamientos.UI.Controllers
         }
 
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
-        public ActionResult ExportPDF(int relevamientoId)
+        public ActionResult ExportPDF(string relevamientoId)
         {
-            return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relevamientoId }) { FileName = "RelevamientoCompleto_" + relevamientoId + ".pdf" };
-            
+            int relId = Encriptacion.DesencriptarID(relevamientoId);
+            return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relId }) { FileName = "RelevamientoCompleto_" + relId + ".pdf" };
         }
 
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
