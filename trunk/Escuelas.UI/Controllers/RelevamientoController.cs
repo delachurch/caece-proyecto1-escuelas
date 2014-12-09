@@ -108,23 +108,11 @@ namespace relevamientos.UI.Controllers
             return RedirectToAction("RelevamientoIndex", new { distId = relevamientoBusqueda.DistritoId, escId = relevamientoBusqueda.EscuelaId });
         }
 
-
-        //Seleccion de Listado
-
-        //1 - Exportar Relevamiento en PDF 
-        //    Ejecutado desde: RelevamientoIndex & ListadoCompleto
-
-        //2 - Exportar Herramientas de Software y Capacitacion
-        //    Ejecutado desde: ListadoHerramientasSoft
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
-        public ActionResult ExportPDF(int relevamientoId, int seleccionListado)
+        public ActionResult ExportPDF(int relevamientoId)
         {
-            switch (seleccionListado)
-            {
-                case 1: return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relevamientoId }) { FileName = "RelevamientoCompleto_" + relevamientoId + ".pdf" };
-                case 2: return new ActionAsPdf("ExportarHerramientasSoft", new { relevamientoId = relevamientoId }) { FileName = "RelevamientoHerramientasSoft_" + relevamientoId + ".pdf" };
-                default: return null;
-            }
+            return new ActionAsPdf("ExportarRelevamiento", new { relevamientoId = relevamientoId }) { FileName = "RelevamientoCompleto_" + relevamientoId + ".pdf" };
+            
         }
 
         [Authorize(Roles = "Admin,ReadOnly,Colaborador")]
